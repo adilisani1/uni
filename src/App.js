@@ -27,7 +27,7 @@ import useLocalStorage from "use-local-storage";
 import TokenDetails from "./components/TokenDetails/TokenDetails";
 
 //Tokens Data
-import { allTableData, updateTime, options } from "./service/tokens";
+import { allTableData, updateTime, options,chartData } from "./service/tokens";
 import { optionsLabel, searchOptions } from "./service/navbar";
 
 
@@ -86,7 +86,7 @@ function App() {
         },
         {
           path: "/tokens/:id",
-          element: <TokenDetails allTableData={allTableData} />
+          element: <TokenDetails allTableData={allTableData} chartData={chartData} />
         },
 
         {

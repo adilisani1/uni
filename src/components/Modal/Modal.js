@@ -106,7 +106,7 @@ const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
                                                     <div className="sc-us24id-0 fFbTKE">
                                                         <div className="sc-us24id-3 cyjnfZ">
                                                             <img
-                                                                src="assets/images/uniswap-wallet-icon.png"
+                                                                src="/assets/images/uniswap-wallet-icon.png"
                                                                 alt="Uniswap Wallet"
                                                             />
                                                         </div>
@@ -122,7 +122,7 @@ const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
                                                     <div className="sc-us24id-0 fFbTKE">
                                                         <div className="sc-us24id-3 cyjnfZ">
                                                             <img
-                                                                src="assets/images/metamask-icon.svg"
+                                                                src="/assets/images/metamask-icon.svg"
                                                                 alt="MetaMask"
                                                             />
                                                         </div>
@@ -138,7 +138,7 @@ const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
                                                     <div className="sc-us24id-0 fFbTKE">
                                                         <div className="sc-us24id-3 cyjnfZ">
                                                             <img
-                                                                src="assets/images/walletconnect-icon.svg"
+                                                                src="/assets/images/walletconnect-icon.svg"
                                                                 alt="WalletConnect"
                                                             />
                                                         </div>
@@ -154,7 +154,7 @@ const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
                                                     <div className="sc-us24id-0 fFbTKE">
                                                         <div className="sc-us24id-3 cyjnfZ">
                                                             <img
-                                                                src="assets/images/coinbase-icon.svg"
+                                                                src="/assets/images/coinbase-icon.svg"
                                                                 alt="Coinbase Wallet"
                                                             />
                                                         </div>

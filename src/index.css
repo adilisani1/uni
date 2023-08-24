@@ -55,6 +55,7 @@
   --dropdown-bg: rgb(19, 26, 42);
   --dropdown-border: rgb(13, 17, 28);
   --model-btn-color: rgb(76, 130, 251);
+  --token-clrr: rgba(152, 161, 192, 0.24);
 }
 
 
@@ -90,6 +91,7 @@
   /* Tokens page */
   --eth-dropdown: rgb(232, 236, 251);
   --token-border-color: 1px solid rgb(210, 217, 238);
+  --token-clrr:rgb(210, 217, 238);
   /* Model  */
   --model-bg: #fff;
   --model-btn-hover: rgb(251, 17, 142);

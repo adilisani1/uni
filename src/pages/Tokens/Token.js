@@ -172,7 +172,7 @@ const Token = ({ allTableData, updateTime, options }) => {
                     <div className="sc-19z0ycm-0 frDKYg">
                         <div
                             data-testid="header-row"
-                            className="sc-1bit9h6-1 sc-1bit9h6-4 fTDqns giptel"
+                            id="giptel" className="sc-1bit9h6-1 sc-1bit9h6-4 fTDqns  "
                         >
                             <div className="sc-1bit9h6-0 sc-1bit9h6-5 hJyIyF bwVaNf">#</div>
                             <div
@@ -225,6 +225,7 @@ const Token = ({ allTableData, updateTime, options }) => {
                             </div>
                             <div
                                 data-testid="tvl-cell"
+                                id='hwCfxy'
                                 className="sc-1bit9h6-0 sc-1bit9h6-6 sc-1bit9h6-7 hJyIyF knzTRi fLGPoq"
                             >
                                 <span className="sc-1bit9h6-13 jxjqhR">
@@ -245,8 +246,9 @@ const Token = ({ allTableData, updateTime, options }) => {
                                 </span>
                             </div>
                             <div
+                                id="volume-celll"
                                 data-testid="volume-cell"
-                                className="sc-1bit9h6-0 sc-1bit9h6-6 sc-1bit9h6-20 hJyIyF knzTRi gEaRbj"
+                                className="hJyIyF knzTRi gEaRbj"
                             >
                                 <span className="sc-1bit9h6-13 jxjqhR">
                                     <div onClick={() => sortData('volume')}>Volume</div>

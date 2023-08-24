@@ -4,6 +4,19 @@ import SwapModal from '../../utils/SwapModal/SwapModal';
 
 const Swap = ({ setIsModalOpen, swapModal, setSwapModal }) => {
 
+    const swapTokens = [
+        { value: 'etheruim', imgSrc: '/assets/images/tokens/eth-icon.png', label: 'ETH' },
+        { value: 'dai-stablecoin', imgSrc: '/assets/images/tokens/dai-icon.png', label: 'DAI' },
+        { value: 'usd-coin', imgSrc: '/assets/images/usdt-icon.png', label: 'USDC' },
+        { value: 'tether-usd', imgSrc: '/assets/images/tokens/usdt.png', label: 'USDT' },
+        { value: 'wrapped-btc', imgSrc: '/assets/images/tokens/bit-coin.png', label: 'WBTC' },
+        { value: 'wrapped-ether', imgSrc: '/assets/images/tokens/weth-icon.png', label: 'WETH' },
+        { value: 'wrapped-ether', imgSrc: '/assets/images/tokens/weth-icon.png', label: 'WETH' },
+    ]
+
+    const [selectedToken, setSelectedToken] = useState(swapTokens[0]);
+
+
     const handleSwapModal = () => {
         setSwapModal(true)
     }
@@ -48,7 +61,7 @@ const Swap = ({ setIsModalOpen, swapModal, setSwapModal }) => {
                                     <img className='icon-image' src='/assets/images/tokens/eth-icon.png' alt='eth-icon' />
                                 </div>
                             </div>
-                            <span class="token-name">ETH</span>
+                            <span class="token-name">{selectedToken.label}</span>
                         </div>
                         <div className='dropdown-icon'>
                             <i className="ri-arrow-down-s-line"></i>                                                            </div>
@@ -184,7 +197,11 @@ const Swap = ({ setIsModalOpen, swapModal, setSwapModal }) => {
                 </div>
             </div>
 
-            <SwapModal swapModal={swapModal} setSwapModal={setSwapModal} />
+            <SwapModal
+                swapModal={swapModal}
+                setSwapModal={setSwapModal}
+                swapTokens={swapTokens}
+                setSelectedToken={setSelectedToken} />
 
         </React.Fragment>
     );
