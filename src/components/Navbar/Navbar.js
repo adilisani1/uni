@@ -1,23 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Navbar.css';
+import { useLocation } from 'react-router-dom';
+import Nftbag from './navbarbag.js';
+import CustomDropdown from './dropdown.js';
+
 import { NavLink } from 'react-router-dom';
 import Modal from '../Modal/Modal';
 
-import CustomDropdown from './dropdown';
-// import PrivacyModal from '../../utils/PrivacyModal/PrivacyModal';
 
-const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModalOpen, setIsModalOpen, privacyModal, setPrivacyModal }) => {
+const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModalOpen, setIsModalOpen, handleCart, }) => {
     const logoImage = currentTheme === 'dark' ? '/assets/images/logo/logo-two.png' : '/assets/images/logo/logo-two-black.png';
-
+    const location = useLocation();
     const [isActiveHeader, setIsActiveHeader] = useState(false);
 
-    //privacy
-    // const privacyHandler = () => {
-    //     setPrivacyModal(true)
-    // }
 
     const [searchTerm, setSearchTerm] = useState('');
     const [isSearchOpen, setSearchOpen] = useState(false);
+
 
     const ref = useRef(null);
 
@@ -91,7 +90,6 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
     function calculatePercentChange(current, old) {
         return Math.abs((current - old) / old * 100);
     }
-
 
     return (
         <React.Fragment>
@@ -295,18 +293,17 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
 
                         {/* right________Nav */}
                         <div className="right-nav">
-
-
-                            <CustomDropdown
-                                selectedOption={selectedOption}
-                                isOpen={isOpen}
-                                optionsLabel={optionsLabel}
-                                searchOptions={searchOptions}
-                                toggleDropdown={toggleDropdown}
-                                handleOptionClick={handleOptionClick}
-                            />
-                            {/* <Exclude/> */}
-
+                            {
+                                (location.pathname === '/nfts' || location.pathname === '/nfts/:id')
+                                    ? <Nftbag handleCart={handleCart} />
+                                    : <CustomDropdown
+                                        selectedOption={selectedOption}
+                                        toggleDropdown={toggleDropdown}
+                                        isOpen={isOpen}
+                                        optionsLabel={optionsLabel}
+                                        handleOptionClick={handleOptionClick}
+                                    />
+                            }
                             <div className='connect'>
                                 <button className='connect-btn' onClick={connectHandler}> Connect</button>
                             </div>

@@ -122,7 +122,7 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
 
     return (
         <React.Fragment>
-            {isCartVisible && <Cart />}
+            {isCartVisible && <Cart setIsCartVisible={setIsCartVisible} />}
             <div className="bCNYil">
 
                 <div className="btxSrH">
@@ -384,9 +384,9 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
                                 role="table"
                                 className="_1mor7vea rgw6ez4pd rgw6ez16v rgw6ez7bj rgw6ez7a7"
                             >
+
+
                                 <thead className="rgw6ezrd rgw6ez50p rgw6ez7jr rgw6ez7ar">
-
-
 
                                     <tr role="row">
                                         <th
@@ -418,15 +418,15 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
 
                                     </tr>
                                 </thead>
-                                <tbody role="rowgroup">
 
+
+                                <tbody role="rowgroup">
                                     {tableData.map((item, index) => (
                                         <tr
                                             role="row"
                                             data-testid="nft-trending-collection"
                                             className="sc-iwpsza-1 dbIfpX"
                                         >
-
                                             <td
                                                 className="_1mor7vef rgw6ezcp rgw6ezb1 rgw6ezed rgw6ez2o7 rgw6ez27p rgw6ez1jp rgw6ez467 rgw6ez491"
                                                 role="cell"
@@ -469,9 +469,7 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
                                             >
                                                 <div className="sc-1qdt28z-7 eCRqrV">
                                                     <div className="sc-sx9n2y-0 kivXvb css-1jljtub">
-                                                        {/* {`${item.floor} ETH`} */}
                                                         {selectedCurrencyTab === 'USD' ? `$${item.floor.toLocaleString()}` : `${item.floor} ETH`}
-
                                                     </div>
                                                 </div>
 

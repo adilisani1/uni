@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react';
 import './Cart.css';
-const Cart = () => {
+
+const Cart = ({ setIsCartVisible }) => {
 
     return (
+
         <div>
             <div data-testid="nft-bag" className="Bag__BagContainer-sc-1a600dfd-0 gUxCde">
                 <div className="BagHeader__Wrapper-sc-d761a2a3-3 diQPU">
                     <div className="text__TextWrapper-sc-9327e48a-0 ikeywd css-iapcxi">Bag</div>
-                    <button className="BagHeader__IconWrapper-sc-d761a2a3-1 wHhUA textclr">
+                    <button className="BagHeader__IconWrapper-sc-d761a2a3-1 wHhUA textclr" onClick={() => setIsCartVisible(false)}>
                         <svg
                             width={24}
                             height={24}

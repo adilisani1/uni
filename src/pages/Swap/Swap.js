@@ -11,7 +11,6 @@ const Swap = ({ setIsModalOpen, swapModal, setSwapModal }) => {
         { value: 'tether-usd', imgSrc: '/assets/images/tokens/usdt.png', label: 'USDT' },
         { value: 'wrapped-btc', imgSrc: '/assets/images/tokens/bit-coin.png', label: 'WBTC' },
         { value: 'wrapped-ether', imgSrc: '/assets/images/tokens/weth-icon.png', label: 'WETH' },
-        { value: 'wrapped-ether', imgSrc: '/assets/images/tokens/weth-icon.png', label: 'WETH' },
     ]
 
     const [selectedToken, setSelectedToken] = useState(swapTokens[0]);
@@ -58,7 +57,7 @@ const Swap = ({ setIsModalOpen, swapModal, setSwapModal }) => {
                         <div className='cryptocurrency-wrapper'>
                             <div class="image-wrapper " >
                                 <div>
-                                    <img className='icon-image' src='/assets/images/tokens/eth-icon.png' alt='eth-icon' />
+                                    <img className='icon-image' src={selectedToken.imgSrc} alt='token' />
                                 </div>
                             </div>
                             <span class="token-name">{selectedToken.label}</span>

@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import './Navbar.css';
 
-function Nftbag() {
+
+function Nftbag({ handleCart }) {
+
+
     return (
         <div className="right-nav">
+
             <button
                 className="_1klryar0 rgw6ez4ep rgw6ez1ad rgw6ez13d rgw6ez6fj _1973yvc1 rgw6ez3j rgw6ez4sd rgw6ez491 rgw6ez44v rgw6ez477 rgw6ez7iz rgw6ez47p rgw6ez46d rgw6ez79z rgw6ez7bb rgw6ez7on"
                 aria-label="Navigation button"
+                onClick={handleCart}
             >
                 <svg
                     fill="none"
@@ -31,10 +36,7 @@ function Nftbag() {
                     />
                 </svg>
             </button>
-            <div className='connect'>
-                <button className='connect-btn'
-                > Connect</button>
-            </div>
+
         </div >
     );
 }
