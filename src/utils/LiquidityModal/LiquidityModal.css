@@ -407,7 +407,7 @@ a {
     align-items: center;
     background-color: rgb(41, 50, 73);
     opacity: 1;
-    color: rgb(255, 255, 255);
+    color: var(--color-white);
     cursor: pointer;
     border-radius: 16px;
     outline: none;
@@ -666,7 +666,7 @@ a {
 }
 
 .dRMJzS {
-    opacity: 0.2;
+    opacity: 1;
     pointer-events: none;
 }
 
@@ -892,7 +892,7 @@ a {
     flex-flow: column;
     position: relative;
     border-radius: 20px;
-    background-color: rgb(41, 50, 73);
+    background-color: var(--card-bg);
     z-index: 1;
     width: initial;
     transition: height 1s ease 0s;
@@ -901,8 +901,8 @@ a {
 
 .cOqmuC {
     border-radius: 20px;
-    border: 1px solid rgb(13, 17, 28);
-    background-color: rgb(19, 26, 42);
+    border: var(--token-border-color);
+    background-color: var(--card-bg);
     width: initial;
 }
 
@@ -954,9 +954,9 @@ a {
 .cCMOgz {
     -webkit-box-align: center;
     align-items: center;
-    background-color: rgb(41, 50, 73);
+    background-color: var(--open-currency-btn-bg);
     opacity: 1;
-    color: rgb(255, 255, 255);
+    color: var(--color-white);
     cursor: pointer;
     border-radius: 16px;
     outline: none;
@@ -1029,9 +1029,9 @@ a {
 .gHpyEg {
     -webkit-box-align: center;
     align-items: center;
-    background-color: rgb(76, 130, 251);
+    background-color: var(--card-inside-color);
     opacity: 1;
-    color: rgb(255, 255, 255);
+    color: var(--color-white);
     cursor: pointer;
     border-radius: 16px;
     outline: none;
@@ -1096,6 +1096,7 @@ a {
     border: 0px;
     border-radius: 4px;
     padding: 12px;
+    background-color: var(--btn-color);
 }
 
 .fNUVbK {

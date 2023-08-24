@@ -14,10 +14,12 @@ const Swap = ({ setIsModalOpen, swapModal, setSwapModal }) => {
     ]
 
     const [selectedToken, setSelectedToken] = useState(swapTokens[0]);
+    const [selectedTokenSecond, setSelectedTokenSecond] = useState({ label: 'Select Token' });
+    const [currentCurrencyId, setCurrentCurrencyId] = useState(null);
 
-
-    const handleSwapModal = () => {
+    const handleSwapModal = (currencyId) => {
         setSwapModal(true)
+        setCurrentCurrencyId(currencyId);
     }
 
     const [inputValues, setInputValues] = useState({
@@ -46,46 +48,45 @@ const Swap = ({ setIsModalOpen, swapModal, setSwapModal }) => {
         setTokenId(temp);
     };
     const renderButtonContent = (currencyId) => {
-        if (currencyId === "ethId") {
+        let currentToken = (currencyId === "ethId") ? selectedToken : selectedTokenSecond;
+
+        if (currencyId === "ethId" || (currencyId !== "ethId" && currentToken.label !== 'Select Token')) {
             return (
                 <button
-                    id={`open-currency-select`}
-                    className='open-currency-btn-top'
-                    onClick={handleSwapModal}
+                    id={`open-currency-select-${currencyId}`}
+                    className={currencyId === "ethId" ? 'open-currency-btn-top' : 'open-currency-btn-bottom'}
+                    onClick={() => handleSwapModal(currencyId)}
                 >
-                    <span className='span-one'>
+                    <span className={currencyId === "ethId" ? 'span-one' : 'span-two'}>
                         <div className='cryptocurrency-wrapper'>
-                            <div class="image-wrapper " >
+                            <div className="image-wrapper">
                                 <div>
-                                    <img className='icon-image' src={selectedToken.imgSrc} alt='token' />
+                                    <img className='icon-image' src={currentToken.imgSrc} alt={currentToken.label} />
                                 </div>
                             </div>
-                            <span class="token-name">{selectedToken.label}</span>
+                            <span className="token-name">{currentToken.label}</span>
                         </div>
                         <div className='dropdown-icon'>
-                            <i className="ri-arrow-down-s-line"></i>                                                            </div>
+                            <i className="ri-arrow-down-s-line"></i>
+                        </div>
                     </span>
-
                 </button>
             );
         } else {
             return (
-                <button id={`open-currency-select`} className='open-currency-btn-bottom' onClick={handleSwapModal} >
+                <button id={`open-currency-select-${currencyId}`} className='open-currency-btn-bottom' onClick={() => handleSwapModal(currencyId)}>
                     <span className='span-two'>
                         <div className='cryptocurrency-wrapper'>
-                            <div class="text-wrapper" >
-                                <span class="select-token">Select token</span>
+                            <div className="text-wrapper">
+                                <span className="select-token">Select token</span>
                             </div>
-
                         </div>
                         <div className='dropdown-icon'>
-                            <i className="ri-arrow-down-s-line"></i>                                                            </div>
+                            <i className="ri-arrow-down-s-line"></i>
+                        </div>
                     </span>
-
                 </button>
             )
-
-
         }
     };
 
@@ -200,7 +201,9 @@ const Swap = ({ setIsModalOpen, swapModal, setSwapModal }) => {
                 swapModal={swapModal}
                 setSwapModal={setSwapModal}
                 swapTokens={swapTokens}
-                setSelectedToken={setSelectedToken} />
+                setSelectedToken={setSelectedToken}
+                currentCurrencyId={currentCurrencyId}
+                setSelectedTokenSecond={setSelectedTokenSecond} />
 
         </React.Fragment>
     );

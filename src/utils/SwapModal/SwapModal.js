@@ -1,19 +1,27 @@
 import React, { useState } from 'react';
 import './SwapModal.css';
 
-const SwapModal = ({ swapModal, setSwapModal, swapTokens, setSelectedToken }) => {
+const SwapModal = ({ swapModal, setSwapModal, swapTokens, setSelectedToken, setSelectedTokenSecond, currentCurrencyId }) => {
+
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleTokenSelect = (token) => {
-        setSelectedToken(token);
-        setSwapModal(false)
+        if (currentCurrencyId === "ethId") {
+            setSelectedToken(token);
+        } else {
+            setSelectedTokenSecond(token);
+        }
+        setSwapModal(false);
     }
+
     const handleTokenChange = (e) => {
         setSearchTerm(e.target.value);
     }
+
     const filteredTokenSearch = swapTokens.filter(token =>
         token.label.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
     return (
         <div>
             <div

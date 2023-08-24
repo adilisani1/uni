@@ -74,7 +74,7 @@ function App() {
             <Route path="/nfts/:id" element={<NftsDetails />} />
             <Route path="/vote" element={<Vote />} />
             <Route path="/privacy" element={<PrivacyModal />} />
-            <Route path="/liquidity" element={<LiquidityModal />} />
+            <Route path="/liquidity" element={<LiquidityModal chartData={chartData} swapModal={swapModal} setSwapModal={setSwapModal} />} />
           </Routes>
         </div >
 
