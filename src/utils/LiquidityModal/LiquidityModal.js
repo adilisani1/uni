@@ -16,15 +16,16 @@ const LiquidityModal = (
         handleSwapModal,
         swapModal,
         setSwapModal,
+        handleSelect,
+        selectedToken,
+        currentCurrencyId,
+        setCurrentCurrencyId
     }
 ) => {
 
-
-
-
+    console.log(selectedToken)
 
     return (
-
         <div>
             <div className="App__BodyWrapper-sc-7e45ae4f-0 clIMsa">
                 <div
@@ -189,10 +190,11 @@ const LiquidityModal = (
                                                         className="CurrencyInputPanel__InputRow-sc-73f91aaf-3 jGjrwu"
                                                         style={{ padding: 0, borderRadius: 8 }}
                                                     >
+                                                        {/* ETH BUTTON */}
+
                                                         <button
                                                             className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP hcUXCv open-currency-select-button"
-                                                            onClick={handleSwapModal}
-                                                        >
+                                                            onClick={() => handleSwapModal('ethId')}>
 
                                                             <span className="CurrencyInputPanel__Aligner-sc-73f91aaf-6 kkiXeD">
                                                                 <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowFixed-sc-34df4f97-4 hJYFVB gOYHMo jeYuAz">
@@ -206,14 +208,14 @@ const LiquidityModal = (
                                                                     >
                                                                         <div className="AssetLogo__LogoImageWrapper-sc-1d2e0d12-2 iZhrtN">
                                                                             <img
-                                                                                src='/assets/images/tokens/eth-icon.png'
+                                                                                src={selectedToken?.imgSrc}
                                                                                 alt="ETH logo"
                                                                                 className="AssetLogo__LogoImage-sc-1d2e0d12-1 IJysW"
                                                                             />
                                                                         </div>
                                                                     </div>
                                                                     <span className="CurrencyInputPanel__StyledTokenName-sc-73f91aaf-8 reOdD token-symbol-container colorrr">
-                                                                        ETH
+                                                                        {selectedToken?.symbol || 'Select Token'}
                                                                     </span>
                                                                 </div>
                                                                 <svg
@@ -230,7 +232,13 @@ const LiquidityModal = (
                                                                     />
                                                                 </svg>
                                                             </span>
+
                                                         </button>
+
+
+
+
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -244,6 +252,7 @@ const LiquidityModal = (
                                                         className="CurrencyInputPanel__InputRow-sc-73f91aaf-3 jGjrwu"
                                                         style={{ padding: 0, borderRadius: 8 }}
                                                     >
+                                                        {/* Select A token BUTTON */}
                                                         <button className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP iGQvak open-currency-select-button" >
                                                             <span className="CurrencyInputPanel__Aligner-sc-73f91aaf-6 kkiXeD">
                                                                 <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowFixed-sc-34df4f97-4 hJYFVB gOYHMo jeYuAz">
@@ -753,8 +762,13 @@ const LiquidityModal = (
                 </div>
                 <SwapModal
                     swapTokens={swapTokens}
+                    selectedToken={selectedToken}
                     swapModal={swapModal}
                     setSwapModal={setSwapModal}
+                    isLiquidity={true}
+                    handleSelect={handleSelect}
+                    currentCurrencyId={currentCurrencyId}
+                    setCurrentCurrencyId={setCurrentCurrencyId}
                 />
             </div>
 

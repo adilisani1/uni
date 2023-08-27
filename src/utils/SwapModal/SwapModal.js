@@ -6,7 +6,9 @@ const SwapModal = ({
     setSwapModal,
     swapTokens,
     selectedToken,
-    handleTokenSelect
+    // handleTokenSelect
+    handleSelect,
+    isLiquidity = false
 }) => {
 
     const [searchTerm, setSearchTerm] = useState('');
@@ -59,7 +61,8 @@ const SwapModal = ({
                                     {swapTokens?.map(token => (
                                         <div
                                             key={token?.value}
-                                            onClick={() => handleTokenSelect(token)}
+                                            // onClick={() => handleTokenSelect(token)}
+                                            onClick={() => handleSelect(token, isLiquidity)}
                                             className={`sc-jm24e0-1 fosiKD ${selectedToken?.symbol === token?.symbol ? "active" : ""}`}
                                         >
                                             <div className="sc-12k1pn4-2 ckpBIe" style={{ marginRight: 8 }}>
@@ -197,7 +200,7 @@ const SwapModal = ({
                                                 tabIndex={0}
                                                 className={`hJYFVB fhPvJeh frnZMKK edPdrxe token-item-ETHER ${selectedToken?.label === item?.label ? 'active ' : ""}`}
                                                 disabled=""
-                                                onClick={() => handleTokenSelect(item)}
+                                                onClick={() => handleSelect(item, isLiquidity)}
                                             >
                                                 <div className="sc-1kykgp9-0 iCxowP">
                                                     <div className="sc-12k1pn4-3 eLvYRk" style={{ opacity: 1 }}>

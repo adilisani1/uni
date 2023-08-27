@@ -14,7 +14,7 @@ const Swap = (
         setSelectedToken,
         selectedTokenSecond,
         setSelectedTokenSecond,
-        handleTokenSelect
+        handleSelect
     }) => {
 
 
@@ -202,7 +202,10 @@ const Swap = (
                 currentCurrencyId={currentCurrencyId}
                 setSelectedToken={setSelectedToken}
                 setSelectedTokenSecond={setSelectedTokenSecond}
-                handleTokenSelect={handleTokenSelect} />
+                handleSelect={handleSelect}
+                isLiquidity={false}
+            />
+
 
         </React.Fragment>
     );

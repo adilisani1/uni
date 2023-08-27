@@ -47,9 +47,11 @@ function App() {
   const [selectedTokenSecond, setSelectedTokenSecond] = useState({ symbol: 'Select Token' });
   const [currentCurrencyId, setCurrentCurrencyId] = useState(null);
 
+
   //Swap Modal Func
   const handleSwapModal = (currencyId) => {
-    setSwapModal(true)
+    console.log("Opening swap modal with currencyId:", currencyId);
+    setSwapModal(true);
     setCurrentCurrencyId(currencyId);
   }
 
@@ -64,6 +66,25 @@ function App() {
       setSelectedToken(token);
     } else {
       setSelectedTokenSecond(token);
+    }
+    setSwapModal(false);
+  }
+
+  //SwapTokensfunc-liquidty
+  const handleLiquidityTokenSelect = (token) => {
+    if (currentCurrencyId === "ethId") {
+      setSelectedToken(token);
+    } else {
+      setSelectedTokenSecond(token);
+    }
+    setSwapModal(false);
+  }
+
+  const handleSelect = (token, isLiquidity) => {
+    if (isLiquidity) {
+      handleLiquidityTokenSelect(token);
+    } else {
+      handleTokenSelect(token);
     }
     setSwapModal(false);
   }
@@ -106,7 +127,8 @@ function App() {
               setSelectedToken={setSelectedToken}
               selectedTokenSecond={selectedTokenSecond}
               setSelectedTokenSecond={setSelectedTokenSecond}
-              handleTokenSelect={handleTokenSelect}
+              // handleTokenSelect={handleTokenSelect}
+              handleSelect={handleSelect}
               currentCurrencyId={currentCurrencyId} />}
               setCurrentCurrencyId={setCurrentCurrencyId} />
 
@@ -123,6 +145,11 @@ function App() {
               handleSwapModal={handleSwapModal}
               swapModal={swapModal}
               setSwapModal={setSwapModal}
+              currentCurrencyId={currentCurrencyId}
+              setCurrentCurrencyId={setCurrentCurrencyId}
+              handleSelect={handleSelect}
+              selectedToken={selectedToken}
+
             />} />
             <Route path="/settings" element={<SettingModal />} />
 
