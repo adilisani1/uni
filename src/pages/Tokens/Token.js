@@ -4,8 +4,15 @@ import { Link } from 'react-router-dom';
 
 const Token = ({ allTableData, updateTime, options }) => {
 
-    const [sortBy, setSortBy] = useState('price');
+    const [sortBy, setSortBy] = useState(null);
     const [sortOrder, setSortOrder] = useState('desc');
+
+    const [selectedOption, setSelectedOption] = useState(options[0]);
+    const [updateOption, setUpdateOption] = useState(updateTime[1])
+    const [isOpen, setIsOpen] = useState(false);
+    const [handleOpen, setHandleOpen] = useState(false);
+
+    const [filteredTableData, setFilteredTableData] = useState(allTableData);
 
     const sortData = (criteria) => {
         const newSortOrder = sortBy === criteria && sortOrder === 'asc' ? 'desc' : 'asc';
@@ -26,12 +33,7 @@ const Token = ({ allTableData, updateTime, options }) => {
         setFilteredTableData(sortedData);
     };
 
-    const [selectedOption, setSelectedOption] = useState(options[0]);
-    const [updateOption, setUpdateOption] = useState(updateTime[1])
-    const [isOpen, setIsOpen] = useState(false);
-    const [handleOpen, setHandleOpen] = useState(false);
-
-    const [filteredTableData, setFilteredTableData] = useState(allTableData);
+    
 
     const handleCryptoOpen = () => {
         setIsOpen(!isOpen);

@@ -1,24 +1,21 @@
 import React, { useState } from 'react';
 import './SwapModal.css';
 
-const SwapModal = ({ swapModal, setSwapModal, swapTokens, setSelectedToken, setSelectedTokenSecond, currentCurrencyId }) => {
+const SwapModal = ({
+    swapModal,
+    setSwapModal,
+    swapTokens,
+    selectedToken,
+    handleTokenSelect
+}) => {
 
     const [searchTerm, setSearchTerm] = useState('');
-
-    const handleTokenSelect = (token) => {
-        if (currentCurrencyId === "ethId") {
-            setSelectedToken(token);
-        } else {
-            setSelectedTokenSecond(token);
-        }
-        setSwapModal(false);
-    }
 
     const handleTokenChange = (e) => {
         setSearchTerm(e.target.value);
     }
 
-    const filteredTokenSearch = swapTokens.filter(token =>
+    const filteredTokenSearch = swapTokens?.filter(token =>
         token.label.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -41,7 +38,9 @@ const SwapModal = ({ swapModal, setSwapModal, swapTokens, setSelectedToken, setS
                         <div className="sc-1kykgp9-2 sc-1xp9ndq-0 kqzAOQ eOCLUf">
                             <div id="cross-title" className="sc-bczRLJ sc-nrd8cx-0 sc-nrd8cx-1 hJYFVB fhPvJeh frnZMKK" >
                                 <div className="css-xy7yfl">Select a token</div>
-                                <span onClick={() => setSwapModal(false)}><i className="ri-close-line"></i></span>
+                                <span onClick={() => setSwapModal(false)}>
+                                    <i className="close-modal ri-close-line"></i>
+                                </span>
                             </div>
                             <div className="sc-bczRLJ sc-nrd8cx-0 hJYFVB fhPvJeh">
                                 <input
@@ -51,28 +50,27 @@ const SwapModal = ({ swapModal, setSwapModal, swapTokens, setSelectedToken, setS
                                     placeholder="Search name or paste address"
                                     autoComplete="off"
                                     className="sc-1xp9ndq-2 hxoNas"
-                                    defaultValue=""
                                     value={searchTerm}
                                     onChange={handleTokenChange}
                                 />
                             </div>
                             <div className="sc-1kykgp9-2 sc-jm24e0-0 kqyzGE gqQqei">
                                 <div className="sc-bczRLJ sc-nrd8cx-0 sc-nrd8cx-3 hJYFVB cTSGxd bORAza" >
-                                    {swapTokens.map(token => (
+                                    {swapTokens?.map(token => (
                                         <div
-                                            key={token.value}
+                                            key={token?.value}
                                             onClick={() => handleTokenSelect(token)}
-                                            className="sc-jm24e0-1 fosiKD "
+                                            className={`sc-jm24e0-1 fosiKD ${selectedToken?.symbol === token?.symbol ? "active" : ""}`}
                                         >
                                             <div className="sc-12k1pn4-2 ckpBIe" style={{ marginRight: 8 }}>
                                                 <img
-                                                    src={token.imgSrc}
-                                                    alt={token.label}
+                                                    src={token?.imgSrc}
+                                                    alt={token?.symbol}
                                                     className="sc-12k1pn4-1 bwVixy"
                                                 />
                                             </div>
 
-                                            <div className="css-xy7yfl">{token.label}</div>
+                                            <div className="css-xy7yfl">{token?.symbol}</div>
                                         </div>
                                     ))}
 
@@ -178,40 +176,35 @@ const SwapModal = ({ swapModal, setSwapModal, swapTokens, setSelectedToken, setS
                         <div className="sc-1xp9ndq-3 cbqHzZ" />
                         <div style={{ flex: "1 1 0%", position: "relative" }}>
                             <div style={{ overflow: "visible", height: 0 }}>
+
                                 <div
+
                                     data-testid="currency-list-wrapper"
                                     className="sc-1e2o00j-5 kszyds"
                                 >
                                     <div
                                         className="_1pi21y70"
                                         style={{
-                                            position: "relative",
-                                            height: 553,
-                                            width: "100%",
-                                            overflow: "auto",
-                                            willChange: "transform",
-                                            direction: "ltr"
+                                            height: "100%",
+                                            maxHeight: "400px",
+                                            overflowY: "scroll",
+                                            paddingTop: "4px",
+                                            paddingBottom: "20px"
                                         }}
                                     >
-                                        <div style={{ height: 13552, width: "100%" }}>
-                                            <div
+                                        {filteredTokenSearch?.map((item, index) => (
+                                            <div key={item.id}
                                                 tabIndex={0}
-                                                className="sc-bczRLJ sc-nrd8cx-0 sc-nrd8cx-1 sc-1xp9ndq-1 hJYFVB fhPvJeh frnZMKK edPdrxe token-item-ETHER"
+                                                className={`hJYFVB fhPvJeh frnZMKK edPdrxe token-item-ETHER ${selectedToken?.label === item?.label ? 'active ' : ""}`}
                                                 disabled=""
-                                                style={{
-                                                    position: "absolute",
-                                                    left: 0,
-                                                    top: 0,
-                                                    height: 56,
-                                                    width: "100%"
-                                                }}
+                                                onClick={() => handleTokenSelect(item)}
                                             >
                                                 <div className="sc-1kykgp9-0 iCxowP">
                                                     <div className="sc-12k1pn4-3 eLvYRk" style={{ opacity: 1 }}>
                                                         <div className="sc-12k1pn4-2 oJGcu">
                                                             <img
-                                                                src="/assets/images/tokens/eth-icon.png"
-                                                                alt="ETH logo"
+                                                                src={item?.imgSrc}
+                                                                alt="Token logo"
                                                                 className="sc-12k1pn4-1 gxjzue"
                                                             />
                                                         </div>
@@ -220,14 +213,17 @@ const SwapModal = ({ swapModal, setSwapModal, swapTokens, setSelectedToken, setS
                                                 <div className="sc-1kykgp9-2 jdTKGL" style={{ opacity: 1 }}>
                                                     <div className="sc-bczRLJ sc-nrd8cx-0 hJYFVB fhPvJeh">
                                                         <div
-                                                            title="Ether"
+                                                            title={item?.label}
                                                             className="sc-1e2o00j-2 dmGdpm css-vurnku"
                                                         >
-                                                            Ether
+                                                            {item?.label}
                                                         </div>
                                                         <div className="sc-1e2o00j-4 wHspX" />
                                                     </div>
-                                                    <div className="sc-sx9n2y-0 bqwbXT css-yfjwjl">ETH</div>
+                                                    <div className="sc-sx9n2y-0 bqwbXT css-yfjwjl">
+                                                        {/* {item.symbol} */}
+                                                        {item?.symbol}
+                                                    </div>
                                                 </div>
                                                 <div className="sc-1kykgp9-0 iCxowP">
                                                     <div
@@ -239,86 +235,84 @@ const SwapModal = ({ swapModal, setSwapModal, swapTokens, setSelectedToken, setS
                                                     className="sc-bczRLJ sc-nrd8cx-0 sc-nrd8cx-4 hJYFVB fhPvJeh leSroW"
                                                     style={{ justifySelf: "flex-end" }}
                                                 >
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width={24}
-                                                        height={24}
-                                                        viewBox="0 0 24 24"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        strokeWidth={2}
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        className="sc-1e2o00j-0 bZZPOo"
-                                                    >
-                                                        <polyline points="20 6 9 17 4 12" />
-                                                    </svg>
+                                                    {/* <i className="swap-tick ri-check-line"></i> */}
+                                                    {selectedToken?.label === item?.label && (
+                                                        <i className="swap-tick ri-check-line"></i>
+                                                    )}
+
                                                 </div>
                                             </div>
-                                            <div
-                                                tabIndex={0}
-                                                className="sc-bczRLJ sc-nrd8cx-0 sc-nrd8cx-1 sc-1xp9ndq-1 hJYFVB fhPvJeh frnZMKK bPeMEk token-item-0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
-                                                style={{
-                                                    position: "absolute",
-                                                    left: 0,
-                                                    top: 56,
-                                                    height: 56,
-                                                    width: "100%"
-                                                }}
-                                            >
-                                                <div className="sc-1kykgp9-0 iCxowP">
-                                                    <div className="sc-12k1pn4-3 eLvYRk" style={{ opacity: 1 }}>
-                                                        <div className="sc-12k1pn4-2 oJGcu">
-                                                            <img
-                                                                src="https://raw.githubusercontent.com/Uniswap/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png"
-                                                                alt="WETH logo"
-                                                                className="sc-12k1pn4-1 gxjzue"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="sc-1kykgp9-2 jdTKGL" style={{ opacity: 1 }}>
-                                                    <div className="sc-bczRLJ sc-nrd8cx-0 hJYFVB fhPvJeh">
-                                                        <div
-                                                            title="Wrapped Ether"
-                                                            className="sc-1e2o00j-2 dmGdpm css-vurnku"
-                                                        >
-                                                            Wrapped Ether
-                                                        </div>
-                                                        <div className="sc-1e2o00j-4 wHspX" />
-                                                    </div>
-                                                    <div className="sc-sx9n2y-0 bqwbXT css-yfjwjl">WETH</div>
-                                                </div>
-                                                <div className="sc-1kykgp9-0 iCxowP">
-                                                    <div
-                                                        className="sc-bczRLJ sc-nrd8cx-0 sc-nrd8cx-4 hJYFVB fhPvJeh leSroW"
-                                                        style={{ justifySelf: "flex-end" }}
-                                                    />
-                                                </div>
-                                                <div
-                                                    className="sc-bczRLJ sc-nrd8cx-0 sc-nrd8cx-4 hJYFVB fhPvJeh leSroW"
-                                                    style={{ justifySelf: "flex-end" }}
-                                                />
-                                            </div>
-                                            <div
-                                                tabIndex={0}
-                                                className="sc-bczRLJ sc-nrd8cx-0 sc-nrd8cx-1 sc-1xp9ndq-1 hJYFVB fhPvJeh frnZMKK bPeMEk token-item-0x111111111117dC0aa78b770fA6A738034120C302"
-                                                style={{
-                                                    position: "absolute",
-                                                    left: 0,
-                                                    top: 112,
-                                                    height: 56,
-                                                    width: "100%"
-                                                }}
-                                            >
-                                                <div
-                                                    className="sc-bczRLJ sc-nrd8cx-0 sc-nrd8cx-4 hJYFVB fhPvJeh leSroW"
-                                                    style={{ justifySelf: "flex-end" }}
-                                                />
-                                            </div>
-                                        </div>
+
+                                        ))}
+
+
                                     </div>
                                 </div>
+
+                                {/* <div
+                                            tabIndex={0}
+                                            className="sc-bczRLJ sc-nrd8cx-0 sc-nrd8cx-1 sc-1xp9ndq-1 hJYFVB fhPvJeh frnZMKK bPeMEk token-item-0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+                                            style={{
+                                                position: "absolute",
+                                                left: 0,
+                                                top: 56,
+                                                height: 56,
+                                                width: "100%"
+                                            }}
+                                        >
+                                            <div className="sc-1kykgp9-0 iCxowP">
+                                                <div className="sc-12k1pn4-3 eLvYRk" style={{ opacity: 1 }}>
+                                                    <div className="sc-12k1pn4-2 oJGcu">
+                                                        <img
+                                                            src="https://raw.githubusercontent.com/Uniswap/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png"
+                                                            alt="WETH logo"
+                                                            className="sc-12k1pn4-1 gxjzue"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="sc-1kykgp9-2 jdTKGL" style={{ opacity: 1 }}>
+                                                <div className="sc-bczRLJ sc-nrd8cx-0 hJYFVB fhPvJeh">
+                                                    <div
+                                                        title="Wrapped Ether"
+                                                        className="sc-1e2o00j-2 dmGdpm css-vurnku"
+                                                    >
+                                                        Wrapped Ether
+                                                    </div>
+                                                    <div className="sc-1e2o00j-4 wHspX" />
+                                                </div>
+                                                <div className="sc-sx9n2y-0 bqwbXT css-yfjwjl">WETH</div>
+                                            </div>
+                                            <div className="sc-1kykgp9-0 iCxowP">
+                                                <div
+                                                    className="sc-bczRLJ sc-nrd8cx-0 sc-nrd8cx-4 hJYFVB fhPvJeh leSroW"
+                                                    style={{ justifySelf: "flex-end" }}
+                                                />
+                                            </div>
+                                            <div
+                                                className="sc-bczRLJ sc-nrd8cx-0 sc-nrd8cx-4 hJYFVB fhPvJeh leSroW"
+                                                style={{ justifySelf: "flex-end" }}
+                                            />
+                                        </div>
+                                        <div
+                                            tabIndex={0}
+                                            className="sc-bczRLJ sc-nrd8cx-0 sc-nrd8cx-1 sc-1xp9ndq-1 hJYFVB fhPvJeh frnZMKK bPeMEk token-item-0x111111111117dC0aa78b770fA6A738034120C302"
+                                            style={{
+                                                position: "absolute",
+                                                left: 0,
+                                                top: 112,
+                                                height: 56,
+                                                width: "100%"
+                                            }}
+                                        >
+                                            <div
+                                                className="sc-bczRLJ sc-nrd8cx-0 sc-nrd8cx-4 hJYFVB fhPvJeh leSroW"
+                                                style={{ justifySelf: "flex-end" }}
+                                            />
+                                        </div> */}
+                                {/* </div> */}
+                                {/* </div> */}
+                                {/* </div> */}
                             </div>
                             <div className="resize-triggers">
                                 <div className="expand-trigger">
@@ -327,11 +321,11 @@ const SwapModal = ({ swapModal, setSwapModal, swapTokens, setSelectedToken, setS
                                 <div className="contract-trigger" />
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </div >
+                </div >
+            </div >
 
-        </div>
+        </div >
     )
 }
 

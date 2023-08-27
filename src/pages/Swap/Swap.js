@@ -2,25 +2,21 @@ import React, { useState } from 'react';
 import './Swap.css';
 import SwapModal from '../../utils/SwapModal/SwapModal';
 
-const Swap = ({ setIsModalOpen, swapModal, setSwapModal }) => {
+const Swap = (
+    {
+        swapTokens,
+        setIsModalOpen,
+        swapModal,
+        setSwapModal,
+        currentCurrencyId,
+        handleSwapModal,
+        selectedToken,
+        setSelectedToken,
+        selectedTokenSecond,
+        setSelectedTokenSecond,
+        handleTokenSelect
+    }) => {
 
-    const swapTokens = [
-        { value: 'etheruim', imgSrc: '/assets/images/tokens/eth-icon.png', label: 'ETH' },
-        { value: 'dai-stablecoin', imgSrc: '/assets/images/tokens/dai-icon.png', label: 'DAI' },
-        { value: 'usd-coin', imgSrc: '/assets/images/usdt-icon.png', label: 'USDC' },
-        { value: 'tether-usd', imgSrc: '/assets/images/tokens/usdt.png', label: 'USDT' },
-        { value: 'wrapped-btc', imgSrc: '/assets/images/tokens/bit-coin.png', label: 'WBTC' },
-        { value: 'wrapped-ether', imgSrc: '/assets/images/tokens/weth-icon.png', label: 'WETH' },
-    ]
-
-    const [selectedToken, setSelectedToken] = useState(swapTokens[0]);
-    const [selectedTokenSecond, setSelectedTokenSecond] = useState({ label: 'Select Token' });
-    const [currentCurrencyId, setCurrentCurrencyId] = useState(null);
-
-    const handleSwapModal = (currencyId) => {
-        setSwapModal(true)
-        setCurrentCurrencyId(currencyId);
-    }
 
     const [inputValues, setInputValues] = useState({
         "you-pay": "",
@@ -50,7 +46,7 @@ const Swap = ({ setIsModalOpen, swapModal, setSwapModal }) => {
     const renderButtonContent = (currencyId) => {
         let currentToken = (currencyId === "ethId") ? selectedToken : selectedTokenSecond;
 
-        if (currencyId === "ethId" || (currencyId !== "ethId" && currentToken.label !== 'Select Token')) {
+        if (currencyId === "ethId" || (currencyId !== "ethId" && currentToken?.symbol !== 'Select Token')) {
             return (
                 <button
                     id={`open-currency-select-${currencyId}`}
@@ -61,10 +57,10 @@ const Swap = ({ setIsModalOpen, swapModal, setSwapModal }) => {
                         <div className='cryptocurrency-wrapper'>
                             <div className="image-wrapper">
                                 <div>
-                                    <img className='icon-image' src={currentToken.imgSrc} alt={currentToken.label} />
+                                    <img className='icon-image' src={currentToken?.imgSrc} alt={currentToken?.symbol} />
                                 </div>
                             </div>
-                            <span className="token-name">{currentToken.label}</span>
+                            <span className="token-name">{currentToken?.symbol}</span>
                         </div>
                         <div className='dropdown-icon'>
                             <i className="ri-arrow-down-s-line"></i>
@@ -201,9 +197,12 @@ const Swap = ({ setIsModalOpen, swapModal, setSwapModal }) => {
                 swapModal={swapModal}
                 setSwapModal={setSwapModal}
                 swapTokens={swapTokens}
-                setSelectedToken={setSelectedToken}
+                selectedToken={selectedToken}
+                selectedTokenSecond={selectedTokenSecond}
                 currentCurrencyId={currentCurrencyId}
-                setSelectedTokenSecond={setSelectedTokenSecond} />
+                setSelectedToken={setSelectedToken}
+                setSelectedTokenSecond={setSelectedTokenSecond}
+                handleTokenSelect={handleTokenSelect} />
 
         </React.Fragment>
     );

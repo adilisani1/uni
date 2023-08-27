@@ -44,33 +44,36 @@ export const allTableData = [
         bioData: "USDC is a fully collateralized US dollar stablecoin. USDC is the bridge between dollars and trading on cryptocurrency exchanges.  "
     },
 ]
- export const chartData = [
-        {
-            name: 'ETH',
-            uv: 600,
-        },
-        {
-            name: 'ETH',
-            uv: 900,
-        },
-        {
-            name: 'ETH',
-            uv: 500,
-        },
-        {
-            name: 'ETH',
-            uv: 1100,
-        },
-        {
-            name: 'ETH',
-            uv: 1790,
-        },
-        {
-            name: 'ETH',
-            uv: 1890,
-        },
-        {
-            name: 'ETH',
-            uv: 1600,
-        },
-       ];
+
+
+export const chartData = [
+    {
+        name: 'ETH',
+        uv: 600,
+    },
+    {
+        name: 'ETH',
+        uv: 900,
+    },
+    {
+        name: 'ETH',
+        uv: 500,
+    },
+    {
+        name: 'ETH',
+        uv: 1100,
+    },
+    {
+        name: 'ETH',
+        uv: 1790,
+    },
+    {
+        name: 'ETH',
+        uv: 1890,
+    },
+    {
+        name: 'ETH',
+        uv: 1600,
+    },
+];
+

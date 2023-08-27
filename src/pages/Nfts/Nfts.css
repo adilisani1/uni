@@ -18,6 +18,13 @@
 }
 
 /* Slider Section part */
+.slick-next {
+    right: 0px;
+}
+
+.slick-left {
+    left: -8px;
+}
 
 .dqagHG {
     display: flex;
@@ -375,14 +382,6 @@
     color: var(--color-white);
 }
 
-.btxSrH {
-    display: flex;
-    flex-direction: column;
-    -webkit-box-align: center;
-    align-items: center;
-    width: 100%;
-}
-
 .yIDuG {
     display: flex;
     flex-direction: column;
@@ -488,12 +487,10 @@ element.style {
 
 .rgw6eze7 {
     line-height: 20px;
-    line-height: var(--rgw6ez2x);
 }
 
 .rgw6ezcp {
     font-weight: 400;
-    font-weight: var(--rgw6ez33);
 }
 
 style attribute {
@@ -513,12 +510,6 @@ style attribute {
 .rgw6eze7 {
     line-height: 20px;
     line-height: var(--rgw6ez2x);
-}
-
-
-.rgw6ezav {
-    font-size: 14px;
-    font-size: var(--rgw6ez2i);
 }
 
 th {
@@ -871,7 +862,79 @@ td {
 }
 
 /* MAx width */
-@media screen and (max-width: 640px) {
+
+@media only screen and (max-width: 1024px) {
+    .hgUZSB {
+        font-size: 48px;
+        line-height: 67px;
+    }
+
+    .items-table {
+        display: none;
+        /* padding-right: 8px; */
+    }
+
+    .owner-table {
+        display: none;
+    }
+
+}
+
+@media only screen and (max-width: 768px) {
+    .btxSrH {
+        gap: 16px;
+    }
+
+    .hgUZSB {
+        font-size: 36px;
+        line-height: 50px;
+    }
+
+    .slick-next {
+        display: none;
+    }
+
+    .slick-left {
+        display: none;
+    }
+
+    .volume-change-table {
+        display: none;
+    }
+
+    .floor-change-table {
+        display: none;
+    }
+
+
+
+}
+
+
+@media only screen and (max-width: 640px) {
+
+    .btxSrH {
+        gap: 0px;
+    }
+
+    .hgUZSB {
+        line-height: 43px;
+        text-align: center;
+        padding-bottom: 16px;
+    }
+
+    .jNQukZ {
+        padding-left: 8px;
+    }
+
+    .kwQyZm {
+        flex-direction: column;
+        height: 100%;
+        gap: 14px;
+        margin-top: 4px;
+        margin-bottom: 6px;
+    }
+
     .ebZEvI {
         font-size: 20px;
         line-height: 28px;
@@ -880,5 +943,24 @@ td {
     .dBfFrV {
         margin-bottom: 16px;
         margin-top: 16px;
+    }
+
+    .volume-table {
+        display: none;
+    }
+
+
+}
+
+
+@media only screen and (max-width: 550px) {
+    .hgUZSB {
+        font-size: 28px;
+        line-height: 34px;
+        padding-bottom: 0px;
+    }
+
+    ._1mor7ved:nth-last-child(1) {
+        padding-left: 0px;
     }
 }

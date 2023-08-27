@@ -33,44 +33,35 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
     const currencyTabs = ["USD", "ETH"];
 
     // Sorting header keys
-    const columns = [
-        { key: 'floor', name: 'Floor Price' },
-        { key: 'floorChange', name: 'Floor Change' },
-        { key: 'volume', name: 'Volume' },
-        { key: 'volumeChange', name: 'Volume Change' },
-        { key: 'items', name: 'Items' },
-        { key: 'owners', name: 'Owners' },
-
-    ];
 
     const [selectedTab, setSelectedTab] = useState('All');
     const [selectedCurrencyTab, setSelectedCurrencyTab] = useState('USD');
     const [tableData, setTableData] = useState([]);
 
     const [sortKey, setSortKey] = useState(null);
-    const [sortDirection, setSortDirection] = useState('asc');
+    const [sortDirection, setSortDirection] = useState('desc');
 
     //Table Header Div
-    const sortData = (key, direction) => {
+    const sortData = (key) => {
         const sortedData = [...tableData];
         sortedData.sort((a, b) => {
-            if (direction === 'asc') {
-                return a[key] - b[key];
+            const valueA = typeof a[key] === 'number' ? a[key] : (a[key] || '').toString().toLowerCase();
+            const valueB = typeof b[key] === 'number' ? b[key] : (b[key] || '').toString().toLowerCase();
+
+            if (sortDirection === 'desc') {
+                return valueA < valueB ? -1 : 1;
             } else {
-                return b[key] - a[key];
+                return valueA > valueB ? -1 : 1;
             }
         });
         setTableData(sortedData);
     }
-    const handleColumnHeaderClick = (key) => {
 
-        let direction = 'asc';
-        if (sortKey === key && sortDirection === 'asc') {
-            direction = 'desc';
-        }
+    const handleColumnHeaderClick = (key) => {
+        const direction = sortKey === key && sortDirection === 'desc' ? 'asc' : 'desc';
         setSortKey(key);
         setSortDirection(direction);
-        sortData(key, direction);
+        sortData(key);
     }
 
 
@@ -385,37 +376,112 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
                                 className="_1mor7vea rgw6ez4pd rgw6ez16v rgw6ez7bj rgw6ez7a7"
                             >
 
-
                                 <thead className="rgw6ezrd rgw6ez50p rgw6ez7jr rgw6ez7ar">
-
                                     <tr role="row">
                                         <th
                                             className="sc-iwpsza-3 gwMpjb _1mor7ved rgw6ezcp rgw6ezav rgw6eze7 rgw6ez4ep rgw6ez2ov rgw6ez28d"
                                             colSpan={1}
                                             role="columnheader"
                                             disabled=""
-                                            style={{ textAlign: "left", paddingLeft: 16 }}>
-
+                                            style={{ textAlign: "left", paddingLeft: 16 }}
+                                        >
                                             <span className="_1klryar0 rgw6ez4bp rgw6ez491" />
-                                            <span className="_1klryar0 rgw6ez2cp">Collection name</span>
+                                            <span className="_1klryar0 rgw6ez2cp col-tab">Collection name</span>
+                                        </th>
+                                        <th
+                                            className="sc-iwpsza-3 kSSCXd _1mor7ved rgw6ezcp rgw6ezav rgw6eze7 rgw6ez4ep rgw6ez2ov rgw6ez28d"
+                                            colSpan={1}
+                                            role="columnheader"
+                                            title="Toggle SortBy"
+                                            style={{ textAlign: "right", paddingLeft: 0 }}
+                                            onClick={() => handleColumnHeaderClick('floor')}
+                                        >
+                                            <span className="_1klryar0 rgw6ez4bp rgw6ez491" />
+                                            {sortKey === 'floor' && (
+                                                sortDirection === 'desc' ? <i className="ri-arrow-down-line"></i> : <i className="ri-arrow-up-line"></i>
+                                            )}
+                                            <span className="_1klryar0 rgw6ez2cp">Floor</span>
 
                                         </th>
+                                        <th
+                                            className="sc-iwpsza-3 kSSCXd _1mor7ved rgw6ezcp rgw6ezav rgw6eze7 rgw6ez4ep rgw6ez2ov rgw6ez28d"
+                                            colSpan={1}
+                                            role="columnheader"
+                                            title="Toggle SortBy"
+                                            style={{ textAlign: "right", paddingLeft: 0 }}
+                                            onClick={() => handleColumnHeaderClick('floorChange')}
 
-                                        {columns.map((item) => (
-                                            <th key={item.key}
-                                                className="sc-iwpsza-3 kSSCXd _1mor7ved rgw6ezcp rgw6ezav rgw6eze7 rgw6ez4ep rgw6ez2ov rgw6ez28d"
-                                                colSpan={1}
-                                                role="columnheader"
-                                                title="Toggle SortBy"
-                                                style={{ textAlign: "right", paddingLeft: 0 }}
-                                                onClick={() => handleColumnHeaderClick(item.key)}
-                                            >
-                                                {sortKey === item.key && (sortDirection === 'asc' ?
-                                                    <i class="ri-arrow-up-line"></i> : <i class="ri-arrow-down-line"></i>)}
-                                                <span className="_1klryar0 rgw6ez2cp">{item.name}</span>
-                                            </th>
-                                        ))}
 
+                                        >
+                                            {sortKey === 'floorChange' && (
+                                                sortDirection === 'desc' ? <i className="ri-arrow-down-line"></i> : <i className="ri-arrow-up-line"></i>
+                                            )}
+                                            <span className="_1klryar0 rgw6ez4bp rgw6ez491" />
+
+                                            <span className="_1klryar0 rgw6ez2cp floor-change-table">Floor change</span>
+
+                                        </th>
+                                        <th
+                                            className="sc-iwpsza-3 kSSCXd _1mor7ved rgw6ezcp rgw6ezav rgw6eze7 rgw6ez4ep rgw6ez2ov rgw6ez28d"
+                                            colSpan={1}
+                                            role="columnheader"
+                                            title="Toggle SortBy"
+                                            style={{ textAlign: "right", paddingLeft: 0 }}
+                                            onClick={() => handleColumnHeaderClick('volume')}
+
+                                        >
+                                            {sortKey === 'volume' && (
+                                                sortDirection === 'desc' ? <i className="ri-arrow-down-line"></i> : <i className="ri-arrow-up-line"></i>
+                                            )}
+                                            <span className="_1klryar0 rgw6ez2ed volume-table">Volume</span>
+                                        </th>
+                                        <th
+                                            className="sc-iwpsza-3 kSSCXd _1mor7ved rgw6ezcp rgw6ezav rgw6eze7 rgw6ez4ep rgw6ez2ov rgw6ez28d"
+                                            colSpan={1}
+                                            role="columnheader"
+                                            title="Toggle SortBy"
+                                            style={{ textAlign: "right", paddingLeft: 0 }}
+                                            onClick={() => handleColumnHeaderClick('volumeChange')}
+
+                                        >
+                                            <span className="_1klryar0 rgw6ez4bp rgw6ez491" />
+                                            {sortKey === 'volumeChange' && (
+                                                sortDirection === 'desc' ? <i className="ri-arrow-down-line"></i> : <i className="ri-arrow-up-line"></i>
+                                            )}
+                                            <span className="_1klryar0 rgw6ez2cp volume-change-table">Volume change</span>
+
+                                        </th>
+                                        <th
+                                            className="sc-iwpsza-3 kSSCXd _1mor7ved rgw6ezcp rgw6ezav rgw6eze7 rgw6ez4ep rgw6ez2ov rgw6ez28d"
+                                            colSpan={1}
+                                            role="columnheader"
+                                            title="Toggle SortBy"
+                                            style={{ textAlign: "right", paddingLeft: 0 }}
+                                            onClick={() => handleColumnHeaderClick('items')}
+
+                                        >
+                                            <span className="_1klryar0 rgw6ez4bp rgw6ez491" />
+                                            {sortKey === 'items' && (
+                                                sortDirection === 'desc' ? <i className="ri-arrow-down-line"></i> : <i className="ri-arrow-up-line"></i>
+                                            )}
+                                            <span className="_1klryar0 rgw6ez2cp items-table">Items</span>
+
+                                        </th>
+                                        <th
+                                            className="sc-iwpsza-3 kSSCXd _1mor7ved rgw6ezcp rgw6ezav rgw6eze7 rgw6ez4ep rgw6ez2ov rgw6ez28d"
+                                            colSpan={1}
+                                            role="columnheader"
+                                            title="Toggle SortBy"
+                                            style={{ textAlign: "right", paddingLeft: 0 }}
+                                            onClick={() => handleColumnHeaderClick('owners')}
+                                        >
+                                            <span className="_1klryar0 rgw6ez4bp rgw6ez491" />
+                                            {sortKey === 'owners' && (
+                                                sortDirection === 'desc' ? <i className="ri-arrow-down-line"></i> : <i className="ri-arrow-up-line"></i>
+                                            )}
+                                            <span className="_1klryar0 rgw6ez2cp owner-table">Owners</span>
+
+                                        </th>
                                     </tr>
                                 </thead>
 
@@ -468,7 +534,7 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
                                                 style={{ maxWidth: 160 }}
                                             >
                                                 <div className="sc-1qdt28z-7 eCRqrV">
-                                                    <div className="sc-sx9n2y-0 kivXvb css-1jljtub">
+                                                    <div className="sc-sx9n2y-0 kivXvb css-1jljtub floor-table">
                                                         {selectedCurrencyTab === 'USD' ? `$${item.floor.toLocaleString()}` : `${item.floor} ETH`}
                                                     </div>
                                                 </div>
@@ -482,7 +548,7 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
                                             >
                                                 <div className="sc-1qdt28z-6 glsCXl">
                                                     <i class="ri-arrow-right-down-line"></i>
-                                                    <div className="sc-sx9n2y-0 kandXm css-1jljtub">
+                                                    <div className="sc-sx9n2y-0 kandXm css-1jljtub floor-change-table">
                                                         {selectedCurrencyTab === 'USD' ? `${item.floorChange}%` : `${item.floorChange}%`}
                                                     </div>
                                                 </div>
@@ -493,14 +559,14 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
                                                 style={{ maxWidth: 160 }}
                                             >
                                                 <div className="sc-1qdt28z-7 eCRqrV">
-                                                    <div className="sc-sx9n2y-0 kivXvb css-1jljtub">
+                                                    <div className="sc-sx9n2y-0 kivXvb css-1jljtub volume-table">
                                                         {/* 4,505 ETH */}
                                                         {selectedCurrencyTab === 'USD' ? `$${item.volume.toLocaleString()}` : `${item.volume.toLocaleString()} ETH`}
                                                     </div>
                                                 </div>
                                             </td>
                                             <td
-                                                className="_1mor7vef rgw6ezcp rgw6ezb1 rgw6ezed rgw6ez2o7 rgw6ez27p rgw6ez1jp rgw6ez467 rgw6ez491"
+                                                className="_1mor7vef rgw6ezcp rgw6ezb1 rgw6ezed rgw6ez2o7 rgw6ez27p rgw6ez1jp rgw6ez467 rgw6ez491 volume-change-table"
                                                 role="cell"
                                                 style={{ maxWidth: 160 }}
                                             >
@@ -519,7 +585,7 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
                                                             strokeLinejoin="round"
                                                         />
                                                     </svg>
-                                                    <div className="sc-sx9n2y-0 kandXm css-1jljtub">
+                                                    <div className="sc-sx9n2y-0 kandXm css-1jljtub volume-change-table">
                                                         {selectedCurrencyTab === 'USD' ? `${item.volumeChange}%` : `${item.volumeChange}%`}
 
                                                     </div>
@@ -530,7 +596,7 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
                                                 role="cell"
                                                 style={{ maxWidth: 160 }}
                                             >
-                                                <span>
+                                                <span className="items-table">
                                                     {/* 8.9K */}
                                                     {selectedCurrencyTab === 'USD' ? `${item.items}K` : `${item.items}K`}
 
@@ -541,7 +607,7 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
                                                 role="cell"
                                                 style={{ maxWidth: 160 }}
                                             >
-                                                <span>
+                                                <span className="owner-table">
                                                     {/* 2.4K */}
                                                     {selectedCurrencyTab === 'USD' ? `${item.owners}K` : `${item.owners}K`}
 

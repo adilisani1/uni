@@ -1,5 +1,6 @@
 import React from 'react';
 import './Pools.css';
+import { NavLink } from 'react-router-dom';
 
 const Pools = ({ setIsModalOpen }) => {
     return (
@@ -17,10 +18,10 @@ const Pools = ({ setIsModalOpen }) => {
                                         </div>
                                     </button>
                                 </div>
-                                <a data-cy="join-pool-button" id="join-pool-button"
-                                    className="bYPKDz kEIpOD hPbqJv" href="/liquidity">
+                                <NavLink data-cy="join-pool-button" id="join-pool-button"
+                                    className="bYPKDz kEIpOD hPbqJv" to="/liquidity">
                                     + New Position
-                                </a>
+                                </NavLink>
                             </div>
                         </div>
                     </div>

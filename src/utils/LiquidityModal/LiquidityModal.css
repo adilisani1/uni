@@ -392,16 +392,6 @@ a {
 }
 
 
-.jGjrwu {
-    display: flex;
-    flex-flow: row;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-    padding: 1rem;
-}
-
 .hcUXCv {
     -webkit-box-align: center;
     align-items: center;
@@ -1109,14 +1099,45 @@ a {
     width: 100%;
 }
 
+#range-selector {
+    height: 310px;
+}
 
 
 
+/* CHARTS */
 
+.erfjwt {
+    display: grid;
+    grid-auto-rows: auto;
+    row-gap: 12px;
+}
 
+.AKZXT {
+    position: relative;
+    width: 100%;
+    max-height: 200px;
+    -webkit-box-pack: center;
+    place-content: center;
+}
 
+.kLcWec {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    position: absolute;
+    top: -32px;
+    right: 0px;
+}
 
-
+.rect {
+    pointer-events: all;
+    cursor: move;
+    x: 46.5;
+    y: 0;
+    width: 509.5;
+    height: 170;
+}
 
 
 

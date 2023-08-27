@@ -1,7 +1,6 @@
 .jBBXQD[data-reach-dialog-content] {
     margin: auto;
     background-color: rgb(255, 255, 255);
-    border: 1px solid var(--token-clrr);
     box-shadow: rgba(51, 53, 72, 0.04) 8px 12px 20px, rgba(51, 53, 72, 0.02) 4px 6px 12px, rgba(51, 53, 72, 0.04) 4px 4px 8px;
     padding: 0px;
     width: 50vw;
@@ -34,6 +33,7 @@
     flex: 1 1 0%;
     position: relative;
     border-radius: 20px;
+    border: var(--token-border-color);
 }
 
 .eOCLUf {
@@ -143,6 +143,17 @@
     padding: 6px 12px 6px 6px;
     -webkit-box-align: center;
     align-items: center;
+    cursor: pointer;
+}
+
+.fosiKD:hover {
+    background-color: var(--token-clrr);
+}
+
+.fosiKD.active {
+    border: 1px solid rgb(76, 130, 251);
+    color: rgb(76, 130, 251);
+    background-color: rgba(76, 130, 251, 0.24);
 }
 
 .eLvYRk {
@@ -155,6 +166,14 @@
     height: 1px;
     background-color: var(--token-clrr);
 }
+
+.labelsWrapper {
+    flex: 1 1 0%;
+    position: relative;
+}
+
+
+/* ch */
 
 
 .token-data-tabs {
@@ -178,6 +197,11 @@
 
 #tokenBtick {
     justify-self: flex-end;
+}
+
+.close-modal {
+    cursor: pointer;
+    font-size: 25px;
 }
 
 .kszyds {
@@ -220,14 +244,28 @@
     display: grid;
     grid-template-columns: auto minmax(auto, 1fr) auto minmax(0px, 72px);
     gap: 16px;
-    pointer-events: none;
-    opacity: 0.4;
+    /* pointer-events: none; */
+    opacity: 1;
+    cursor: pointer;
+}
+
+.edPdrxe:hover {
+    background-color: var(--token-clrr);
+}
+
+.edPdrxe.active {
+    opacity: .4;
 }
 
 .hJYFVB {
     box-sizing: border-box;
     margin: 0px;
     min-width: 0px;
+}
+
+.swap-tick {
+    color: var(--btn-color);
+    font-size: 20px;
 }
 
 .oJGcu {
