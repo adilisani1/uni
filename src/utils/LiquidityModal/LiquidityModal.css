@@ -239,7 +239,8 @@ button {
 
 .GfTH {
     position: relative;
-    max-width: 420px;
+    /* max-width: 420px; */
+    max-width: 640px;
     width: 100%;
     background: var(--card-bg);
     border-radius: 16px;
@@ -251,9 +252,13 @@ button {
     font-feature-settings: "ss01", "ss02", "cv01", "cv03";
 }
 
-.FuZnx {
+/* .FuZnx {
     padding: 0px;
     max-width: 640px;
+} */
+
+.FuZnx-expanded {
+    width: 640px !important;
 }
 
 .kmmojd {
@@ -502,6 +507,7 @@ a {
 .ereioh {
     display: grid;
     grid-auto-rows: auto;
+    width: 600px;
     row-gap: 16px;
 }
 
@@ -553,7 +559,10 @@ a {
     display: grid;
     grid-auto-flow: column;
     gap: 8px;
+    width: 100%;
 }
+
+
 
 .aQTri {
     border: 1px solid rgba(152, 161, 192, 0.24);
@@ -657,7 +666,7 @@ a {
 
 .dRMJzS {
     opacity: 1;
-    pointer-events: none;
+    /* pointer-events: none; */
 }
 
 .bEIXES {

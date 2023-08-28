@@ -10,6 +10,14 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
 import SwapModal from '../SwapModal/SwapModal';
 import { NavLink } from 'react-router-dom';
 
+import {
+    ReactiveBase,
+    RangeSlider,
+    SelectedFilters,
+    ResultList,
+    ReactiveList,
+} from '@appbaseio/reactivesearch';
+
 const LiquidityModal = (
     {
         swapTokens,
@@ -19,11 +27,82 @@ const LiquidityModal = (
         handleSelect,
         selectedToken,
         currentCurrencyId,
-        setCurrentCurrencyId
+        setCurrentCurrencyId,
+        liquidityTokenOne,
+        liquidityTokenTwo
     }
 ) => {
 
-    console.log(selectedToken)
+    // console.log(selectedToken)
+
+    const [hideButton, setHideButton] = useState(false);
+
+    const [minValue, setMinValue] = useState("350,234")
+
+    const handleButtonHide = () => {
+        setHideButton((prev) => !prev)
+    }
+
+
+    const renderLiquidityButtonContent = (currencyId) => {
+        let currentToken = (currencyId === "liquidityEthId") ? liquidityTokenOne : liquidityTokenTwo;
+        console.log(currentToken)
+        console.log(currencyId)
+        if (currencyId === "liquidityEthId" || (currencyId !== "liquidityEthId" && currentToken?.symbol !== 'Select Token')) {
+            return (
+                <button
+                    id={`open-currency-select-${currencyId}`}
+                    className={`sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP hcUXCv ${currencyId === "liquidityEthId" ? 'open-currency-select-buttona' : 'open-currency-select-buttonb'}`}
+                    onClick={() => handleSwapModal(currencyId)}
+                >
+
+                    <span className="CurrencyInputPanel__Aligner-sc-73f91aaf-6 kkiXeD">
+                        <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowFixed-sc-34df4f97-4 hJYFVB gOYHMo jeYuAz">
+                            <div
+                                className="AssetLogo__LogoContainer-sc-1d2e0d12-3 hOvXWG"
+                                style={{
+                                    height: 24,
+                                    width: 24,
+                                    marginRight: "0.5rem"
+                                }}
+                            >
+                                <div className="AssetLogo__LogoImageWrapper-sc-1d2e0d12-2 iZhrtN">
+                                    <img
+                                        src={currentToken?.imgSrc}
+                                        alt="ETH logo"
+                                        className="AssetLogo__LogoImage-sc-1d2e0d12-1 IJysW"
+                                    />
+                                </div>
+                            </div>
+                            <span className="CurrencyInputPanel__StyledTokenName-sc-73f91aaf-8 reOdD token-symbol-container colorrr">
+                                {currentToken?.symbol}
+                            </span>
+                        </div>
+                        <div className='dropdown-icon'>
+                            <i className="ri-arrow-down-s-line"></i>
+                        </div>
+                    </span>
+
+                </button>
+            );
+        } else {
+            return (
+                <button id={`open-currency-select-${currencyId}`} className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP iGQvak open-currency-select-buttonb" onClick={() => handleSwapModal(currencyId)}
+                >
+                    <span className="CurrencyInputPanel__Aligner-sc-73f91aaf-6 kkiXeD">
+                        <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowFixed-sc-34df4f97-4 hJYFVB gOYHMo jeYuAz">
+                            <span className="CurrencyInputPanel__StyledTokenName-sc-73f91aaf-8 reOdD token-symbol-container">
+                                Select a token
+                            </span>
+                        </div>
+                        <div className='dropdown-icon'>
+                            <i className="ri-arrow-down-s-line"></i>
+                        </div>
+                    </span>
+                </button>
+            )
+        }
+    };
 
     return (
         <div>
@@ -101,76 +180,63 @@ const LiquidityModal = (
                     </div>
                 </div>
                 <div className="styled__ScrollablePage-sc-a3e32a7b-1 kVNjZg">
-                    <main className="AppBody__BodyWrapper-sc-19e20e47-0 AddLiquidity__StyledBodyWrapper-sc-91848848-0 GfTH FuZnx">
-                        <div className="NavigationTabs__Tabs-sc-b4540a6e-0 kmmojd">
-                            <div
-                                className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr"
-                                style={{ padding: "1rem 1rem 0px" }}
+                    <main className={`AppBody_BodyWrapper-sc-19e20e47-0 AddLiquidity_StyledBodyWrapper-sc-91848848-0 GfTH ${hideButton ? "FuZnx-expanded" : "FuZnx"}`}>                        <div className="NavigationTabs__Tabs-sc-b4540a6e-0 kmmojd">
+                        <div
+                            className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr"
+                            style={{ padding: "1rem 1rem 0px" }}
+                        >
+                            <NavLink
+                                flex={1}
+                                className="NavigationTabs__StyledLink-sc-b4540a6e-1 dIAqzj"
+                                to="/pools"
                             >
-                                <NavLink
-                                    flex={1}
-                                    className="NavigationTabs__StyledLink-sc-b4540a6e-1 dIAqzj"
-                                    to="/pools"
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width={24}
+                                    height={24}
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="#98A1C0"
+                                    strokeWidth={2}
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="NavigationTabs__StyledArrowLeft-sc-b4540a6e-3 jpkEeW"
                                 >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width={24}
-                                        height={24}
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="#98A1C0"
-                                        strokeWidth={2}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        className="NavigationTabs__StyledArrowLeft-sc-b4540a6e-3 jpkEeW"
-                                    >
-                                        <line x1={19} y1={12} x2={5} y2={12} />
-                                        <polyline points="12 19 5 12 12 5" />
-                                    </svg>
-                                </NavLink>
-                                <div className="text__TextWrapper-sc-9327e48a-0 blhgKn NavigationTabs__AddRemoveTitleText-sc-b4540a6e-4 cMHLWt css-12uvan3">
-                                    Add Liquidity
-                                </div>
-                                <div className="css-vurnku" style={{ marginRight: "0.5rem" }}>
-                                    <div
-                                        className="sc-bczRLJ Row-sc-34df4f97-0 fgCeff gOYHMo"
-                                        style={{ width: "fit-content", minWidth: "fit-content" }}
-                                    >
-                                        <div className="styled__MediumOnly-sc-a3e32a7b-6 cYrhOe">
-                                            <button className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonText-sc-4f96dcd8-9 hWKjgZ jtnClT">
-                                                <div className="text__TextWrapper-sc-9327e48a-0 cWDToC css-15li2d9">
-                                                    Clear All
-                                                </div>
-                                            </button>
-                                        </div>
+                                    <line x1={19} y1={12} x2={5} y2={12} />
+                                    <polyline points="12 19 5 12 12 5" />
+                                </svg>
+                            </NavLink>
+                            <div className="text__TextWrapper-sc-9327e48a-0 blhgKn NavigationTabs__AddRemoveTitleText-sc-b4540a6e-4 cMHLWt css-12uvan3">
+                                Add Liquidity
+                            </div>
+                            <div className="css-vurnku" style={{ marginRight: "0.5rem" }}>
+                                <div
+                                    className="sc-bczRLJ Row-sc-34df4f97-0 fgCeff gOYHMo"
+                                    style={{ width: "fit-content", minWidth: "fit-content" }}
+                                >
+                                    <div className="styled__MediumOnly-sc-a3e32a7b-6 cYrhOe">
+                                        <button className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonText-sc-4f96dcd8-9 hWKjgZ jtnClT">
+                                            <div className="text__TextWrapper-sc-9327e48a-0 cWDToC css-15li2d9">
+                                                Clear All
+                                            </div>
+                                        </button>
                                     </div>
                                 </div>
-                                <div className="Settings__Menu-sc-6676197f-0 imhdhD">
-                                    <button
-                                        id="open-settings-dialog-button"
-                                        data-testid="open-settings-dialog-button"
-                                        aria-label="Transaction Settings"
-                                        className="MenuButton__Button-sc-773d3ba1-1 kHIRPQ"
-                                    >
-                                        <div className="sc-bczRLJ Row-sc-34df4f97-0 MenuButton__IconContainer-sc-773d3ba1-2 hJYFVB gOYHMo hrkQLI">
-                                            <svg
-                                                width={24}
-                                                height={24}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="MenuButton__Icon-sc-773d3ba1-0 hPGtHV"
-                                            >
-                                                <path
-                                                    d="M20.83 14.6C19.9 14.06 19.33 13.07 19.33 12C19.33 10.93 19.9 9.93999 20.83 9.39999C20.99 9.29999 21.05 9.1 20.95 8.94L19.28 6.06C19.22 5.95 19.11 5.89001 19 5.89001C18.94 5.89001 18.88 5.91 18.83 5.94C18.37 6.2 17.85 6.34 17.33 6.34C16.8 6.34 16.28 6.19999 15.81 5.92999C14.88 5.38999 14.31 4.41 14.31 3.34C14.31 3.15 14.16 3 13.98 3H10.02C9.83999 3 9.69 3.15 9.69 3.34C9.69 4.41 9.12 5.38999 8.19 5.92999C7.72 6.19999 7.20001 6.34 6.67001 6.34C6.15001 6.34 5.63001 6.2 5.17001 5.94C5.01001 5.84 4.81 5.9 4.72 6.06L3.04001 8.94C3.01001 8.99 3 9.05001 3 9.10001C3 9.22001 3.06001 9.32999 3.17001 9.39999C4.10001 9.93999 4.67001 10.92 4.67001 11.99C4.67001 13.07 4.09999 14.06 3.17999 14.6H3.17001C3.01001 14.7 2.94999 14.9 3.04999 15.06L4.72 17.94C4.78 18.05 4.89 18.11 5 18.11C5.06 18.11 5.12001 18.09 5.17001 18.06C6.11001 17.53 7.26 17.53 8.19 18.07C9.11 18.61 9.67999 19.59 9.67999 20.66C9.67999 20.85 9.82999 21 10.02 21H13.98C14.16 21 14.31 20.85 14.31 20.66C14.31 19.59 14.88 18.61 15.81 18.07C16.28 17.8 16.8 17.66 17.33 17.66C17.85 17.66 18.37 17.8 18.83 18.06C18.99 18.16 19.19 18.1 19.28 17.94L20.96 15.06C20.99 15.01 21 14.95 21 14.9C21 14.78 20.94 14.67 20.83 14.6ZM12 15C10.34 15 9 13.66 9 12C9 10.34 10.34 9 12 9C13.66 9 15 10.34 15 12C15 13.66 13.66 15 12 15Z"
-                                                    fill="currentColor"
-                                                />
-                                            </svg>
-                                        </div>
-                                    </button>
-                                </div>
+                            </div>
+                            <div className="Settings__Menu-sc-6676197f-0 imhdhD">
+                                <button
+                                    id="open-settings-dialog-button"
+                                    data-testid="open-settings-dialog-button"
+                                    aria-label="Transaction Settings"
+                                    className="MenuButton__Button-sc-773d3ba1-1 kHIRPQ"
+                                >
+                                    <div className="sc-bczRLJ Row-sc-34df4f97-0 MenuButton__IconContainer-sc-773d3ba1-2 hJYFVB gOYHMo hrkQLI">
+                                        <i className="text-white  ri-settings-3-fill"></i>
+                                    </div>
+                                </button>
                             </div>
                         </div>
+                    </div>
                         <div className="styled__Wrapper-sc-a3e32a7b-0 vSeCC">
                             <div className="styled__ResponsiveTwoColumns-sc-a3e32a7b-5 dXokMm">
                                 <div className="Column__AutoColumn-sc-72c388fb-2 ereGUg">
@@ -182,61 +248,16 @@ const LiquidityModal = (
                                         </div>
                                         <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
                                             <div
-                                                id="add-liquidity-input-tokena"
+                                                id="add-liquidity-input-tokena "
                                                 className="CurrencyInputPanel__InputPanel-sc-73f91aaf-0 bhoFAK styled__CurrencyDropdown-sc-a3e32a7b-3 gkamEi"
                                             >
                                                 <div className="CurrencyInputPanel__Container-sc-73f91aaf-1 epZvyg">
-                                                    <div
+                                                    <div id='liquidityEthId'
                                                         className="CurrencyInputPanel__InputRow-sc-73f91aaf-3 jGjrwu"
                                                         style={{ padding: 0, borderRadius: 8 }}
                                                     >
                                                         {/* ETH BUTTON */}
-
-                                                        <button
-                                                            className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP hcUXCv open-currency-select-button"
-                                                            onClick={() => handleSwapModal('ethId')}>
-
-                                                            <span className="CurrencyInputPanel__Aligner-sc-73f91aaf-6 kkiXeD">
-                                                                <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowFixed-sc-34df4f97-4 hJYFVB gOYHMo jeYuAz">
-                                                                    <div
-                                                                        className="AssetLogo__LogoContainer-sc-1d2e0d12-3 hOvXWG"
-                                                                        style={{
-                                                                            height: 24,
-                                                                            width: 24,
-                                                                            marginRight: "0.5rem"
-                                                                        }}
-                                                                    >
-                                                                        <div className="AssetLogo__LogoImageWrapper-sc-1d2e0d12-2 iZhrtN">
-                                                                            <img
-                                                                                src={selectedToken?.imgSrc}
-                                                                                alt="ETH logo"
-                                                                                className="AssetLogo__LogoImage-sc-1d2e0d12-1 IJysW"
-                                                                            />
-                                                                        </div>
-                                                                    </div>
-                                                                    <span className="CurrencyInputPanel__StyledTokenName-sc-73f91aaf-8 reOdD token-symbol-container colorrr">
-                                                                        {selectedToken?.symbol || 'Select Token'}
-                                                                    </span>
-                                                                </div>
-                                                                <svg
-                                                                    width={12}
-                                                                    height={7}
-                                                                    viewBox="0 0 12 7"
-                                                                    fill="none"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    className="CurrencyInputPanel__StyledDropDown-sc-73f91aaf-7 cDVJfz"
-                                                                >
-                                                                    <path
-                                                                        d="M0.97168 1L6.20532 6L11.439 1"
-                                                                        stroke="#AEAEAE"
-                                                                    />
-                                                                </svg>
-                                                            </span>
-
-                                                        </button>
-
-
-
+                                                        {renderLiquidityButtonContent("liquidityEthId")}
 
 
                                                     </div>
@@ -244,37 +265,17 @@ const LiquidityModal = (
                                             </div>
                                             <div style={{ width: 12 }} />
                                             <div
-                                                id="add-liquidity-input-tokenb"
+                                                id="add-liquidity-input-tokenb "
                                                 className="CurrencyInputPanel__InputPanel-sc-73f91aaf-0 bhoFAK styled__CurrencyDropdown-sc-a3e32a7b-3 gkamEi"
                                             >
                                                 <div className="CurrencyInputPanel__Container-sc-73f91aaf-1 epZvyg">
-                                                    <div
+                                                    <div id="liquidityTokenId"
                                                         className="CurrencyInputPanel__InputRow-sc-73f91aaf-3 jGjrwu"
                                                         style={{ padding: 0, borderRadius: 8 }}
                                                     >
                                                         {/* Select A token BUTTON */}
-                                                        <button className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP iGQvak open-currency-select-button" >
-                                                            <span className="CurrencyInputPanel__Aligner-sc-73f91aaf-6 kkiXeD">
-                                                                <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowFixed-sc-34df4f97-4 hJYFVB gOYHMo jeYuAz">
-                                                                    <span className="CurrencyInputPanel__StyledTokenName-sc-73f91aaf-8 reOdD token-symbol-container">
-                                                                        Select a token
-                                                                    </span>
-                                                                </div>
-                                                                <svg
-                                                                    width={12}
-                                                                    height={7}
-                                                                    viewBox="0 0 12 7"
-                                                                    fill="none"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    className="CurrencyInputPanel__StyledDropDown-sc-73f91aaf-7 cDVJfz"
-                                                                >
-                                                                    <path
-                                                                        d="M0.97168 1L6.20532 6L11.439 1"
-                                                                        stroke="#AEAEAE"
-                                                                    />
-                                                                </svg>
-                                                            </span>
-                                                        </button>
+                                                        {renderLiquidityButtonContent("liquidityTokenId")}
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -291,7 +292,8 @@ const LiquidityModal = (
                                                             className="Column__AutoColumn-sc-72c388fb-2 gXqkQO"
                                                         >
                                                             <div className="text__TextWrapper-sc-9327e48a-0 blhgKn css-1lohbqv">
-                                                                Fee tier
+                                                                0.3% fee tier
+
                                                             </div>
                                                             <div className="text__TextWrapper-sc-9327e48a-0 fbSdRZ css-fczr0v">
                                                                 The % you will earn in fees.
@@ -300,69 +302,72 @@ const LiquidityModal = (
                                                         <button
                                                             width="auto"
                                                             className="sc-bczRLJ cBKomN Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 ixVlAp jAJJVP"
-                                                        >
-                                                            Hide
+                                                            onClick={handleButtonHide}>
+                                                            {hideButton ? "Hide" : 'Edit'}
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <div className="FeeSelector__Select-sc-2b537477-1 dpNkPS">
-                                                    <button className="sc-bczRLJ lbXqUa Button__BaseButton-sc-4f96dcd8-1 Button__ButtonOutlined-sc-4f96dcd8-7 eOoGds aQTri">
-                                                        <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
-                                                            <div className="Column__AutoColumn-sc-72c388fb-2 ezHOjM">
-                                                                <div className="Column__AutoColumn-sc-72c388fb-2 gajsee">
-                                                                    <div className="text__TextWrapper-sc-9327e48a-0 blhgKn FeeOption__ResponsiveText-sc-6b7ccec1-0 fYKQxG css-1lohbqv">
-                                                                        0.01%
-                                                                    </div>
-                                                                    <div className="text__TextWrapper-sc-9327e48a-0 fbSdRZ css-fczr0v">
-                                                                        Best for very stable pairs.
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </button>
-                                                    <button className="sc-bczRLJ lbXqUa Button__BaseButton-sc-4f96dcd8-1 Button__ButtonOutlined-sc-4f96dcd8-7 eOoGds aQTri">
-                                                        <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
-                                                            <div className="Column__AutoColumn-sc-72c388fb-2 ezHOjM">
-                                                                <div className="Column__AutoColumn-sc-72c388fb-2 gajsee">
-                                                                    <div className="text__TextWrapper-sc-9327e48a-0 blhgKn FeeOption__ResponsiveText-sc-6b7ccec1-0 fYKQxG css-1lohbqv">
-                                                                        0.05%
-                                                                    </div>
-                                                                    <div className="text__TextWrapper-sc-9327e48a-0 fbSdRZ css-fczr0v">
-                                                                        Best for stable pairs.
+                                                {hideButton && (
+                                                    <div className="FeeSelector__Select-sc-2b537477-1 dpNkPS">
+                                                        <button className="sc-bczRLJ lbXqUa Button__BaseButton-sc-4f96dcd8-1 Button__ButtonOutlined-sc-4f96dcd8-7 eOoGds aQTri">
+                                                            <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
+                                                                <div className="Column__AutoColumn-sc-72c388fb-2 ezHOjM">
+                                                                    <div className="Column__AutoColumn-sc-72c388fb-2 gajsee">
+                                                                        <div className="text__TextWrapper-sc-9327e48a-0 blhgKn FeeOption__ResponsiveText-sc-6b7ccec1-0 fYKQxG css-1lohbqv">
+                                                                            0.01%
+                                                                        </div>
+                                                                        <div className="text__TextWrapper-sc-9327e48a-0 fbSdRZ css-fczr0v">
+                                                                            Best for very stable pairs.
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </button>
-                                                    <button className="sc-bczRLJ lbXqUa Button__BaseButton-sc-4f96dcd8-1 Button__ButtonOutlined-sc-4f96dcd8-7 eOoGds aQTri">
-                                                        <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
-                                                            <div className="Column__AutoColumn-sc-72c388fb-2 ezHOjM">
-                                                                <div className="Column__AutoColumn-sc-72c388fb-2 gajsee">
-                                                                    <div className="text__TextWrapper-sc-9327e48a-0 blhgKn FeeOption__ResponsiveText-sc-6b7ccec1-0 fYKQxG css-1lohbqv">
-                                                                        0.3%
-                                                                    </div>
-                                                                    <div className="text__TextWrapper-sc-9327e48a-0 fbSdRZ css-fczr0v">
-                                                                        Best for most pairs.
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </button>
-                                                    <button className="sc-bczRLJ lbXqUa Button__BaseButton-sc-4f96dcd8-1 Button__ButtonOutlined-sc-4f96dcd8-7 eOoGds aQTri">
-                                                        <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
-                                                            <div className="Column__AutoColumn-sc-72c388fb-2 ezHOjM">
-                                                                <div className="Column__AutoColumn-sc-72c388fb-2 gajsee">
-                                                                    <div className="text__TextWrapper-sc-9327e48a-0 blhgKn FeeOption__ResponsiveText-sc-6b7ccec1-0 fYKQxG css-1lohbqv">
-                                                                        1%
-                                                                    </div>
-                                                                    <div className="text__TextWrapper-sc-9327e48a-0 fbSdRZ css-fczr0v">
-                                                                        Best for exotic pairs.
+                                                        </button>
+                                                        <button className="sc-bczRLJ lbXqUa Button__BaseButton-sc-4f96dcd8-1 Button__ButtonOutlined-sc-4f96dcd8-7 eOoGds aQTri">
+                                                            <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
+                                                                <div className="Column__AutoColumn-sc-72c388fb-2 ezHOjM">
+                                                                    <div className="Column__AutoColumn-sc-72c388fb-2 gajsee">
+                                                                        <div className="text__TextWrapper-sc-9327e48a-0 blhgKn FeeOption__ResponsiveText-sc-6b7ccec1-0 fYKQxG css-1lohbqv">
+                                                                            0.05%
+                                                                        </div>
+                                                                        <div className="text__TextWrapper-sc-9327e48a-0 fbSdRZ css-fczr0v">
+                                                                            Best for stable pairs.
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </button>
-                                                </div>
+                                                        </button>
+                                                        <button className="sc-bczRLJ lbXqUa Button__BaseButton-sc-4f96dcd8-1 Button__ButtonOutlined-sc-4f96dcd8-7 eOoGds aQTri">
+                                                            <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
+                                                                <div className="Column__AutoColumn-sc-72c388fb-2 ezHOjM">
+                                                                    <div className="Column__AutoColumn-sc-72c388fb-2 gajsee">
+                                                                        <div className="text__TextWrapper-sc-9327e48a-0 blhgKn FeeOption__ResponsiveText-sc-6b7ccec1-0 fYKQxG css-1lohbqv">
+                                                                            0.3%
+                                                                        </div>
+                                                                        <div className="text__TextWrapper-sc-9327e48a-0 fbSdRZ css-fczr0v">
+                                                                            Best for most pairs.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                        <button className="sc-bczRLJ lbXqUa Button__BaseButton-sc-4f96dcd8-1 Button__ButtonOutlined-sc-4f96dcd8-7 eOoGds aQTri">
+                                                            <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
+                                                                <div className="Column__AutoColumn-sc-72c388fb-2 ezHOjM">
+                                                                    <div className="Column__AutoColumn-sc-72c388fb-2 gajsee">
+                                                                        <div className="text__TextWrapper-sc-9327e48a-0 blhgKn FeeOption__ResponsiveText-sc-6b7ccec1-0 fYKQxG css-1lohbqv">
+                                                                            1%
+                                                                        </div>
+                                                                        <div className="text__TextWrapper-sc-9327e48a-0 fbSdRZ css-fczr0v">
+                                                                            Best for exotic pairs.
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                )}
+
                                             </div>
                                         </div>
                                     </div>{" "}
@@ -395,7 +400,8 @@ const LiquidityModal = (
                                                         minLength={1}
                                                         maxLength={79}
                                                         spellCheck="false"
-                                                        defaultValue=""
+                                                        // value="822.26855"
+                                                        value={minValue}
                                                     />
                                                     <div className="text__TextWrapper-sc-9327e48a-0 iJbhaU InputStepCounter__InputTitle-sc-98d37844-5 eRovVv css-2qpl5c">
                                                         per ETH
@@ -472,7 +478,9 @@ const LiquidityModal = (
                                                         minLength={1}
                                                         maxLength={79}
                                                         spellCheck="false"
-                                                        defaultValue=""
+                                                        defaultValue="3268.2111"
+                                                        value="3268.2111"
+
                                                     />
                                                     <div className="text__TextWrapper-sc-9327e48a-0 iJbhaU InputStepCounter__InputTitle-sc-98d37844-5 eRovVv css-2qpl5c">
                                                         per ETH
@@ -769,6 +777,9 @@ const LiquidityModal = (
                     handleSelect={handleSelect}
                     currentCurrencyId={currentCurrencyId}
                     setCurrentCurrencyId={setCurrentCurrencyId}
+                    liquidityTokenOne={liquidityTokenOne}
+                    liquidityTokenTwo={liquidityTokenTwo}
+
                 />
             </div>
 
