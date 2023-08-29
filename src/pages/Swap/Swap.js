@@ -45,8 +45,8 @@ const Swap = (
     };
     const renderButtonContent = (currencyId) => {
         let currentToken = (currencyId === "ethId") ? selectedToken : selectedTokenSecond;
-
         if (currencyId === "ethId" || (currencyId !== "ethId" && currentToken?.symbol !== 'Select Token')) {
+
             return (
                 <button
                     id={`open-currency-select-${currencyId}`}

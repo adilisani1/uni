@@ -33,7 +33,7 @@ const Token = ({ allTableData, updateTime, options }) => {
         setFilteredTableData(sortedData);
     };
 
-    
+
 
     const handleCryptoOpen = () => {
         setIsOpen(!isOpen);

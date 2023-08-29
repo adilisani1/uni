@@ -61,28 +61,28 @@ function App() {
   const handleCart = () => {
     setIsCartVisible(!isCartVisible)
   }
-
-
   //Swaptokensfunc
+
   const handleTokenSelect = (token) => {
+    const newToken = { ...token };
     if (currentCurrencyId === "ethId") {
-      setSelectedToken(token);
+      setSelectedToken(newToken);
     } else {
-      setSelectedTokenSecond(token);
+      setSelectedTokenSecond(newToken);
     }
     setSwapModal(false);
   }
+  //SwapTokensfunc-liquidty0
 
-  //SwapTokensfunc-liquidty
   const handleLiquidityTokenSelect = (token) => {
-    if (currentCurrencyId === "ethId") {
-      setLiquidityTokenOne(token);
+    const newToken = { ...token };
+    if (currentCurrencyId === "liquidityEthId") {
+      setLiquidityTokenOne(newToken);
     } else {
-      setLiquidityTokenTwo(token);
+      setLiquidityTokenTwo(newToken);
     }
     setSwapModal(false);
   }
-
 
 
   const handleSelect = (token, isLiquidity) => {
@@ -133,7 +133,7 @@ function App() {
               selectedTokenSecond={selectedTokenSecond}
               setSelectedTokenSecond={setSelectedTokenSecond}
               // handleTokenSelect={handleTokenSelect}
-              handleSelect={handleSelect}
+              handleSelect={(token, isLiquidity) => handleSelect(token, isLiquidity)}
               currentCurrencyId={currentCurrencyId} />}
               setCurrentCurrencyId={setCurrentCurrencyId} />
 
@@ -152,7 +152,7 @@ function App() {
               setSwapModal={setSwapModal}
               currentCurrencyId={currentCurrencyId}
               setCurrentCurrencyId={setCurrentCurrencyId}
-              handleSelect={handleSelect}
+              handleSelect={(token, isLiquidity) => handleSelect(token, isLiquidity)}
               selectedToken={selectedToken}
               liquidityTokenOne={liquidityTokenOne}
               liquidityTokenTwo={liquidityTokenTwo}

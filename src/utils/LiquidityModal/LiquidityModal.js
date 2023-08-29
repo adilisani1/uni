@@ -36,23 +36,23 @@ const LiquidityModal = (
     // console.log(selectedToken)
 
     const [hideButton, setHideButton] = useState(false);
-
     const [minValue, setMinValue] = useState("350,234")
 
     const handleButtonHide = () => {
         setHideButton((prev) => !prev)
     }
 
-
     const renderLiquidityButtonContent = (currencyId) => {
         let currentToken = (currencyId === "liquidityEthId") ? liquidityTokenOne : liquidityTokenTwo;
-        console.log(currentToken)
-        console.log(currencyId)
+        // console.log(currentToken)
+        // console.log(currencyId)
+        // console.log(liquidityTokenTwo)
+
         if (currencyId === "liquidityEthId" || (currencyId !== "liquidityEthId" && currentToken?.symbol !== 'Select Token')) {
             return (
                 <button
                     id={`open-currency-select-${currencyId}`}
-                    className={`sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP hcUXCv ${currencyId === "liquidityEthId" ? 'open-currency-select-buttona' : 'open-currency-select-buttonb'}`}
+                    className={`sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP hcUXCv ${currencyId === "liquidityEthId" ? 'open-currency-selected-top' : 'open-currency-selected-bottom'}`}
                     onClick={() => handleSwapModal(currencyId)}
                 >
 
@@ -87,7 +87,7 @@ const LiquidityModal = (
             );
         } else {
             return (
-                <button id={`open-currency-select-${currencyId}`} className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP iGQvak open-currency-select-buttonb" onClick={() => handleSwapModal(currencyId)}
+                <button id={`open-currency-select-${currencyId}`} className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP iGQvak open-currency-selected-bottom" onClick={() => handleSwapModal(currencyId)}
                 >
                     <span className="CurrencyInputPanel__Aligner-sc-73f91aaf-6 kkiXeD">
                         <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowFixed-sc-34df4f97-4 hJYFVB gOYHMo jeYuAz">
@@ -252,7 +252,7 @@ const LiquidityModal = (
                                                 className="CurrencyInputPanel__InputPanel-sc-73f91aaf-0 bhoFAK styled__CurrencyDropdown-sc-a3e32a7b-3 gkamEi"
                                             >
                                                 <div className="CurrencyInputPanel__Container-sc-73f91aaf-1 epZvyg">
-                                                    <div id='liquidityEthId'
+                                                    <div id="liquidityEthId"
                                                         className="CurrencyInputPanel__InputRow-sc-73f91aaf-3 jGjrwu"
                                                         style={{ padding: 0, borderRadius: 8 }}
                                                     >
@@ -770,7 +770,8 @@ const LiquidityModal = (
                 </div>
                 <SwapModal
                     swapTokens={swapTokens}
-                    selectedToken={selectedToken}
+                    // selectedToken={selectedToken}
+                    selectedToken={currentCurrencyId === "liquidityEthId" ? liquidityTokenOne : liquidityTokenTwo}
                     swapModal={swapModal}
                     setSwapModal={setSwapModal}
                     isLiquidity={true}

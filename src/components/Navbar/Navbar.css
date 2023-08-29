@@ -142,8 +142,8 @@
     box-sizing: border-box;
     vertical-align: baseline;
     -webkit-tap-highlight-color: transparent;
-    /* display: flex; */
-    display: none;
+    display: flex;
+    /* display: none; */
 }
 
 /* Custom Search Dropdown */
@@ -819,7 +819,7 @@
 
     .center-nav {
         justify-content: center;
-        display: flex;
+        /* display: flex; */
     }
 
     .custom-search-dropdown {
