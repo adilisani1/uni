@@ -1,14 +1,14 @@
 export const slidersData = [
     {
         id: 1,
-        coverImage: "assets/cover-images/img-2.png",
+        coverImage: "/assets/cover-images/img-2.png",
         image: "assets/images/degodsicon.png",
         title: "DeGods",
         sliderContent: [
             {
                 icons: [
-                    "assets/images/logo/unicorn-logo.png",
-                    "assets/images/opensea-grey.png"
+                    "/assets/images/logo/unicorn-logo.png",
+                    "/assets/images/opensea-grey.png"
                 ],
                 names: ['Uniswap', 'OpenSea', 'X2Y2', 'LooksRare'],
                 ethFloor: [29.09, 29.09, 83.14, 63.39],
@@ -18,15 +18,15 @@ export const slidersData = [
     },
     {
         id: 2,
-        coverImage: "assets/cover-images/img-1.png",
-        image: "assets/cover-images/img-1.png",
+        coverImage: "/assets/cover-images/img-1.png",
+        image: "/assets/cover-images/img-1.png",
         title: "Bored Ape Yacht Club",
 
         sliderContent: [
             {
                 icons: [
-                    "assets/images/logo/unicorn-logo.png",
-                    "assets/images/opensea-grey.png"
+                    "/assets/images/logo/unicorn-logo.png",
+                    "/assets/images/opensea-grey.png"
                 ],
                 names: ['Uniswap', 'OpenSea', 'X2Y2', 'LooksRare'],
                 ethFloor: [29.09, 29.09, 83.14, 63.39],
@@ -53,7 +53,7 @@ export const allTableDataETH = [
     {
         id: 2,
         title: "Bored Ape Yacht Club",
-        image: "assets/images/bored.png",
+        image: "/assets/images/bored.png",
         floor: 26.5,
         floorChange: 9,
         volume: 2165,
@@ -65,7 +65,7 @@ export const allTableDataETH = [
     {
         id: 3,
         title: "Mutant Ape Yacht Club",
-        image: "assets/images/mount.png",
+        image: "/assets/images/mount.png",
         floor: 4.65,
         floorChange: 8,
         volume: 891,
@@ -94,7 +94,7 @@ export const allTableDataUSD = [
     {
         id: 2,
         title: "Bored Ape Yacht Club",
-        image: "assets/images/bored.png",
+        image: "/assets/images/bored.png",
         floor: 44280,
         floorChange: 9,
         volume: 3617056,
@@ -105,7 +105,7 @@ export const allTableDataUSD = [
     {
         id: 3,
         title: "Mutant Ape Yacht Club",
-        image: "assets/images/mount.png",
+        image: "/assets/images/mount.png",
         floor: 7280,
         floorChange: 8,
         volume: 1417056,

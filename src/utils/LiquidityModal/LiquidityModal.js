@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './LiquidityModal.css';
 // import { AreaChart, Area, ResponsiveContainer } from 'recharts';
-import { Line } from 'react-chartjs-2';
-import RangeSelector, {
-    Margin, Scale, TickInterval, MinorTickInterval, Chart, Series, ValueAxis, Behavior
-} from 'devextreme-react/range-selector';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+// import { Line } from 'react-chartjs-2';
+// import RangeSelector, {
+//     Margin, Scale, TickInterval, MinorTickInterval, Chart, Series, ValueAxis, Behavior
+// } from 'devextreme-react/range-selector';
+// import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 // import { dataSource } from '../../service/charts';
 import SwapModal from '../SwapModal/SwapModal';
 import { NavLink } from 'react-router-dom';
@@ -16,6 +16,8 @@ import {
     SelectedFilters,
     ResultList,
     ReactiveList,
+    RangeInput,
+    ReactiveChart
 } from '@appbaseio/reactivesearch';
 
 const LiquidityModal = (
@@ -645,10 +647,58 @@ const LiquidityModal = (
 
                                         </div>
                                     </div>
+                                    <ReactiveBase
+                                        app="good-books-ds"
+                                        url="https://a03a1cb71321:75b6603d-9456-4a5a-af6b-a487b309eb61@appbase-demo-ansible-abxiydt-arc.searchbase.io"
+                                    >
+                                        <RangeSlider
+                                            dataField="ratings_count"
+                                            componentId="BookSensor"
+                                            range={{
+                                                start: 3000,
+                                                end: 50000,
+                                            }}
+                                            rangeLabels={{
+                                                start: '3K',
+                                                end: '50K',
+                                            }}
 
+                                        />
+                                        <RangeInput
+                                            componentId="RangeInputSensor"
+                                            dataField="rating"
+                                            title="Ratings"
+                                            range={{
+                                                "start": 3000,
+                                                "end": 50000
+                                            }}
+                                            defaultValue={{
+                                                "start": 4000,
+                                                "end": 10000
+                                            }}
+
+                                            showFilter={true}
+                                            stepValue={1}
+                                            showHistogram={true}
+                                            interval={2}
+                                            react={{
+                                                and: ["CategoryFilter", "SearchFilter"]
+                                            }}
+                                            URLParams={false}
+                                        />
+
+                                        <ReactiveList
+                                            componentId="SearchResult"
+                                            dataField="original_title"
+                                            from={0}
+                                            size={3}
+                                            className="result-list-container"
+                                            pagination
+                                        />
+
+                                    </ReactiveBase>
 
                                     {/* ChartEND */}
-
 
                                 </div>
                                 <div>
