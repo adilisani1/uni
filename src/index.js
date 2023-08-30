@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
+// import '@appbaseio/reactivesearch/lib/styles.css';
 import 'devextreme/dist/css/dx.light.css';
 import './index.css';
 import App from './App';

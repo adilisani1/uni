@@ -992,9 +992,11 @@ a {
     visibility: visible;
 }
 
+
+
 .CeCJo {
     position: relative;
-    height: 84px;
+    height: 100px;
 }
 
 .iVpcBV {
@@ -1004,8 +1006,8 @@ a {
     -webkit-box-pack: justify;
     justify-content: space-between;
     gap: 8px;
-    height: 84px;
-    background: rgb(255, 255, 255);
+    height: 100px;
+    background: var(--card-bg);
     will-change: transform;
     transition: transform 250ms ease 0s;
 }
@@ -1050,8 +1052,10 @@ a {
     font-weight: 600 !important;
 }
 
-.kivXvb {
-    color: var(--color-white);
+.kivXvb {}
+
+.nft-card-text {
+    color: var(--model-bg-text);
 }
 
 .vdwqu {
@@ -1116,7 +1120,7 @@ a {
     line-height: 16px;
     visibility: hidden;
     cursor: pointer;
-    font-weight: 600 !important;
+    font-weight: 535 !important;
 }
 
 .cpLvLV::before {
@@ -1128,6 +1132,12 @@ a {
     width: 100%;
     height: 100%;
     content: "";
+}
+
+.jtXgVB:hover .cpLvLV {
+    visibility: visible;
+    bottom: 0;
+    transition: bottom 250ms ease, visibility 250ms ease;
 }
 
 .jtXgVB::after {

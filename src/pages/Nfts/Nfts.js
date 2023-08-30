@@ -3,12 +3,13 @@ import './Nfts.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { allTableDataETH, allTableDataUSD, slidersData } from '../../service/nfts';
+// import { allTableDataETH, allTableDataUSD, slidersData } from '../../service/nfts';
 import Cart from '../../components/Cart/Cart';
 import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const Nfts = ({ isCartVisible, setIsCartVisible }) => {
-
+const Nfts = ({ isCartVisible, setIsCartVisible, allTableDataETH, allTableDataUSD }) => {
+    const navigate = useNavigate();
     //Slider
     const settings = {
         dots: false,
@@ -376,7 +377,7 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
                                 className="_1mor7vea rgw6ez4pd rgw6ez16v rgw6ez7bj rgw6ez7a7"
                             >
 
-                                <thead className="rgw6ezrd rgw6ez50p rgw6ez7jr rgw6ez7ar">
+                                <thead className="ntfs-t-head   rgw6ez7ar">
                                     <tr role="row">
                                         <th
                                             className="sc-iwpsza-3 gwMpjb _1mor7ved rgw6ezcp rgw6ezav rgw6eze7 rgw6ez4ep rgw6ez2ov rgw6ez28d"
@@ -410,7 +411,6 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
                                             title="Toggle SortBy"
                                             style={{ textAlign: "right", paddingLeft: 0 }}
                                             onClick={() => handleColumnHeaderClick('floorChange')}
-
 
                                         >
                                             {sortKey === 'floorChange' && (
@@ -486,10 +486,14 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
                                 </thead>
 
 
+
                                 <tbody role="rowgroup">
+
                                     {tableData.map((item, index) => (
+
                                         <tr
                                             role="row"
+                                            onClick={() => navigate(`/nfts/${item.id}`)}
                                             data-testid="nft-trending-collection"
                                             className="sc-iwpsza-1 dbIfpX"
                                         >
@@ -538,8 +542,6 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
                                                         {selectedCurrencyTab === 'USD' ? `$${item.floor.toLocaleString()}` : `${item.floor} ETH`}
                                                     </div>
                                                 </div>
-
-
                                             </td>
                                             <td
                                                 className="_1mor7vef rgw6ezcp rgw6ezb1 rgw6ezed rgw6ez2o7 rgw6ez27p rgw6ez1jp rgw6ez467 rgw6ez491"
@@ -615,6 +617,7 @@ const Nfts = ({ isCartVisible, setIsCartVisible }) => {
                                             </td>
 
                                         </tr>
+
 
                                     ))}
 

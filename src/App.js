@@ -27,6 +27,7 @@ import { swapTokens } from "./service/swapTokens";
 
 
 import SettingModal from "./utils/SettingModal/SettingModal";
+import { allTableDataETH, allTableDataUSD } from "./service/nfts";
 
 function App() {
 
@@ -139,9 +140,9 @@ function App() {
 
             <Route path="/tokens" element={<Token allTableData={allTableData} updateTime={updateTime} options={options} />} />
             <Route path="/pools" element={<Pools setIsModalOpen={setIsModalOpen} />} />
-            <Route path="/nfts" element={<Nfts isCartVisible={isCartVisible} setIsCartVisible={setIsCartVisible} handleCart={handleCart} />} />
+            <Route path="/nfts" element={<Nfts isCartVisible={isCartVisible} setIsCartVisible={setIsCartVisible} handleCart={handleCart} allTableDataETH={allTableDataETH} allTableDataUSD={allTableDataUSD} />} />
             <Route path="/tokens/:id" element={<TokenDetails allTableData={allTableData} chartData={chartData} />} />
-            <Route path="/nfts/:id" element={<NftsDetails />} />
+            <Route path="/nfts/:id" element={<NftsDetails allTableDataETH={allTableDataETH} allTableDataUSD={allTableDataUSD} />} />
             <Route path="/vote" element={<Vote />} />
             <Route path="/privacy" element={<PrivacyModal />} />
             <Route path="/liquidity" element={<LiquidityModal

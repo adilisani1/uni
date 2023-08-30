@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './LiquidityModal.css';
 // import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 // import { Line } from 'react-chartjs-2';
@@ -10,6 +10,7 @@ import './LiquidityModal.css';
 import SwapModal from '../SwapModal/SwapModal';
 import { NavLink } from 'react-router-dom';
 
+
 import {
     ReactiveBase,
     RangeSlider,
@@ -17,8 +18,11 @@ import {
     ResultList,
     ReactiveList,
     RangeInput,
+
+    SingleRange,
     ReactiveChart
 } from '@appbaseio/reactivesearch';
+import axios from 'axios';
 
 const LiquidityModal = (
     {
@@ -34,6 +38,22 @@ const LiquidityModal = (
         liquidityTokenTwo
     }
 ) => {
+
+    const [data, setData] = useState([]);
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('https://mocki.io/v1/5aee862d-4403-46a6-8b57-948563486117');
+            setData(response.data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
 
     // console.log(selectedToken)
 
@@ -647,57 +667,66 @@ const LiquidityModal = (
 
                                         </div>
                                     </div>
-                                    <ReactiveBase
-                                        app="good-books-ds"
-                                        url="https://a03a1cb71321:75b6603d-9456-4a5a-af6b-a487b309eb61@appbase-demo-ansible-abxiydt-arc.searchbase.io"
-                                    >
-                                        <RangeSlider
-                                            dataField="ratings_count"
-                                            componentId="BookSensor"
-                                            range={{
-                                                start: 3000,
-                                                end: 50000,
-                                            }}
-                                            rangeLabels={{
-                                                start: '3K',
-                                                end: '50K',
-                                            }}
+                                    <div>
+                                        <ReactiveBase
+                                            app="good-books-ds"
+                                            url="https://a03a1cb71321:75b6603d-9456-4a5a-af6b-a487b309eb61@appbase-demo-ansible-abxiydt-arc.searchbase.io"
+                                        >
+                                            <ReactiveChart
+                                                // pre-built chart type
+                                                chartType="histogram"
+                                                // unique id for component
+                                                componentId="language"
+                                                // Database field to connect
+                                                dataField="original_title"
 
-                                        />
-                                        <RangeInput
-                                            componentId="RangeInputSensor"
-                                            dataField="rating"
-                                            title="Ratings"
-                                            range={{
-                                                "start": 3000,
-                                                "end": 50000
-                                            }}
-                                            defaultValue={{
-                                                "start": 4000,
-                                                "end": 10000
-                                            }}
+                                                type="range"
+                                                // Min and max range constraints
+                                                range={{
+                                                    start: 1900,
+                                                    end: 2010,
+                                                }}
+                                                // Range interval
+                                                interval={2}
+                                            />
+                                            <RangeSlider
+                                                dataField="ratings_count"
+                                                data={[
+                                                    { rating: 3.8, ratings_count: 8000, original_title: 'Cheap' },
+                                                    { rating: 4.5, ratings_count: 12000, original_title: 'Moderate' },
+                                                    { rating: 4.2, ratings_count: 15000, original_title: 'Pricey' },
+                                                    { rating: 4, ratings_count: 9500, original_title: 'First Date' },
+                                                ]}
+                                                componentId="BookSensor"
+                                                range={{
+                                                    start: 3000,
+                                                    end: 50000,
+                                                }}
+                                                rangeLabels={{
+                                                    start: '3K',
+                                                    end: '50K',
+                                                }}
+                                                showHistogram={true}
 
-                                            showFilter={true}
-                                            stepValue={1}
-                                            showHistogram={true}
-                                            interval={2}
-                                            react={{
-                                                and: ["CategoryFilter", "SearchFilter"]
-                                            }}
-                                            URLParams={false}
-                                        />
+                                            />
 
-                                        <ReactiveList
-                                            componentId="SearchResult"
-                                            dataField="original_title"
-                                            from={0}
-                                            size={3}
-                                            className="result-list-container"
-                                            pagination
-                                        />
-
-                                    </ReactiveBase>
-
+                                            <ReactiveList
+                                                componentId="SearchResult"
+                                                dataField="original_title"
+                                                from={0}
+                                                size={3}
+                                                className="result-list-container"
+                                                pagination
+                                                render={({ data }) => (
+                                                    <ul>
+                                                        {data.map(item => (
+                                                            <li key={item._id}>{item.label}</li>
+                                                        ))}
+                                                    </ul>
+                                                )}
+                                            />
+                                        </ReactiveBase>
+                                    </div>
                                     {/* ChartEND */}
 
                                 </div>
@@ -836,7 +865,7 @@ const LiquidityModal = (
 
 
 
-        </div>
+        </div >
 
     )
 }

@@ -14,13 +14,13 @@
     right: 8px;
 }
 
-.sun-icon {
+
+.moon,
+.sun {
+    font-size: 20px;
     color: var(--color-white);
 }
 
-.moon-icon {
-    color: var(--color-white);
-}
 
 .cnmVKz::-webkit-scrollbar {
     background: transparent;
@@ -432,6 +432,7 @@ a {
 
 .kHFzEX {
     flex-wrap: wrap;
+    cursor: pointer;
 }
 
 .kMuqSe {
@@ -568,11 +569,19 @@ button {
     padding: 4px;
     -webkit-box-align: center;
     align-items: center;
+    justify-content: center;
     -webkit-box-pack: start;
 }
 
 
+.xyz12 {
+    width: 100%;
+    display: flex;
+    padding: 4px;
+    -webkit-box-align: center;
+    align-self: flex-start;
 
+}
 
 
 

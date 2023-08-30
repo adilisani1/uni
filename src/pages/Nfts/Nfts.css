@@ -436,31 +436,40 @@
     width: 100%;
 }
 
-.rgw6ez7jr,
-.rgw6ez7js:hover,
-.rgw6ez7jt:active,
-.rgw6ez7ju:before {
-    border-width: 1px;
+.custom-navlink {
+    display: flex;
+    justify-content: space-around;
+    text-decoration: none;
+    color: inherit;
+    /* Apply other styles as needed */
 }
 
-.rgw6ez7ar,
-.rgw6ez7as:hover,
-.rgw6ez7at:active,
-.rgw6ez7au:before {
+.ntfs-t-head,
+.ntfs-t-head:hover,
+.ntfs-t-head:active,
+.ntfs-t-head:before {
     border-bottom-style: solid;
 }
 
-.rgw6ez50p,
-.rgw6ez50q:hover,
-.rgw6ez50r:active,
-.rgw6ez50s:focus,
-.rgw6ez50t:before {
+
+.ntfs-t-head {
+    margin-right: 12px;
+}
+
+.ntfs-t-head,
+.ntfs-t-head:hover,
+.ntfs-t-head:active,
+.ntfs-t-head:focus,
+.ntfs-t-head:before {
     /* border-color: var(--rgw6eza); */
     border-color: #f5f6fc;
 }
 
-.rgw6ezrd {
-    margin-right: 12px;
+.ntfs-t-head,
+.ntfs-t-head:hover,
+.ntfs-t-head:active,
+.ntfs-t-head:before {
+    border-width: 1px;
 }
 
 element.style {
@@ -584,6 +593,13 @@ thead {
     /* border-style: none !important; */
     border-style: inherit;
     border-bottom: gray;
+}
+
+NavLink {
+    display: block;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
 }
 
 .dbIfpX {
