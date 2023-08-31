@@ -24,7 +24,6 @@ const Home = () => {
                                     <div className='gear'>
                                         <button className='gear-btn'>
                                             <div>
-                                                {/* <i className="fa-solid fa-gear"></i> */}
                                                 <i class="ri-settings-3-fill gear-icon"></i>
                                             </div>
                                         </button>

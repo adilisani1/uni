@@ -18,6 +18,8 @@ import "./App.css";
 import useLocalStorage from "use-local-storage";
 import TokenDetails from "./components/TokenDetails/TokenDetails";
 
+
+
 //Navbar Data
 import { optionsLabel, searchOptions } from "./service/navbar";
 //Tokens Data
@@ -53,6 +55,7 @@ function App() {
   const [liquidityTokenTwo, setLiquidityTokenTwo] = useState({ symbol: 'Select Token' });
 
   const [currency, setCurrency] = useState('ETH');
+  const [showCartBag, setShowCartBag] = useState(false); // Add this state
 
   //Swap Modal Func
   const handleSwapModal = (currencyId) => {
@@ -117,7 +120,7 @@ function App() {
           setIsModalOpen={setIsModalOpen}
           privacyModal={privacyModal}
           setPrivacyModal={setPrivacyModal}
-          handleCart={handleCart}
+          handleCart={handleCart} showCartBag={showCartBag}
 
         />
         <div>

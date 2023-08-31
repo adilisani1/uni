@@ -418,7 +418,8 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                             </button>
                             {
                                 (location.pathname === '/nfts' || location.pathname === '/nfts/:id')
-                                    ? <Nftbag handleCart={handleCart} />
+                                    ?
+                                    <Nftbag handleCart={handleCart} />
                                     : <CustomDropdown
                                         selectedOption={selectedOption}
                                         toggleDropdown={toggleDropdown}
