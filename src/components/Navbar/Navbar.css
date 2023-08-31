@@ -136,15 +136,17 @@
 /* Center Nav Section */
 .center-nav {
     flex: 1 1;
-    /* height: 48px; */
+    flex-shrink: 1px;
+    height: 48px;
     align-self: center;
     align-items: flex-start;
     box-sizing: border-box;
     vertical-align: baseline;
     -webkit-tap-highlight-color: transparent;
-    display: flex;
-    /* display: none; */
+    /* display: flex; */
+    display: none;
 }
+
 
 /* Custom Search Dropdown */
 .custom-search-dropdown {
@@ -209,6 +211,10 @@
     mask-composite: exclude;
     pointer-events: none;
     position: absolute;
+
+}
+
+.custom-search-inside::before {
     opacity: 0;
     transition: opacity .25s ease-out;
 }
@@ -542,6 +548,28 @@
     width: 100%;
 }
 
+.right-nav .custom-search-dropdown {
+    position: fixed;
+    right: 0;
+    overflow: hidden;
+    z-index: 3;
+    display: flex;
+    max-height: calc(100vh - 40px);
+    top: 0;
+    width: auto;
+    flex-direction: column;
+}
+
+.right-nav .custom-search-inside {
+    padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    gap: 12px;
+    display: flex;
+    flex-direction: row;
+}
+
 /* New dropdown */
 /* CustomDropdown.css */
 .custom-dropdown {
@@ -644,6 +672,24 @@
 
 .searchable-select .options li:hover {
     background-color: #f0f0f0;
+}
+
+.search-button {
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background: transparent;
+    user-select: none;
+    border: none;
+    text-align: center;
+    width: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    height: 40px;
+    z-index: 1;
+    transform: translateY(1px) translateX(3px);
+
 }
 
 .right-nav .connect {
@@ -766,6 +812,7 @@
 /* Media QUery */
 @media screen and (min-width: 640px) {
 
+    /* .center-nav */
     .custom-search-dropdown {
         width: auto;
     }
@@ -775,7 +822,6 @@
     }
 
     .dropdown-menu .icons-wrapper {
-
         justify-content: flex-start;
     }
 
@@ -783,17 +829,21 @@
         height: auto;
         width: 360px;
     }
+
+    .right-nav .custom-search-dropdown {
+        position: absolute;
+        width: auto;
+    }
+
 }
 
 @media screen and (max-width: 768px) {
     .mobile-nav {
         display: flex;
     }
-
 }
 
 @media screen and (min-width: 768px) {
-
     .left-nav .nav-list {
         display: flex;
     }
@@ -812,17 +862,12 @@
         width: 330px;
     }
 
-
 }
 
 @media screen and (min-width: 1024px) {
 
     .center-nav {
         justify-content: center;
-        /* display: flex; */
-    }
-
-    .custom-search-dropdown {
         display: flex;
     }
 

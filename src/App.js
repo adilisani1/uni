@@ -52,6 +52,8 @@ function App() {
   const [liquidityTokenOne, setLiquidityTokenOne] = useState(swapTokens[0]);
   const [liquidityTokenTwo, setLiquidityTokenTwo] = useState({ symbol: 'Select Token' });
 
+  const [currency, setCurrency] = useState('ETH');
+
   //Swap Modal Func
   const handleSwapModal = (currencyId) => {
     setSwapModal(true);
@@ -140,9 +142,17 @@ function App() {
 
             <Route path="/tokens" element={<Token allTableData={allTableData} updateTime={updateTime} options={options} />} />
             <Route path="/pools" element={<Pools setIsModalOpen={setIsModalOpen} />} />
-            <Route path="/nfts" element={<Nfts isCartVisible={isCartVisible} setIsCartVisible={setIsCartVisible} handleCart={handleCart} allTableDataETH={allTableDataETH} allTableDataUSD={allTableDataUSD} />} />
+            <Route path="/nfts" element={<Nfts
+              isCartVisible={isCartVisible}
+              setIsCartVisible={setIsCartVisible}
+              handleCart={handleCart}
+              allTableDataETH={allTableDataETH}
+              allTableDataUSD={allTableDataUSD}
+              currency={currency}
+              setCurrency={setCurrency}
+            />} />
             <Route path="/tokens/:id" element={<TokenDetails allTableData={allTableData} chartData={chartData} />} />
-            <Route path="/nfts/:id" element={<NftsDetails allTableDataETH={allTableDataETH} allTableDataUSD={allTableDataUSD} />} />
+            <Route path="/nfts/:id" element={<NftsDetails allTableDataETH={allTableDataETH} allTableDataUSD={allTableDataUSD} currency={currency} setCurrency={setCurrency} />} />
             <Route path="/vote" element={<Vote />} />
             <Route path="/privacy" element={<PrivacyModal />} />
             <Route path="/liquidity" element={<LiquidityModal

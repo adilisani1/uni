@@ -8,7 +8,7 @@ import Cart from '../../components/Cart/Cart';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-const Nfts = ({ isCartVisible, setIsCartVisible, allTableDataETH, allTableDataUSD }) => {
+const Nfts = ({ isCartVisible, setIsCartVisible, allTableDataETH, allTableDataUSD, currency, setCurrency }) => {
     const navigate = useNavigate();
     //Slider
     const settings = {
@@ -34,7 +34,6 @@ const Nfts = ({ isCartVisible, setIsCartVisible, allTableDataETH, allTableDataUS
     const currencyTabs = ["USD", "ETH"];
 
     // Sorting header keys
-
     const [selectedTab, setSelectedTab] = useState('All');
     const [selectedCurrencyTab, setSelectedCurrencyTab] = useState('USD');
     const [tableData, setTableData] = useState([]);
@@ -102,10 +101,13 @@ const Nfts = ({ isCartVisible, setIsCartVisible, allTableDataETH, allTableDataUS
         return sortedData;
     }
 
+    // const handleCurrencyTabClick = (currencyTab) => {
+    //     setSelectedCurrencyTab(currencyTab);
+    // }
     const handleCurrencyTabClick = (currencyTab) => {
         setSelectedCurrencyTab(currencyTab);
+        setCurrency(currencyTab);
     }
-
     useEffect(() => {
         handleTableClick(selectedTab);
     }, [selectedTab, selectedCurrencyTab]);
@@ -493,7 +495,7 @@ const Nfts = ({ isCartVisible, setIsCartVisible, allTableDataETH, allTableDataUS
 
                                         <tr
                                             role="row"
-                                            onClick={() => navigate(`/nfts/${item.id}`)}
+                                            onClick={() => navigate(`/nfts/${item.id}?currency=${selectedCurrencyTab}`)}
                                             data-testid="nft-trending-collection"
                                             className="sc-iwpsza-1 dbIfpX"
                                         >

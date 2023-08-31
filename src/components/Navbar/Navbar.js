@@ -293,6 +293,129 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
 
                         {/* right________Nav */}
                         <div className="right-nav">
+                            <div className="center-nav">
+                                <div className="custom-search-dropdown" ref={ref}>
+                                    <div className='custom-search-inside inside-search'>
+                                        {/* <img className='search-icon' style={{ width: "20px" }} src='/images/search.svg' /> */}
+                                        <i className="search-icon ri-search-line"></i>
+
+                                        <input
+                                            className=''
+                                            type='search'
+                                            placeholder='Search tokens and NFT collections'
+                                            value={searchTerm}
+                                            onChange={handleSearchChange}
+                                            onClick={() => setSearchOpen(true)}
+                                        />
+                                        <div className='slash' style={{ display: isSearchOpen ? 'none' : 'block' }}>/</div>
+                                    </div>
+
+                                    {isSearchOpen && (
+
+                                        <ul className="search-options-box">
+                                            <div className='options-box'>
+                                                <div className='so'>
+                                                    <div className=''>
+
+                                                        {filteredOptions.map((option, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {option.price && !filteredOptions[index - 1]?.price && (
+
+                                                                    <div className='popular-tokens'>
+                                                                        <div className="popular-title">
+                                                                            <img className='rotate-arrow' src='assets/images/trends-arrow.png' />
+
+                                                                            <div>Popular Tokens</div>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                                {/* title for popular NFTs */}
+                                                                {option.floor && !searchOptions[index - 1]?.floor && (
+                                                                    <div className='popular-tokens'>
+                                                                        <div className="popular-title">
+                                                                            <img className='rotate-arrow' src='assets/images/trends-arrow.png' />
+                                                                            <div>Popular NFTs</div>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                                <React.Fragment>
+                                                                    <div className='popular-tokens-item'>
+                                                                        <a
+                                                                            href='/tokens'
+                                                                            className='tokens-options' onClick={() => {
+                                                                                handleOptionClick(option);
+                                                                                setSearchTerm(option.label);
+                                                                                setSearchOpen(false);
+                                                                            }}>
+                                                                            <div className='left-item' >
+                                                                                <div>
+                                                                                    <div className='img-div'>
+                                                                                        <img src={option.imgSrc} alt={option.label} />
+                                                                                    </div>
+                                                                                    <div className='dCJIvZ'></div>
+                                                                                </div>
+                                                                                <div className='token-name'>
+                                                                                    <div className='token-name-value'>
+                                                                                        <span>{option.label}</span>
+                                                                                    </div>
+                                                                                    <div className='symbol'>
+                                                                                        {option.symbol && <span>{option.symbol}</span>}
+                                                                                        <div className=''>
+                                                                                            {option.items && <span> {option.items.toLocaleString()} items</span>}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className='right-item'>
+                                                                                {/* data for Tokens */}
+                                                                                {option.price && (
+                                                                                    <React.Fragment>
+                                                                                        <div>
+                                                                                            <div className='price-item'>
+                                                                                                <span className='price-text'>${option.price.toFixed(2)}</span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div className='percentage'>
+
+                                                                                            <span>{determineTrendIcon(option.price, option.oldPrice)}</span>
+                                                                                            <span className='percentage-text' style={{ color: option.price > option.oldPrice ? "rgb(118, 209, 145)" : "rgb(252, 83, 83)" }}>
+                                                                                                <span>
+                                                                                                    {calculatePercentChange(option.price, option.oldPrice).toFixed(2)}%
+                                                                                                </span>
+                                                                                            </span>
+                                                                                        </div>
+
+                                                                                    </React.Fragment>
+                                                                                )}
+                                                                                {/* data for Floor */}
+                                                                                {option.floor && (
+                                                                                    <React.Fragment>
+                                                                                        <div className='floor-rate'>
+                                                                                            <span>{option.floor.toFixed(2)} ETH</span>
+                                                                                        </div>
+                                                                                        <span className='floor-text'>
+                                                                                            <p>Floor</p>
+                                                                                        </span>
+                                                                                    </React.Fragment>
+                                                                                )}
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </React.Fragment>
+
+                                                            </React.Fragment>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </ul>
+                                    )}
+                                </div>
+                            </div>
+                            <button className='search-button'>
+                                <i className="search-icon ri-search-line"></i>
+                            </button>
                             {
                                 (location.pathname === '/nfts' || location.pathname === '/nfts/:id')
                                     ? <Nftbag handleCart={handleCart} />

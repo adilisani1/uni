@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './NftsDetails.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 
-const NftsDetails = ({ allTableDataETH, allTableDataUSD }) => {
+const NftsDetails = ({ allTableDataETH, allTableDataUSD, currency, setCurrency }) => {
 
     const [isHovered, setIsHovered] = useState(false);
 
@@ -25,24 +25,27 @@ const NftsDetails = ({ allTableDataETH, allTableDataUSD }) => {
 
     const { id } = useParams();
     const [data, setData] = useState(null);
-
-    const [currency, setCurrency] = useState('ETH');
+    const location = useLocation();
 
     useEffect(() => {
-        const nftsDetails = () => {
-            let dataset = currency === 'ETH' ? allTableDataETH : allTableDataUSD;
-            const singleNfts = dataset.filter((item) => item.id === Number(id));
+        const params = new URLSearchParams(location.search);
+        const currencyFromURL = params.get('currency');
 
-            if (singleNfts.length > 0) {
-                setData(singleNfts[0]);
-            } else {
-                console.log('No NFT found with the given ID');
-            }
-        };
+        // Fallback to 'USD' if no currency parameter is found
+        const selectedCurrency = currencyFromURL || 'USD';
 
-        nftsDetails();
-    }, [id, allTableDataETH, allTableDataUSD, currency]);
+        setCurrency(selectedCurrency);
 
+        const dataset = selectedCurrency === 'ETH' ? allTableDataETH : allTableDataUSD;
+        const singleNfts = dataset.filter((item) => item.id === Number(id));
+
+        if (singleNfts) {
+            setData(singleNfts);
+            // console.log('Selected Nfts: ', singleNfts)
+        } else {
+            console.log('No NFT found with the given ID');
+        }
+    }, [id, allTableDataETH, allTableDataUSD, location]);
 
     return (
         <div>
@@ -83,239 +86,234 @@ const NftsDetails = ({ allTableDataETH, allTableDataUSD }) => {
                         </button>
                     </div>
                 </div>
+
+
+
                 <div
                     className="sc-1kykgp9-0 sc-vlvksq-1 iCxowP jTBxFw"
                     style={{ width: "calc(100% - 0px)" }}
                 >
-                    <div className="sc-vlvksq-3 eEURgl">
-                        <div
-                            src="https://i.seadn.io/gae/i5dYZRkVCUK97bfprQ3WXyrT9BnLSZtVKGJlKQ919uaUB0sxbngVCioaiyu9r6snqfi2aaTyIvv6DHm4m2R3y7hMajbsv14pSZK8mhs?w=1517"
-                            className="sc-vlvksq-4 iqUAEN"
-                        />
-                    </div>
-                    <div className="sc-1kykgp9-0 sc-vlvksq-5 iCxowP jCWKjc">
-                        <div className="_1klryar0 rgw6ez44v rgw6ezvp rgw6ez47p rgw6ez491 rgw6ez477 rgw6ez16v">
-                            <img
-                                className="_1klryar0 rgw6ez4o1 rgw6ez7cj rgw6ez48p jinxmn3 rgw6ez347 rgw6ez7ab rgw6ez7k7 rgw6ez517 rgw6ez7cj rgw6ez48p"
-                                src="https://i.seadn.io/gae/Ju9CkWtV-1Okvf45wo8UctR-M9He2PjILP0oOvxE89AyiPPGtrR3gysu1Zgy0hjd2xKIgjJJtWIc0ybj4Vd7wv8t3pxDGHoJBzDB?w=500&auto=format"
-                            />
-                            <div className="_1klryar0 jinxmn1 rgw6ezwj rgw6ezye rgw6ezf7 rgw6ezhe">
-                                <div className="_1klryar0 rgw6ez44v rgw6ez471 rgw6ez3j rgw6ez48j">
-                                    <div className="_1klryar0 rgw6ez44v rgw6ez471 rgw6ez3j rgw6ez1m7">
-                                        <div className="sc-1o7m3gg-1 hTeDjw rgw6ezd1 rgw6ezbj rgw6ezep">
-                                            Bored Ape Yacht Club
-                                        </div>
-                                        <img style={{ width: "25px" }} src='/assets/images/verified-icon.png' />
-                                        <div className="_1klryar0 rgw6ez44j rgw6ez44w rgw6ez471 rgw6ez3j rgw6ez47p rgw6ezn1 rgw6ez3t7 rgw6ez1a1">
-                                            <a
-                                                className="_1klryar0 _1klryar9 rgw6ez44v rgw6ez477 rgw6ez1dv rgw6ez47p"
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                href="https://discord.gg/3P5K3dzgdB"
-                                            >
-                                                <i style={{ fontSize: "22px" }} className="ri-discord-fill"></i>
+                    {data?.map((item) => (
+                        <>
 
-                                            </a>
-                                            <a
-                                                className="_1klryar0 _1klryar9 rgw6ez44v rgw6ez477 rgw6ez1dv rgw6ez47p"
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                href="https://twitter.com/BoredApeYC"
-                                            >
+                            <div className="sc-vlvksq-3 eEURgl">
+                                <img
+                                    src={item.coverImage}
+                                    className="sc-vlvksq-4 iqUAEN"
+                                />
+                            </div>
+                            <div className="sc-1kykgp9-0 sc-vlvksq-5 iCxowP jCWKjc">
 
-                                                <i style={{ fontSize: "22px" }} className="ri-twitter-fill"></i>
 
-                                            </a>
-                                            <a
-                                                className="_1klryar0 _1klryar9 rgw6ez44v rgw6ez477 rgw6ez1dv rgw6ez47p"
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                href="https://instagram.com/boredapeyachtclub"
-                                            >
-                                                <i style={{ fontSize: "22px" }} className="ri-instagram-line"></i>
 
-                                            </a>
-                                            <a
-                                                className="_1klryar0 _1klryar9 rgw6ez44v rgw6ez477 rgw6ez1dv rgw6ez47p"
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                href="http://www.boredapeyachtclub.com/"
-                                            >
-                                                <i style={{ fontSize: "22px" }} className="ri-global-line"></i>
+                                <div className="_1klryar0 rgw6ez44v rgw6ezvp rgw6ez47p rgw6ez491 rgw6ez477 rgw6ez16v">
+                                    <img
+                                        className="_1klryar0 rgw6ez4o1 rgw6ez7cj rgw6ez48p jinxmn3 rgw6ez347 rgw6ez7ab rgw6ez7k7 rgw6ez517 rgw6ez7cj rgw6ez48p"
+                                        src={item.image}
+                                    />
+                                    <div className="_1klryar0 jinxmn1 rgw6ezwj rgw6ezye rgw6ezf7 rgw6ezhe">
+                                        <div className="_1klryar0 rgw6ez44v rgw6ez471 rgw6ez3j rgw6ez48j">
+                                            <div className="_1klryar0 rgw6ez44v rgw6ez471 rgw6ez3j rgw6ez1m7">
+                                                <div className="sc-1o7m3gg-1 hTeDjw rgw6ezd1 rgw6ezbj rgw6ezep">
+                                                    {item.title}
+                                                </div>
+                                                <img style={{ width: "25px" }} src='/assets/images/verified-icon.png' />
+                                                <div className="_1klryar0 rgw6ez44j rgw6ez44w rgw6ez471 rgw6ez3j rgw6ez47p rgw6ezn1 rgw6ez3t7 rgw6ez1a1">
+                                                    <a
+                                                        className="_1klryar0 _1klryar9 rgw6ez44v rgw6ez477 rgw6ez1dv rgw6ez47p"
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        href="https://discord.gg/3P5K3dzgdB"
+                                                    >
+                                                        <i style={{ fontSize: "22px" }} className="ri-discord-fill"></i>
 
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    className="_1klryar0 rgw6ezwv rgw6ezx8"
-                                    style={{ maxWidth: 680 }}
-                                >
-                                    <div className="sc-1o7m3gg-4 hqCXLW rgw6ezcp rgw6ezb1 rgw6ezed">
-                                        <span>
-                                            The Bored Ape Yacht Club is a collection of 10,000 unique Bored
-                                            Ape NFTs— unique digital collectibles living on the Ethereum
-                                            blockchain. Your Bored Ape doubles as your Yacht Club membership
-                                            card, and grants access to members-only benefits, the first of
-                                            which is access to THE BATHROOM, a collaborative graffiti board.
-                                            Future areas and perks can be unlocked by the community through
-                                            roadmap activation. Visit www.BoredApeYachtClub.com for more
-                                            details.
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="_1klryar0 rgw6ez44j rgw6ez44w rgw6ez471 rgw6ez3j rgw6ez3ud rgw6ez3uw rgw6ez3v9 rgw6ez3vy rgw6ez7m3 rgw6ezxj">
-                                    <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
-                                        <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
-                                            24.4 ETH
-                                        </div>
-                                        <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
-                                            Global floor
-                                        </span>
-                                    </div>
-                                    <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
-                                        <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
-                                            <div className="sc-1o7m3gg-0 hipPoV">
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width={20}
-                                                    height={20}
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    strokeWidth={2}
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    aria-label="up"
-                                                    className="sc-1nu6e54-0 eFTjTe"
-                                                >
-                                                    <line x1={7} y1={17} x2={17} y2={7} />
-                                                    <polyline points="7 7 17 7 17 17" />
-                                                </svg>
-                                                1%
+                                                    </a>
+                                                    <a
+                                                        className="_1klryar0 _1klryar9 rgw6ez44v rgw6ez477 rgw6ez1dv rgw6ez47p"
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        href="https://twitter.com/BoredApeYC"
+                                                    >
+
+                                                        <i style={{ fontSize: "22px" }} className="ri-twitter-fill"></i>
+
+                                                    </a>
+                                                    <a
+                                                        className="_1klryar0 _1klryar9 rgw6ez44v rgw6ez477 rgw6ez1dv rgw6ez47p"
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        href="https://instagram.com/boredapeyachtclub"
+                                                    >
+                                                        <i style={{ fontSize: "22px" }} className="ri-instagram-line"></i>
+
+                                                    </a>
+                                                    <a
+                                                        className="_1klryar0 _1klryar9 rgw6ez44v rgw6ez477 rgw6ez1dv rgw6ez47p"
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        href="http://www.boredapeyachtclub.com/"
+                                                    >
+                                                        <i style={{ fontSize: "22px" }} className="ri-global-line"></i>
+
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
-                                        <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
-                                            Floor 24H
-                                        </span>
-                                    </div>
-                                    <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
-                                        <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
-                                            1.3M ETH
+                                        <div
+                                            className="_1klryar0 rgw6ezwv rgw6ezx8"
+                                            style={{ maxWidth: 680 }}
+                                        >
+                                            <div className="sc-1o7m3gg-4 hqCXLW rgw6ezcp rgw6ezb1 rgw6ezed">
+                                                <span>
+                                                    {/* The Bored Ape Yacht Club is a collection of 10,000 unique Bored
+                                                Ape NFTs— unique digital collectibles living on the Ethereum
+                                                blockchain. Your Bored Ape doubles as your Yacht Club membership
+                                                card, and grants access to members-only benefits, the first of
+                                                which is access to THE BATHROOM, a collaborative graffiti board.
+                                                Future areas and perks can be unlocked by the community through
+                                                roadmap activation. Visit www.BoredApeYachtClub.com for more
+                                                details. */}
+                                                    {item.desc}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
-                                            Total volume
-                                        </span>
-                                    </div>
-                                    <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
-                                        <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
-                                            10K
+                                        <div className="_1klryar0 rgw6ez44j rgw6ez44w rgw6ez471 rgw6ez3j rgw6ez3ud rgw6ez3uw rgw6ez3v9 rgw6ez3vy rgw6ez7m3 rgw6ezxj">
+                                            <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
+                                                <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
+                                                    {currency === "USD" ? `$${item.floor.toLocaleString()}` : `${item.floor} ETH`}
+                                                </div>
+                                                <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
+                                                    Global floor
+                                                </span>
+                                            </div>
+                                            <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
+                                                <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
+                                                    <div className="sc-1o7m3gg-0 hipPoV">
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={20}
+                                                            height={20}
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            aria-label="up"
+                                                            className="sc-1nu6e54-0 eFTjTe"
+                                                        >
+                                                            <line x1={7} y1={17} x2={17} y2={7} />
+                                                            <polyline points="7 7 17 7 17 17" />
+                                                        </svg>
+                                                        {currency === "USD" ? `${item.floorChange}%` : `${item.floorChange}%`}
+
+                                                    </div>
+                                                </div>
+                                                <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
+                                                    Floor 24H
+                                                </span>
+                                            </div>
+                                            <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
+                                                <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
+                                                    {currency === "USD" ? `$${item.volume.toLocaleString()}` : `${item.volume} ETH`}
+                                                </div>
+                                                <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
+                                                    Total volume
+                                                </span>
+                                            </div>
+                                            <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
+                                                <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
+                                                    {currency === "USD" ? `${item.items}` : `${item.items}`}
+                                                </div>
+                                                <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
+                                                    Items
+                                                </span>
+                                            </div>
+                                            <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
+                                                <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
+                                                    {currency === "USD" ? `${item.owners}K` : `${item.owners}K`}
+                                                </div>
+                                                <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
+                                                    Unique owners
+                                                </span>
+                                            </div>
+                                            {/* <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
+                                            <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
+                                                2%
+                                            </div>
+                                            <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
+                                                Listed
+                                            </span>
+                                        </div> */}
                                         </div>
-                                        <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
-                                            Items
-                                        </span>
                                     </div>
-                                    <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
-                                        <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
-                                            56%
+                                    <div id="nft-anchor-mobile" />
+                                    <div className="_1klryar0 rgw6ez44v rgw6ez44k rgw6ez471 rgw6ez3j rgw6ez3ud rgw6ez3uw rgw6ez3v9 rgw6ez3vy rgw6ezxj rgw6ezgd">
+                                        <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
+                                            <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
+                                                {currency === "USD" ? `$${item.floor.toLocaleString()}` : `${item.floor} ETH`}
+                                            </div>
+                                            <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
+                                                Global floor
+                                            </span>
                                         </div>
-                                        <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
-                                            Unique owners
-                                        </span>
-                                    </div>
-                                    <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
-                                        <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
-                                            2%
+                                        <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
+                                            <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
+                                                <div className="sc-1o7m3gg-0 hipPoV">
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width={20}
+                                                        height={20}
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth={2}
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        aria-label="up"
+                                                        className="sc-1nu6e54-0 eFTjTe"
+                                                    >
+                                                        <line x1={7} y1={17} x2={17} y2={7} />
+                                                        <polyline points="7 7 17 7 17 17" />
+                                                    </svg>
+                                                    {currency === "USD" ? `${item.floorChange}%` : `${item.floorChange}%`}
+
+                                                </div>
+                                            </div>
+                                            <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
+                                                Floor 24H
+                                            </span>
                                         </div>
-                                        <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
-                                            Listed
-                                        </span>
+                                        <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
+                                            <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
+                                                {currency === "USD" ? `$${item.volume.toLocaleString()}` : `${item.volume} ETH`}
+
+                                            </div>
+                                            <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
+                                                Total volume
+                                            </span>
+                                        </div>
+
                                     </div>
                                 </div>
-                            </div>
-                            <div id="nft-anchor-mobile" />
-                            <div className="_1klryar0 rgw6ez44v rgw6ez44k rgw6ez471 rgw6ez3j rgw6ez3ud rgw6ez3uw rgw6ez3v9 rgw6ez3vy rgw6ezxj rgw6ezgd">
-                                <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
-                                    <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
-                                        24.4 ETH
-                                    </div>
-                                    <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
-                                        Global floor
-                                    </span>
-                                </div>
-                                <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
-                                    <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
-                                        <div className="sc-1o7m3gg-0 hipPoV">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={20}
-                                                height={20}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                aria-label="up"
-                                                className="sc-1nu6e54-0 eFTjTe"
-                                            >
-                                                <line x1={7} y1={17} x2={17} y2={7} />
-                                                <polyline points="7 7 17 7 17 17" />
-                                            </svg>
-                                            1%
-                                        </div>
-                                    </div>
-                                    <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
-                                        Floor 24H
-                                    </span>
-                                </div>
-                                <div className="_1klryar0 rgw6ez44v rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
-                                    <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
-                                        1.3M ETH
-                                    </div>
-                                    <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
-                                        Total volume
-                                    </span>
-                                </div>
-                                <div className="_1klryar0 rgw6ez44j rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
-                                    <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
-                                        10K
-                                    </div>
-                                    <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
+
+                                <div id="nft-anchor" />
+                                <div className="_1klryar0 rgw6ez44v rgw6ez471 rgw6ez3j rgw6ez3ud rgw6ezgp sc-dvc2od-0 jasESJ">
+                                    <button className="_1klryar0 _1wiwg135 _1wiwg131 rgw6ezd1 rgw6ezb1 rgw6eze7 rgw6ez491 rgw6ez4sj rgw6ez7iz rgw6ez79z rgw6ezg1 rgw6ez4ej">
                                         Items
-                                    </span>
-                                </div>
-                                <div className="_1klryar0 rgw6ez44j rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
-                                    <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
-                                        56%
-                                    </div>
-                                    <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
-                                        Unique owners
-                                    </span>
-                                </div>
-                                <div className="_1klryar0 rgw6ez44j rgw6ez477 rgw6ez41 rgw6ez3sp rgw6ez1e1">
-                                    <div className="sc-sx9n2y-0 nft-card-text jinxmn6 rgw6ezd1 rgw6ezb7 rgw6ezej css-rjqmed">
-                                        2%
-                                    </div>
-                                    <span className="_1klryar0 jinxmn5 rgw6ezcv rgw6ezav rgw6ezdv rgw6ez4ep rgw6ez45p">
-                                        Listed
-                                    </span>
+                                    </button>
+                                    <button
+                                        className="_1klryar0 _1wiwg131 rgw6ezd1 rgw6ezb1 rgw6eze7 rgw6ez491 rgw6ez4sj rgw6ez7iz rgw6ez79z rgw6ezg1 rgw6ez4ep"
+                                        data-testid="nft-activity"
+                                    >
+                                        Activity
+                                    </button>
                                 </div>
                             </div>
-                        </div>
-                        <div id="nft-anchor" />
-                        <div className="_1klryar0 rgw6ez44v rgw6ez471 rgw6ez3j rgw6ez3ud rgw6ezgp sc-dvc2od-0 jasESJ">
-                            <button className="_1klryar0 _1wiwg135 _1wiwg131 rgw6ezd1 rgw6ezb1 rgw6eze7 rgw6ez491 rgw6ez4sj rgw6ez7iz rgw6ez79z rgw6ezg1 rgw6ez4ej">
-                                Items
-                            </button>
-                            <button
-                                className="_1klryar0 _1wiwg131 rgw6ezd1 rgw6ezb1 rgw6eze7 rgw6ez491 rgw6ez4sj rgw6ez7iz rgw6ez79z rgw6ezg1 rgw6ez4ep"
-                                data-testid="nft-activity"
-                            >
-                                Activity
-                            </button>
-                        </div>
-                    </div>
+
+
+                        </>
+                    ))}
                     <div className="sc-bczRLJ sc-nrd8cx-0 sc-vlvksq-8 hJYFVB fhPvJh ekDvgt">
                         <div className="sc-vlvksq-6 gLTHgA" />
                         <div
@@ -331,8 +329,8 @@ const NftsDetails = ({ allTableDataETH, allTableDataUSD }) => {
                                         >
                                             <i style={{ fontSize: "22px" }} className="ri-filter-line "></i>
 
-                                            <div className="_1klryar0 rgw6ezd1 rgw6ezb1 rgw6eze7">
-                                                {" "}
+                                            <div className="_1klryar0 rgw6ezd1 rgw6ezb1 rgw6eze7 filter-text">
+
                                                 Filter • 9,998 results
                                             </div>
                                         </div>
@@ -342,7 +340,6 @@ const NftsDetails = ({ allTableDataETH, allTableDataUSD }) => {
                                                     <div className="_1klryar0 rgw6ez44v rgw6ez3j rgw6ez4ej">
                                                         <div className="_1klryar0 rgw6ez44v rgw6ez471 rgw6ez3j">
                                                             <i style={{ fontSize: "22px" }} className="ri-arrow-up-down-line "></i>
-
                                                         </div>
                                                         <div className="_1klryar0 rgw6ezl7 rgw6ezq7 rgw6ez4ej rgw6ezd1 rgw6ezb1 rgw6eze7">
                                                             Price: Low to High
@@ -357,7 +354,7 @@ const NftsDetails = ({ allTableDataETH, allTableDataUSD }) => {
                                             </div>
                                         </div>
                                         <input
-                                            className="_1klryar0 _1klryar8 _1klryar5 _1klryar4 rgw6ez43d rgw6ez511 rgw6ez4zg rgw6ez7jv rgw6ez7ab rgw6ez7bj rgw6ez2ud rgw6ez6cj rgw6ez1kd rgw6ez1m7 rgw6ezb1 rgw6ez1ap rgw6ez4f0 rgw6ez4ej"
+                                            className="_1klryar0 _1klryar8 _1klryar5 _1klryar4 rgw6ez43d rgw6ez511 rgw6ez4zg rgw6ez7jv rgw6ez7ab rgw6ez7bj rgw6ez2ud rgw6ez6cj rgw6ez1kd  rgw6ezb1 rgw6ez1ap rgw6ez4f0 rgw6ez4ej"
                                             placeholder="Search by name"
                                             defaultValue=""
                                         />
