@@ -3,20 +3,15 @@ import './Navbar.css';
 import { useLocation } from 'react-router-dom';
 import Nftbag from './navbarbag.js';
 import CustomDropdown from './dropdown.js';
-
 import { NavLink } from 'react-router-dom';
 import Modal from '../Modal/Modal';
-
 
 const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModalOpen, setIsModalOpen, handleCart, }) => {
     const logoImage = currentTheme === 'dark' ? '/assets/images/logo/logo-two.png' : '/assets/images/logo/logo-two-black.png';
     const location = useLocation();
     const [isActiveHeader, setIsActiveHeader] = useState(false);
-
-
     const [searchTerm, setSearchTerm] = useState('');
     const [isSearchOpen, setSearchOpen] = useState(false);
-
 
     const ref = useRef(null);
 

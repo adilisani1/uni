@@ -3,7 +3,6 @@ import './Cart.css';
 
 const Cart = ({ addToBag, setIsCartVisible, onRemoveBagItem }) => {
     return (
-
         <div>
 
             <div data-testid="nft-bag" className="Bag__BagContainer-sc-26f55410-0 mbicD">

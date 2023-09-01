@@ -3,11 +3,22 @@ import './NftsDetails.css';
 import { useParams, useLocation } from 'react-router-dom';
 import Cart from '../../components/Cart/Cart';
 
-const NftsDetails = ({ allTableDataETH, allTableDataUSD, currency, setCurrency, isCartVisible, setIsCartVisible, }) => {
+const NftsDetails = ({
+    allTableDataETH,
+    allTableDataUSD,
+    currency,
+    setCurrency,
+    isCartVisible,
+    setIsCartVisible,
+    data,
+    setData,
+    addToBag,
+    onAddToBagHandler,
+    onRemoveBagItem
+
+}) => {
 
     const [isHovered, setIsHovered] = useState(false);
-    const [addToBag, setAddToBag] = useState([])
-
 
     const cardData = [
         {
@@ -29,52 +40,13 @@ const NftsDetails = ({ allTableDataETH, allTableDataUSD, currency, setCurrency, 
         }
     ]
 
-    const onAddToBagHandler = (product) => {
-        const existing = addToBag.find((item) => item.id === product.id);
-
-        if (existing) {
-            const newBagItems = addToBag.map((item) =>
-                item.id === product.id
-                    ? { ...existing, qty: existing.qty + 1 }
-                    : item
-            );
-            setAddToBag(newBagItems);
-            localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
-        } else {
-            const matchingDataItem = data.find((item) => item.id === product.id);
-
-            if (matchingDataItem) {
-                const newBagItems = [
-                    ...addToBag,
-                    {
-                        ...product,
-                        qty: 1,
-                        selectedName: matchingDataItem.title,
-                    },
-                ];
-                setAddToBag(newBagItems);
-                localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
-            } else {
-                console.log('No matching data found for the product ID');
-            }
-        }
-    };
-
-    const onRemoveBagItem = (product) => {
-        const newBagItems = addToBag.filter((item) => item.id !== product.id);
-        setAddToBag(newBagItems);
-        localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
-    }
-
     const { id } = useParams();
-    const [data, setData] = useState(null);
     const location = useLocation();
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const currencyFromURL = params.get('currency');
 
-        // Fallback to 'USD' if no currency parameter is found
         const selectedCurrency = currencyFromURL || 'USD';
 
         setCurrency(selectedCurrency);
@@ -91,7 +63,12 @@ const NftsDetails = ({ allTableDataETH, allTableDataUSD, currency, setCurrency, 
 
     return (
         <div>
-            {isCartVisible && <Cart addToBag={addToBag} onRemoveBagItem={onRemoveBagItem} setIsCartVisible={setIsCartVisible} />}
+            {isCartVisible && <Cart
+                addToBag={addToBag}
+                onRemoveBagItem={onRemoveBagItem}
+                onAddToBagHandler={onAddToBagHandler}
+
+                setIsCartVisible={setIsCartVisible} />}
 
             <div className="sc-1dv6j2d-0 bCNYil">
 
@@ -356,7 +333,7 @@ const NftsDetails = ({ allTableDataETH, allTableDataUSD, currency, setCurrency, 
                             className="sc-vlvksq-2 bOrLvK"
                             style={{ transform: "translate(0px)", width: "calc(100% - 0px)" }}
                         >
-                            <div className="_1klryar0 rgw6ez6cp rgw6ez497 rgw6ez3j1 rgw6ez16v rgw6ez3qj rgw6ezg1 rgw6ezh2 rgw6ez2p7 rgw6ez28p" >
+                            <div style={{ background: "var(--body-bg)" }} className="_1klryar0 rgw6ez6cp rgw6ez497 rgw6ez3j1 rgw6ez16v rgw6ez3qj rgw6ezg1 rgw6ezh2 rgw6ez2p7 rgw6ez28p" >
                                 <div className="sc-1wq7ulh-0 eTLJwt">
                                     <div className="sc-1wq7ulh-1 hvldfs">
                                         <div
@@ -366,7 +343,6 @@ const NftsDetails = ({ allTableDataETH, allTableDataUSD, currency, setCurrency, 
                                             <i style={{ fontSize: "22px" }} className="ri-filter-line "></i>
 
                                             <div className="_1klryar0 rgw6ezd1 rgw6ezb1 rgw6eze7 filter-text">
-
                                                 Filter • 9,998 results
                                             </div>
                                         </div>

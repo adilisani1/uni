@@ -7,7 +7,21 @@ import 'slick-carousel/slick/slick-theme.css';
 import Cart from '../../components/Cart/Cart';
 import { useNavigate } from 'react-router-dom';
 
-const Nfts = ({ isCartVisible, setIsCartVisible, allTableDataETH, allTableDataUSD, currency, setCurrency }) => {
+const Nfts = ({
+    isCartVisible,
+    setIsCartVisible,
+    allTableDataETH,
+    allTableDataUSD,
+    currency,
+    setCurrency,
+    data,
+    setData,
+    addToBag,
+    setAddToBag,
+    onAddToBagHandler,
+    onRemoveBagItem
+}) => {
+
     const navigate = useNavigate();
     //Slider
     const settings = {
@@ -20,7 +34,7 @@ const Nfts = ({ isCartVisible, setIsCartVisible, allTableDataETH, allTableDataUS
         slidesToScroll: 1,
     };
     // Sliders Images
-    const data = [
+    const dataImage = [
         "https://i.seadn.io/gcs/files/0f98e562496514deec72096435a77eef.jpg",
         "https://i.seadn.io/gae/i5dYZRkVCUK97bfprQ3WXyrT9BnLSZtVKGJlKQ919uaUB0sxbngVCioaiyu9r6snqfi2aaTyIvv6DHm4m2R3y7hMajbsv14pSZK8mhs"
     ]
@@ -109,7 +123,14 @@ const Nfts = ({ isCartVisible, setIsCartVisible, allTableDataETH, allTableDataUS
 
     return (
         <React.Fragment>
-            {isCartVisible && <Cart setIsCartVisible={setIsCartVisible} />}
+            {isCartVisible && <Cart
+                setIsCartVisible={setIsCartVisible}
+                setData={setData}
+                addToBag={addToBag}
+                setAddToBag={setAddToBag}
+                onAddToBagHandler={onAddToBagHandler}
+                onRemoveBagItem={onRemoveBagItem}
+            />}
             <div className="bCNYil">
 
                 <div className="btxSrH">
@@ -133,7 +154,7 @@ const Nfts = ({ isCartVisible, setIsCartVisible, allTableDataETH, allTableDataUS
                                             <div className="sc-1j367rv-0 CvmCP">
                                                 <div className="sc-1j367rv-15 iDTcds">
                                                     <div
-                                                        src={data[0]}
+                                                        src={dataImage[0]}
                                                         className="sc-1j367rv-1 gZffhG"
                                                     >
                                                         <div className="sc-1j367rv-3 dGnbgN">
@@ -241,7 +262,7 @@ const Nfts = ({ isCartVisible, setIsCartVisible, allTableDataETH, allTableDataUS
                                             <div className="sc-1j367rv-0 CvmCP">
                                                 <div className="sc-1j367rv-15 iDTcds">
                                                     <div
-                                                        src={data[1]}
+                                                        src={dataImage[1]}
                                                         className="sc-1j367rv-1 ZdTRI"
                                                     >
                                                         <div className="sc-1j367rv-3 dGnbgN">

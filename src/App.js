@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes } from 'react-router-dom';
 
 import Navbar from "./components/Navbar/Navbar";
@@ -25,11 +25,15 @@ import { allTableData, updateTime, options, chartData } from "./service/tokens";
 //Swap Modal Tokens Data
 import { swapTokens } from "./service/swapTokens";
 
-
 import SettingModal from "./utils/SettingModal/SettingModal";
 import { allTableDataETH, allTableDataUSD } from "./service/nfts";
 
 function App() {
+
+  //Add to Bag
+  const [addToBag, setAddToBag] = useState([]);
+  const [data, setData] = useState(null);
+
 
   //SideBarConnectModal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,7 +57,6 @@ function App() {
   const [liquidityTokenTwo, setLiquidityTokenTwo] = useState({ symbol: 'Select Token' });
 
   const [currency, setCurrency] = useState('ETH');
-  const [showCartBag, setShowCartBag] = useState(false); // Add this state
 
   //Swap Modal Func
   const handleSwapModal = (currencyId) => {
@@ -99,6 +102,49 @@ function App() {
   }
 
 
+  //Save bag item
+  useEffect(() => {
+    setAddToBag(localStorage.getItem("newBagItems") ? JSON.parse(localStorage.getItem("newBagItems")) : [])
+  }, []);
+
+  //Add to Bag
+  const onAddToBagHandler = (product) => {
+    const existing = addToBag.find((item) => item.id === product.id);
+
+    if (existing) {
+      const newBagItems = addToBag.map((item) =>
+        item.id === product.id
+          ? { ...existing, qty: existing.qty + 1 }
+          : item
+      );
+      setAddToBag(newBagItems);
+      localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
+    } else {
+      const matchingDataItem = data.find((item) => item.id === product.id);
+
+      if (matchingDataItem) {
+        const newBagItems = [
+          ...addToBag,
+          {
+            ...product,
+            qty: 1,
+            selectedName: matchingDataItem.title,
+          },
+        ];
+        setAddToBag(newBagItems);
+        localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
+      } else {
+        console.log('No matching data found for the product ID');
+      }
+    }
+  };
+
+  const onRemoveBagItem = (product) => {
+    const newBagItems = addToBag.filter((item) => item.id !== product.id);
+    setAddToBag(newBagItems);
+    localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
+  }
+
   // Theme 
   const [theme, setTheme] = useLocalStorage('light', 'dark');
   function switchTheme() {
@@ -119,7 +165,7 @@ function App() {
           setIsModalOpen={setIsModalOpen}
           privacyModal={privacyModal}
           setPrivacyModal={setPrivacyModal}
-          handleCart={handleCart} showCartBag={showCartBag}
+          handleCart={handleCart}
 
         />
         <div>
@@ -144,18 +190,32 @@ function App() {
 
             <Route path="/tokens" element={<Token allTableData={allTableData} updateTime={updateTime} options={options} />} />
             <Route path="/pools" element={<Pools setIsModalOpen={setIsModalOpen} />} />
-            <Route path="/nfts" element={<Nfts
-              isCartVisible={isCartVisible}
-              setIsCartVisible={setIsCartVisible}
-              handleCart={handleCart}
-              allTableDataETH={allTableDataETH}
-              allTableDataUSD={allTableDataUSD}
-              currency={currency}
-              setCurrency={setCurrency}
-            />} />
+            <Route path="/nfts"
+              element={
+                <Nfts
+                  data={data}
+                  setData={setData}
+                  addToBag={addToBag}
+                  setAddToBag={setAddToBag}
+                  onAddToBagHandler={onAddToBagHandler}
+                  onRemoveBagItem={onRemoveBagItem}
+                  isCartVisible={isCartVisible}
+                  setIsCartVisible={setIsCartVisible}
+                  handleCart={handleCart}
+                  allTableDataETH={allTableDataETH}
+                  allTableDataUSD={allTableDataUSD}
+                  currency={currency}
+                  setCurrency={setCurrency}
+                />} />
             <Route path="/tokens/:id" element={<TokenDetails allTableData={allTableData} chartData={chartData} />} />
             <Route path="/nfts/:id" element={
               <NftsDetails
+                data={data}
+                setData={setData}
+                addToBag={addToBag}
+                setAddToBag={setAddToBag}
+                onAddToBagHandler={onAddToBagHandler}
+                onRemoveBagItem={onRemoveBagItem}
                 allTableDataETH={allTableDataETH}
                 allTableDataUSD={allTableDataUSD}
                 currency={currency}

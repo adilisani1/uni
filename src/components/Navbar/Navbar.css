@@ -561,10 +561,9 @@
 }
 
 .right-nav .custom-search-inside {
-
     opacity: 0;
     visibility: hidden;
-    height: 0;
+    height: 0px;
     gap: 12px;
     display: flex;
     flex-direction: row;
@@ -689,6 +688,7 @@
     height: 40px;
     z-index: 1;
     transform: translateY(1px) translateX(3px);
+    display: none;
 
 }
 
