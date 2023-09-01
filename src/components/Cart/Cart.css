@@ -287,7 +287,6 @@
 
 .rgw6ez8ct {
     overflow-y: scroll;
-
 }
 
 .rgw6ez473 {
@@ -560,7 +559,6 @@ a {
     border-radius: 50%;
 }
 
-
 .css-1ompv5d {
     box-sizing: border-box;
     margin: 0px;
@@ -589,4 +587,97 @@ a {
     -webkit-box-align: start;
     align-items: start;
     gap: 8px;
+}
+
+._1klryar0 {
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+    vertical-align: initial;
+    transition: opacity 0.2s ease-in-out;
+    opacity: 1;
+}
+
+.number-display-container:hover ._1klryar0 {
+    opacity: 0;
+    /* Hide the elements when the container is hovered */
+}
+
+.number-display-container:hover .jGQBnY {
+    opacity: 1;
+    /* Show the "Remove" button when the container is hovered */
+}
+
+.item-container .number-container {
+    position: relative;
+    display: flex;
+}
+
+.item-container .number-container .number-display {
+    opacity: 0;
+    /* Hidden by default */
+    transition: opacity 0.2s ease-in-out;
+}
+
+.item-container:hover .number-container .number-display {
+    opacity: 1;
+    /* Show on hover */
+}
+
+.item-container .number-container button {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    opacity: 0;
+    /* Hidden by default */
+    transition: opacity 0.2s ease-in-out;
+}
+
+.item-container:hover .number-container button {
+    opacity: 1;
+    /* Show on hover */
+}
+
+.jGQBnY {
+    -webkit-box-align: center;
+    align-items: center;
+    background-color: rgba(34, 34, 34, 0.07);
+    border-radius: 16px;
+    border: 0px;
+    color: rgb(34, 34, 34);
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    font-size: 16px;
+    font-weight: 535;
+    gap: 12px;
+    -webkit-box-pack: center;
+    justify-content: center;
+    line-height: 20px;
+    padding: 10px 12px;
+    position: relative;
+    transition: opacity 150ms ease 0s;
+    user-select: none;
+}
+
+.gbCQLu {
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 16px;
+    margin-left: 16px;
+    padding: 12px 14px;
+}
+
+.jGQBnY:hover .Button__ButtonOverlay-sc-983e32f-0 {
+    background-color: rgba(152, 161, 192, 0.08);
+}
+
+.hxfTDQ {
+    background-color: transparent;
+    inset: 0px;
+    border-radius: inherit;
+    height: 100%;
+    position: absolute;
+    transition: background-color 150ms ease 0s;
+    width: 100%;
 }

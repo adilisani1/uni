@@ -1,27 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './LiquidityModal.css';
-// import { AreaChart, Area, ResponsiveContainer } from 'recharts';
-// import { Line } from 'react-chartjs-2';
-// import RangeSelector, {
-//     Margin, Scale, TickInterval, MinorTickInterval, Chart, Series, ValueAxis, Behavior
-// } from 'devextreme-react/range-selector';
-// import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-// import { dataSource } from '../../service/charts';
 import SwapModal from '../SwapModal/SwapModal';
 import { NavLink } from 'react-router-dom';
-
-
-import {
-    ReactiveBase,
-    RangeSlider,
-    SelectedFilters,
-    ResultList,
-    ReactiveList,
-    RangeInput,
-
-    SingleRange,
-    ReactiveChart
-} from '@appbaseio/reactivesearch';
 import axios from 'axios';
 
 const LiquidityModal = (
@@ -627,106 +607,9 @@ const LiquidityModal = (
                                         style={{ minHeight: 200 }}
                                     >
                                         <div className="LiquidityChartRangeInput__ChartWrapper-sc-4b8a30c6-0 AKZXT">
-                                            <div className="Zoom__Wrapper-sc-d8c112ab-0 kLcWec">
-                                                <button className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 Zoom__Button-sc-d8c112ab-1 hWKjgZ jAJJVP jbMhYy">
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width={16}
-                                                        height={16}
-                                                        viewBox="0 0 24 24"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        strokeWidth={2}
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                    >
-                                                        <circle cx={11} cy={11} r={8} />
-                                                        <line x1={21} y1={21} x2="16.65" y2="16.65" />
-                                                        <line x1={11} y1={8} x2={11} y2={14} />
-                                                        <line x1={8} y1={11} x2={14} y2={11} />
-                                                    </svg>
-                                                </button>
-                                                <button className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 Zoom__Button-sc-d8c112ab-1 hWKjgZ jAJJVP jbMhYy">
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width={16}
-                                                        height={16}
-                                                        viewBox="0 0 24 24"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        strokeWidth={2}
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                    >
-                                                        <circle cx={11} cy={11} r={8} />
-                                                        <line x1={21} y1={21} x2="16.65" y2="16.65" />
-                                                        <line x1={8} y1={11} x2={14} y2={11} />
-                                                    </svg>
-                                                </button>
-                                            </div>
-
+                                           
                                         </div>
-                                    </div>
-                                    <div>
-                                        <ReactiveBase
-                                            app="good-books-ds"
-                                            url="https://a03a1cb71321:75b6603d-9456-4a5a-af6b-a487b309eb61@appbase-demo-ansible-abxiydt-arc.searchbase.io"
-                                        >
-                                            <ReactiveChart
-                                                // pre-built chart type
-                                                chartType="histogram"
-                                                // unique id for component
-                                                componentId="language"
-                                                // Database field to connect
-                                                dataField="original_title"
-
-                                                type="range"
-                                                // Min and max range constraints
-                                                range={{
-                                                    start: 1900,
-                                                    end: 2010,
-                                                }}
-                                                // Range interval
-                                                interval={2}
-                                            />
-                                            <RangeSlider
-                                                dataField="ratings_count"
-                                                data={[
-                                                    { rating: 3.8, ratings_count: 8000, original_title: 'Cheap' },
-                                                    { rating: 4.5, ratings_count: 12000, original_title: 'Moderate' },
-                                                    { rating: 4.2, ratings_count: 15000, original_title: 'Pricey' },
-                                                    { rating: 4, ratings_count: 9500, original_title: 'First Date' },
-                                                ]}
-                                                componentId="BookSensor"
-                                                range={{
-                                                    start: 3000,
-                                                    end: 50000,
-                                                }}
-                                                rangeLabels={{
-                                                    start: '3K',
-                                                    end: '50K',
-                                                }}
-                                                showHistogram={true}
-
-                                            />
-
-                                            <ReactiveList
-                                                componentId="SearchResult"
-                                                dataField="original_title"
-                                                from={0}
-                                                size={3}
-                                                className="result-list-container"
-                                                pagination
-                                                render={({ data }) => (
-                                                    <ul>
-                                                        {data.map(item => (
-                                                            <li key={item._id}>{item.label}</li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                            />
-                                        </ReactiveBase>
-                                    </div>
+                                        </div>
                                     {/* ChartEND */}
 
                                 </div>
@@ -847,6 +730,7 @@ const LiquidityModal = (
                         </div>
                     </main>
                 </div>
+        
                 <SwapModal
                     swapTokens={swapTokens}
                     // selectedToken={selectedToken}

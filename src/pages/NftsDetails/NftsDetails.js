@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './NftsDetails.css';
 import { useParams, useLocation } from 'react-router-dom';
+import Cart from '../../components/Cart/Cart';
 
-const NftsDetails = ({ allTableDataETH, allTableDataUSD, currency, setCurrency }) => {
+const NftsDetails = ({ allTableDataETH, allTableDataUSD, currency, setCurrency, isCartVisible, setIsCartVisible, }) => {
 
     const [isHovered, setIsHovered] = useState(false);
+    const [addToBag, setAddToBag] = useState([])
+
 
     const cardData = [
         {
@@ -12,16 +15,56 @@ const NftsDetails = ({ allTableDataETH, allTableDataUSD, currency, setCurrency }
             image: "https://cdn.center.app/v2/1/b3f42ad408226d768e31432539609c37cf97ee548cfbd7bc468aa6fbebec3d50/11ff5077bf74434942c3f0354d153285137192d6d8dc21303af7134125e6e994.png",
             cardNumber: 7730,
             serialNumber: 1682,
-            ethValue: 28.5
+            ethValue: 28.5,
+            priceValue: 9174
         },
         {
             id: 2,
             image: "https://cdn.center.app/v2/1/72da0239d4ae18ca5bba2dbdab42e7cb22527bb1034f61da26ce5bc7d66ded4f/e59de98b066e0247a1c4199c9a63cee7abb95fcc785848a15f984a7597c719a9.png",
             cardNumber: 7564,
             serialNumber: 1659,
-            ethValue: 29
+            ethValue: 29,
+            priceValue: 4174
+
         }
     ]
+
+    const onAddToBagHandler = (product) => {
+        const existing = addToBag.find((item) => item.id === product.id);
+
+        if (existing) {
+            const newBagItems = addToBag.map((item) =>
+                item.id === product.id
+                    ? { ...existing, qty: existing.qty + 1 }
+                    : item
+            );
+            setAddToBag(newBagItems);
+            localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
+        } else {
+            const matchingDataItem = data.find((item) => item.id === product.id);
+
+            if (matchingDataItem) {
+                const newBagItems = [
+                    ...addToBag,
+                    {
+                        ...product,
+                        qty: 1,
+                        selectedName: matchingDataItem.title,
+                    },
+                ];
+                setAddToBag(newBagItems);
+                localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
+            } else {
+                console.log('No matching data found for the product ID');
+            }
+        }
+    };
+
+    const onRemoveBagItem = (product) => {
+        const newBagItems = addToBag.filter((item) => item.id !== product.id);
+        setAddToBag(newBagItems);
+        localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
+    }
 
     const { id } = useParams();
     const [data, setData] = useState(null);
@@ -41,7 +84,6 @@ const NftsDetails = ({ allTableDataETH, allTableDataUSD, currency, setCurrency }
 
         if (singleNfts) {
             setData(singleNfts);
-            // console.log('Selected Nfts: ', singleNfts)
         } else {
             console.log('No NFT found with the given ID');
         }
@@ -49,6 +91,8 @@ const NftsDetails = ({ allTableDataETH, allTableDataUSD, currency, setCurrency }
 
     return (
         <div>
+            {isCartVisible && <Cart addToBag={addToBag} onRemoveBagItem={onRemoveBagItem} setIsCartVisible={setIsCartVisible} />}
+
             <div className="sc-1dv6j2d-0 bCNYil">
 
                 <div
@@ -165,14 +209,6 @@ const NftsDetails = ({ allTableDataETH, allTableDataUSD, currency, setCurrency }
                                         >
                                             <div className="sc-1o7m3gg-4 hqCXLW rgw6ezcp rgw6ezb1 rgw6ezed">
                                                 <span>
-                                                    {/* The Bored Ape Yacht Club is a collection of 10,000 unique Bored
-                                                Ape NFTs— unique digital collectibles living on the Ethereum
-                                                blockchain. Your Bored Ape doubles as your Yacht Club membership
-                                                card, and grants access to members-only benefits, the first of
-                                                which is access to THE BATHROOM, a collaborative graffiti board.
-                                                Future areas and perks can be unlocked by the community through
-                                                roadmap activation. Visit www.BoredApeYachtClub.com for more
-                                                details. */}
                                                     {item.desc}
                                                 </span>
                                             </div>
@@ -320,7 +356,7 @@ const NftsDetails = ({ allTableDataETH, allTableDataUSD, currency, setCurrency }
                             className="sc-vlvksq-2 bOrLvK"
                             style={{ transform: "translate(0px)", width: "calc(100% - 0px)" }}
                         >
-                            <div className="_1klryar0 rgw6ez6cp rgw6ez497 rgw6ez3j1 rgw6ez16v rgw6ez3qj rgw6ezg1 rgw6ezh2 rgw6ez2p7 rgw6ez28p">
+                            <div className="_1klryar0 rgw6ez6cp rgw6ez497 rgw6ez3j1 rgw6ez16v rgw6ez3qj rgw6ezg1 rgw6ezh2 rgw6ez2p7 rgw6ez28p" >
                                 <div className="sc-1wq7ulh-0 eTLJwt">
                                     <div className="sc-1wq7ulh-1 hvldfs">
                                         <div
@@ -432,7 +468,7 @@ const NftsDetails = ({ allTableDataETH, allTableDataUSD, currency, setCurrency }
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className={`nft-card-text  css-zhpkf8 cpLvLV ${isHovered ? 'visible' : ''}`}>
+                                                        <div className={`nft-card-text  css-zhpkf8 cpLvLV ${isHovered ? 'visible' : ''}`} onClick={() => onAddToBagHandler(item)}>
                                                             Add to bag
                                                         </div>
                                                     </a>

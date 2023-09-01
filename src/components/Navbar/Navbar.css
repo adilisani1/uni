@@ -551,7 +551,7 @@
 .right-nav .custom-search-dropdown {
     position: fixed;
     right: 0;
-    overflow: hidden;
+    /* overflow: hidden; */
     z-index: 3;
     display: flex;
     max-height: calc(100vh - 40px);
@@ -561,7 +561,7 @@
 }
 
 .right-nav .custom-search-inside {
-    padding: 0;
+
     opacity: 0;
     visibility: hidden;
     height: 0;
@@ -830,10 +830,7 @@
         width: 360px;
     }
 
-    .right-nav .custom-search-dropdown {
-        position: absolute;
-        width: auto;
-    }
+
 
 }
 

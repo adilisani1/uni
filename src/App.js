@@ -18,8 +18,6 @@ import "./App.css";
 import useLocalStorage from "use-local-storage";
 import TokenDetails from "./components/TokenDetails/TokenDetails";
 
-
-
 //Navbar Data
 import { optionsLabel, searchOptions } from "./service/navbar";
 //Tokens Data
@@ -100,6 +98,7 @@ function App() {
     setSwapModal(false);
   }
 
+
   // Theme 
   const [theme, setTheme] = useLocalStorage('light', 'dark');
   function switchTheme() {
@@ -155,9 +154,20 @@ function App() {
               setCurrency={setCurrency}
             />} />
             <Route path="/tokens/:id" element={<TokenDetails allTableData={allTableData} chartData={chartData} />} />
-            <Route path="/nfts/:id" element={<NftsDetails allTableDataETH={allTableDataETH} allTableDataUSD={allTableDataUSD} currency={currency} setCurrency={setCurrency} />} />
+            <Route path="/nfts/:id" element={
+              <NftsDetails
+                allTableDataETH={allTableDataETH}
+                allTableDataUSD={allTableDataUSD}
+                currency={currency}
+                setCurrency={setCurrency}
+                isCartVisible={isCartVisible} setIsCartVisible={setIsCartVisible}
+              />}
+            />
+
             <Route path="/vote" element={<Vote />} />
+
             <Route path="/privacy" element={<PrivacyModal />} />
+
             <Route path="/liquidity" element={<LiquidityModal
               chartData={chartData}
               swapTokens={swapTokens}
@@ -173,7 +183,6 @@ function App() {
 
             />} />
             <Route path="/settings" element={<SettingModal />} />
-
           </Routes>
         </div >
 

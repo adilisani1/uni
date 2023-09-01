@@ -293,22 +293,24 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
 
                         {/* right________Nav */}
                         <div className="right-nav">
-                            <div className="center-nav">
-                                <div className="custom-search-dropdown" ref={ref}>
-                                    <div className='custom-search-inside inside-search'>
-                                        {/* <img className='search-icon' style={{ width: "20px" }} src='/images/search.svg' /> */}
-                                        <i className="search-icon ri-search-line"></i>
+                            <button className='search-button'>
+                                <i className="search-icon ri-search-line"></i>
+                            </button>
+                            <div className="custom-search-dropdown" ref={ref}>
+                                <div className='custom-search-inside inside-search'>
+                                    {/* <img className='search-icon' style={{ width: "20px" }} src='/images/search.svg' /> */}
+                                    <i className="search-icon ri-search-line"></i>
 
-                                        <input
-                                            className=''
-                                            type='search'
-                                            placeholder='Search tokens and NFT collections'
-                                            value={searchTerm}
-                                            onChange={handleSearchChange}
-                                            onClick={() => setSearchOpen(true)}
-                                        />
-                                        <div className='slash' style={{ display: isSearchOpen ? 'none' : 'block' }}>/</div>
-                                    </div>
+                                    <input
+                                        className=''
+                                        type='search'
+                                        placeholder='Search tokens and NFT collections'
+                                        value={searchTerm}
+                                        onChange={handleSearchChange}
+                                        onClick={() => setSearchOpen(true)}
+                                    />
+                                    <div className='slash' style={{ display: isSearchOpen ? 'none' : 'block' }}>/</div>
+
 
                                     {isSearchOpen && (
 
@@ -411,16 +413,18 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                                             </div>
                                         </ul>
                                     )}
+
                                 </div>
+
                             </div>
-                            <button className='search-button'>
-                                <i className="search-icon ri-search-line"></i>
-                            </button>
+
+
                             {
-                                (location.pathname === '/nfts' || location.pathname === '/nfts/:id')
+                                (location.pathname === '/nfts' || location.pathname.startsWith('/nfts/'))
                                     ?
                                     <Nftbag handleCart={handleCart} />
-                                    : <CustomDropdown
+                                    :
+                                    <CustomDropdown
                                         selectedOption={selectedOption}
                                         toggleDropdown={toggleDropdown}
                                         isOpen={isOpen}
@@ -428,6 +432,8 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                                         handleOptionClick={handleOptionClick}
                                     />
                             }
+
+
                             <div className='connect'>
                                 <button className='connect-btn' onClick={connectHandler}> Connect</button>
                             </div>

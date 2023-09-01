@@ -5,7 +5,6 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 // import { allTableDataETH, allTableDataUSD, slidersData } from '../../service/nfts';
 import Cart from '../../components/Cart/Cart';
-import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const Nfts = ({ isCartVisible, setIsCartVisible, allTableDataETH, allTableDataUSD, currency, setCurrency }) => {
@@ -19,15 +18,12 @@ const Nfts = ({ isCartVisible, setIsCartVisible, allTableDataETH, allTableDataUS
         autoplay: true,
         autoplaySpeed: 3000,
         slidesToScroll: 1,
-
     };
-
     // Sliders Images
     const data = [
         "https://i.seadn.io/gcs/files/0f98e562496514deec72096435a77eef.jpg",
         "https://i.seadn.io/gae/i5dYZRkVCUK97bfprQ3WXyrT9BnLSZtVKGJlKQ919uaUB0sxbngVCioaiyu9r6snqfi2aaTyIvv6DHm4m2R3y7hMajbsv14pSZK8mhs"
     ]
-
     //tabs values
     const tabs = ['1D', '1W', '1M', "All"];
     //currency tabs
@@ -101,9 +97,6 @@ const Nfts = ({ isCartVisible, setIsCartVisible, allTableDataETH, allTableDataUS
         return sortedData;
     }
 
-    // const handleCurrencyTabClick = (currencyTab) => {
-    //     setSelectedCurrencyTab(currencyTab);
-    // }
     const handleCurrencyTabClick = (currencyTab) => {
         setSelectedCurrencyTab(currencyTab);
         setCurrency(currencyTab);
@@ -112,7 +105,7 @@ const Nfts = ({ isCartVisible, setIsCartVisible, allTableDataETH, allTableDataUS
         handleTableClick(selectedTab);
     }, [selectedTab, selectedCurrencyTab]);
 
-    //cart 
+    //cart bag
 
     return (
         <React.Fragment>
