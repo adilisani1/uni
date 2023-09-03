@@ -13,7 +13,6 @@ const TokenDetails = ({ allTableData, chartData }) => {
         setShowMore(!showMore);
     };
 
-
     const [tokensData, setTokensData] = useState(allTableData)
     const { id } = useParams();
 
@@ -45,7 +44,7 @@ const TokenDetails = ({ allTableData, chartData }) => {
     }
 
 
-   
+
 
     return (
         <div>
@@ -177,7 +176,7 @@ const TokenDetails = ({ allTableData, chartData }) => {
                                                 <Line type="monotone" dataKey="uv" stroke="#FB118E" dot={false} />
                                             </LineChart>
                                         </ResponsiveContainer>
-                                      
+
                                     </div>
                                     <div className="sc-1wj62vu-0 ibmoxq">
                                         <div className="sc-1wj62vu-1 fvQpGv">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './NftsDetails.css';
 import { useParams, useLocation } from 'react-router-dom';
 import Cart from '../../components/Cart/Cart';
+import { cardData } from '../../service/nftDetails';
 
 const NftsDetails = ({
     allTableDataETH,
@@ -19,26 +20,34 @@ const NftsDetails = ({
 }) => {
 
     const [isHovered, setIsHovered] = useState(false);
+    //ShowMoreBtn
+    const [showMore, setShowMore] = useState(false);
+    const toggleShowMore = () => {
+        setShowMore(!showMore);
+    };
+    // Degods
+    // https://metadata.degods.com/g/238-s3-male.png
+    // https://metadata.degods.com/g/6716-dead.png
 
-    const cardData = [
-        {
-            id: 1,
-            image: "https://cdn.center.app/v2/1/b3f42ad408226d768e31432539609c37cf97ee548cfbd7bc468aa6fbebec3d50/11ff5077bf74434942c3f0354d153285137192d6d8dc21303af7134125e6e994.png",
-            cardNumber: 7730,
-            serialNumber: 1682,
-            ethValue: 28.5,
-            priceValue: 9174
-        },
-        {
-            id: 2,
-            image: "https://cdn.center.app/v2/1/72da0239d4ae18ca5bba2dbdab42e7cb22527bb1034f61da26ce5bc7d66ded4f/e59de98b066e0247a1c4199c9a63cee7abb95fcc785848a15f984a7597c719a9.png",
-            cardNumber: 7564,
-            serialNumber: 1659,
-            ethValue: 29,
-            priceValue: 4174
+    // const cardData = [
+    //     {
+    //         id: 1,
+    //         image: "https://cdn.center.app/v2/1/b3f42ad408226d768e31432539609c37cf97ee548cfbd7bc468aa6fbebec3d50/11ff5077bf74434942c3f0354d153285137192d6d8dc21303af7134125e6e994.png",
+    //         cardNumber: 7730,
+    //         serialNumber: 1682,
+    //         ethValue: 28.5,
+    //         priceValue: 9174
+    //     },
+    //     {
+    //         id: 2,
+    //         image: "https://cdn.center.app/v2/1/72da0239d4ae18ca5bba2dbdab42e7cb22527bb1034f61da26ce5bc7d66ded4f/e59de98b066e0247a1c4199c9a63cee7abb95fcc785848a15f984a7597c719a9.png",
+    //         cardNumber: 7564,
+    //         serialNumber: 1659,
+    //         ethValue: 29,
+    //         priceValue: 4174
 
-        }
-    ]
+    //     }
+    // ]
 
     const { id } = useParams();
     const location = useLocation();
@@ -185,9 +194,12 @@ const NftsDetails = ({
                                             style={{ maxWidth: 680 }}
                                         >
                                             <div className="sc-1o7m3gg-4 hqCXLW rgw6ezcp rgw6ezb1 rgw6ezed">
-                                                <span>
-                                                    {item.desc}
-                                                </span>
+                                                {showMore ? item.desc : item.desc.slice(0, 50)}
+                                                {item.desc.length > 100 && (
+                                                    <div className="iHKewj" style={{ cursor: 'pointer' }} onClick={toggleShowMore}>
+                                                        {showMore ? 'Show less' : 'Show more'}
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="_1klryar0 rgw6ez44j rgw6ez44w rgw6ez471 rgw6ez3j rgw6ez3ud rgw6ez3uw rgw6ez3v9 rgw6ez3vy rgw6ez7m3 rgw6ezxj">
@@ -444,7 +456,7 @@ const NftsDetails = ({
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className={`nft-card-text  css-zhpkf8 cpLvLV ${isHovered ? 'visible' : ''}`} onClick={() => onAddToBagHandler(item)}>
+                                                        <div className={`nft-card-text  css-zhpkf8 cpLvLV`} onClick={() => onAddToBagHandler(item)}>
                                                             Add to bag
                                                         </div>
                                                     </a>

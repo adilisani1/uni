@@ -929,6 +929,7 @@ button {
     display: grid;
 }
 
+/* 
 .jtXgVB {
     position: relative;
     border-radius: 12px;
@@ -937,7 +938,7 @@ button {
     box-shadow: rgba(51, 53, 72, 0.04) 0px 0px 8px, rgba(51, 53, 72, 0.12) 1px 2px 4px;
     box-sizing: border-box;
     isolation: isolate;
-}
+} */
 
 .qzRBv {
     text-decoration: none;
@@ -1107,6 +1108,7 @@ a {
     line-height: 24px;
 }
 
+/* 
 .cpLvLV {
     position: absolute;
     display: flex;
@@ -1125,7 +1127,7 @@ a {
     visibility: hidden;
     cursor: pointer;
     font-weight: 535 !important;
-}
+} */
 
 .cpLvLV::before {
     background-size: 100%;
@@ -1138,28 +1140,45 @@ a {
     content: "";
 }
 
+
+.jtXgVB {
+    position: relative;
+    border-radius: 12px;
+    background-color: rgb(255, 255, 255);
+    overflow: hidden;
+    box-shadow: rgba(51, 53, 72, 0.04) 0px 0px 8px, rgba(51, 53, 72, 0.12) 1px 2px 4px;
+    box-sizing: border-box;
+    isolation: isolate;
+    transition: transform 250ms ease;
+}
+
+.jtXgVB:hover {
+    transform: scale(1.05);
+}
+
+.cpLvLV {
+    position: absolute;
+    display: flex;
+    padding: 8px 0px;
+    bottom: -32px;
+    left: 8px;
+    right: 8px;
+    color: rgb(245, 246, 252);
+    background: rgb(251, 17, 142);
+    transition: bottom 250ms ease, visibility 250ms ease;
+    will-change: transform;
+    border-radius: 8px;
+    justify-content: center;
+    line-height: 16px;
+    visibility: hidden;
+    cursor: pointer;
+    font-weight: 700 !important;
+}
+
 .jtXgVB:hover .cpLvLV {
     visibility: visible;
-    bottom: 0;
-    transition: bottom 250ms ease, visibility 250ms ease;
+    bottom: 7px;
 }
-
-.jtXgVB::after {
-    content: "";
-    position: absolute;
-    inset: 0px;
-    border: 1px solid rgb(210, 217, 238);
-    border-radius: 12px;
-    pointer-events: none;
-    transition: border 250ms ease 0s;
-    will-change: border;
-}
-
-
-
-
-
-
 
 
 

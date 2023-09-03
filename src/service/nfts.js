@@ -105,7 +105,6 @@ export const allTableDataUSD = [
         image: "/assets/images/bored.png",
         coverImage: "https://i.seadn.io/gae/i5dYZRkVCUK97bfprQ3WXyrT9BnLSZtVKGJlKQ919uaUB0sxbngVCioaiyu9r6snqfi2aaTyIvv6DHm4m2R3y7hMajbsv14pSZK8mhs?w=1517",
         desc: " The Bored Ape Yacht Club is a collection of 10,000 unique Bored Ape NFTs— unique digital collectibles living on the Ethereum blockchain.",
-
         floor: 44280,
         floorChange: 9,
         volume: 3617056,

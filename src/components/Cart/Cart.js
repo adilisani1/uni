@@ -34,7 +34,8 @@ const Cart = ({ addToBag, setIsCartVisible, onRemoveBagItem }) => {
 
                 {addToBag?.map((item) => (
                     <div>
-                        <div className="_1klryar0 rgw6ez44r rgw6ez473 rgw6ez3tf _1jcz50r1 rgw6ez2ef rgw6ez2jx rgw6ez1yr rgw6ez8ct">
+
+                        <div className="_1klryar0 rgw6ez44r rgw6ez473 rgw6ez3tf _1jcz50r1 rgw6ez2ef rgw6ez2jx rgw6ez1yr rgw6ez8ct" id={item.id}>
                             <div className="_1klryar0 rgw6ez44f rgw6ez473" />
                             <div className="_1klryar0 rgw6ez44r rgw6ez473">
                                 <a
@@ -59,7 +60,7 @@ const Cart = ({ addToBag, setIsCartVisible, onRemoveBagItem }) => {
                                             </div>
                                             <div className="_1klryar0 rgw6ez44r rgw6ez46x rgw6ez3x rgw6ez8bh rgw6ez45l rgw6ez3sl">
                                                 <div className="_1klryar0 rgw6ezd3 rgw6ezb9 rgw6eze3 rgw6ez8bh rgw6ez45l rgw6ez45r rgw6ez4bf">
-                                                    {item.selectedName}
+                                                    {item.title}
                                                     {/* BoredApeYachtClub */}
                                                 </div>
                                                 <svg
@@ -114,6 +115,7 @@ const Cart = ({ addToBag, setIsCartVisible, onRemoveBagItem }) => {
                                 </a>
                             </div>
                         </div>
+
 
                         <div className="BagFooter__FooterContainer-sc-8e61f205-0 isERZK">
                             <div className="BagFooter__Footer-sc-8e61f205-1 gLQTOK">
@@ -180,7 +182,6 @@ const Cart = ({ addToBag, setIsCartVisible, onRemoveBagItem }) => {
                     </div>
 
                 ))}
-
 
             </div>
 

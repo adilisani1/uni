@@ -108,42 +108,51 @@ function App() {
   }, []);
 
   //Add to Bag
+  // const onAddToBagHandler = (product) => {
+  //   const existing = addToBag.find((item) => item.id === product.id);
+
+  //   if (existing) {
+  //     const newBagItems = addToBag.map((item) =>
+  //       item.id === product.id
+  //         ? { ...existing, qty: existing.qty + 1 }
+  //         : item
+  //     );
+  //     setAddToBag(newBagItems);
+  //     localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
+  //   } else {
+  //     const matchingDataItem = data.find((item) => item.id === product.id);
+
+  //     if (matchingDataItem) {
+  //       const newBagItems = [
+  //         ...addToBag,
+  //         {
+  //           ...product,
+  //           qty: 1,
+  //           selectedName: matchingDataItem.title,
+  //         },
+  //       ];
+  //       setAddToBag(newBagItems);
+  //       localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
+  //     } else {
+  //       console.log('No matching data found for the product ID');
+  //     }
+  //   }
+  // };
+
   const onAddToBagHandler = (product) => {
     const existing = addToBag.find((item) => item.id === product.id);
+    console.log(existing);
 
-    if (existing) {
-      const newBagItems = addToBag.map((item) =>
-        item.id === product.id
-          ? { ...existing, qty: existing.qty + 1 }
-          : item
-      );
-      setAddToBag(newBagItems);
-      localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
-    } else {
-      const matchingDataItem = data.find((item) => item.id === product.id);
-
-      if (matchingDataItem) {
-        const newBagItems = [
-          ...addToBag,
-          {
-            ...product,
-            qty: 1,
-            selectedName: matchingDataItem.title,
-          },
-        ];
-        setAddToBag(newBagItems);
-        localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
-      } else {
-        console.log('No matching data found for the product ID');
-      }
-    }
-  };
+  }
 
   const onRemoveBagItem = (product) => {
-    const newBagItems = addToBag.filter((item) => item.id !== product.id);
-    setAddToBag(newBagItems);
-    localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
+    // const newBagItems = addToBag.filter((item) => item.id !== product.id);
+    // setAddToBag(newBagItems);
+    // localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
   }
+
+  //showmore click
+
 
   // Theme 
   const [theme, setTheme] = useLocalStorage('light', 'dark');

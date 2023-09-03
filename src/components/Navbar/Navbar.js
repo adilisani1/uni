@@ -12,8 +12,13 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
     const [isActiveHeader, setIsActiveHeader] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [isSearchOpen, setSearchOpen] = useState(false);
+    const [isDropdownVisible, setDropdownVisibility] = useState(false);
+
 
     const ref = useRef(null);
+    const centerSearchRef = useRef(null);
+    const rightSearchRef = useRef(null);
+    const rightSearchInsideRef = useRef(null);
 
     const connectHandler = () => {
         setIsModalOpen(true)
@@ -53,11 +58,40 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
         option.label.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    //For closing search box
+
+    // useEffect(() => {
+    //     const handleClickOutside = (event) => {
+    //         console.log("Clicked outside");  // This should log when you click outside
+
+    //         // larger dropdown
+    //         if (ref.current && !ref.current.contains(event.target)) {
+    //             setSearchOpen(false);
+    //         }
+    //         //  smaller search box
+    //         else if (searchInsideRef.current && !searchInsideRef.current.contains(event.target)) {
+    //             setSearchOpen(false);
+    //         }
+    //     };
+
+    //     document.addEventListener("mousedown", handleClickOutside);
+
+    //     return () => {
+    //         document.removeEventListener("mousedown", handleClickOutside);
+    //     };
+    // }, [ref, searchInsideRef]);
     useEffect(() => {
+        if (!isSearchOpen && !isDropdownVisible) return; // If both dropdowns are closed, no need for the listener
+
         const handleClickOutside = (event) => {
-            if (ref.current && !ref.current.contains(event.target)) {
+            console.log("Clicked outside");
+
+            if (centerSearchRef.current && !centerSearchRef.current.contains(event.target)) {
                 setSearchOpen(false);
+            }
+
+            if (rightSearchRef.current && !rightSearchRef.current.contains(event.target) &&
+                (!rightSearchInsideRef.current || !rightSearchInsideRef.current.contains(event.target))) {
+                setDropdownVisibility(false);
             }
         };
 
@@ -66,7 +100,10 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [ref]);
+    }, [isSearchOpen, isDropdownVisible, centerSearchRef, rightSearchRef, rightSearchInsideRef]);
+
+
+
 
 
     function determineTrendIcon(current, old) {
@@ -91,7 +128,7 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
             <div className={`sc-1dv6j2d-2 hirdVF ${isActiveHeader ? "sticky" : ""}`}>
                 <header id="header" className="header">
                     <nav className="nav ">
-                        {/* left________Nav */}
+                        {/* left____Nav */}
                         <div className="left-nav">
                             <NavLink className="logo-wrap" to="/">
                                 <img className="logo-image" src={logoImage} />
@@ -164,9 +201,9 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
 
                         </div>
 
-                        {/*center________Nav */}
+                        {/*center____Nav */}
                         <div className="center-nav">
-                            <div className="custom-search-dropdown" ref={ref}>
+                            <div className="custom-search-dropdown" ref={centerSearchRef}>
                                 <div className='custom-search-inside inside-search'>
                                     {/* <img className='search-icon' style={{ width: "20px" }} src='/images/search.svg' /> */}
                                     <i className="search-icon ri-search-line"></i>
@@ -286,154 +323,162 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                             </div>
                         </div>
 
-                        {/* right________Nav */}
+                        {/* right____Nav */}
                         <div className="right-nav">
-                            <button className='search-button'>
-                                <i className="search-icon ri-search-line"></i>
-                            </button>
-                            <div className="custom-search-dropdown" ref={ref}>
-                                <div className='custom-search-inside inside-search'>
-                                    {/* <img className='search-icon' style={{ width: "20px" }} src='/images/search.svg' /> */}
-                                    <i className="search-icon ri-search-line"></i>
-
-                                    <input
-                                        className=''
-                                        type='search'
-                                        placeholder='Search tokens and NFT collections'
-                                        value={searchTerm}
-                                        onChange={handleSearchChange}
-                                        onClick={() => setSearchOpen(true)}
-                                    />
-                                    <div className='slash' style={{ display: isSearchOpen ? 'none' : 'block' }}>/</div>
+                            <div className='right-nav-wrapper' >
+                                <div className='search-mobile' >
+                                    {isDropdownVisible && (
+                                        <div className="custom-search-dropdown" ref={rightSearchRef}>
+                                            <div className='custom-search-inside inside-search' ref={rightSearchInsideRef}>
+                                                {/* <img className='search-icon' style={{ width: "20px" }} src='/images/search.svg' /> */}
+                                                <i className="search-icon ri-search-line"></i>
 
 
-                                    {isSearchOpen && (
+                                                <input
+                                                    className=''
+                                                    type='search'
+                                                    placeholder='Search tokens and NFT collections'
+                                                    value={searchTerm}
+                                                    onChange={handleSearchChange}
+                                                    onClick={() => setSearchOpen(true)}
+                                                />
+                                                <div className='slash' style={{ display: isSearchOpen ? 'none' : 'block' }}>/</div>
 
-                                        <ul className="search-options-box">
-                                            <div className='options-box'>
-                                                <div className='so'>
-                                                    <div className=''>
+                                                {isSearchOpen && (
 
-                                                        {filteredOptions.map((option, index) => (
-                                                            <React.Fragment key={index}>
-                                                                {option.price && !filteredOptions[index - 1]?.price && (
+                                                    <ul className="search-options-box">
+                                                        <div className='options-box'>
+                                                            <div className='so'>
+                                                                <div className=''>
 
-                                                                    <div className='popular-tokens'>
-                                                                        <div className="popular-title">
-                                                                            <img className='rotate-arrow' src='assets/images/trends-arrow.png' />
+                                                                    {filteredOptions.map((option, index) => (
+                                                                        <React.Fragment key={index}>
+                                                                            {option.price && !filteredOptions[index - 1]?.price && (
 
-                                                                            <div>Popular Tokens</div>
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                                {/* title for popular NFTs */}
-                                                                {option.floor && !searchOptions[index - 1]?.floor && (
-                                                                    <div className='popular-tokens'>
-                                                                        <div className="popular-title">
-                                                                            <img className='rotate-arrow' src='assets/images/trends-arrow.png' />
-                                                                            <div>Popular NFTs</div>
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                                <React.Fragment>
-                                                                    <div className='popular-tokens-item'>
-                                                                        <a
-                                                                            href='/tokens'
-                                                                            className='tokens-options' onClick={() => {
-                                                                                handleOptionClick(option);
-                                                                                setSearchTerm(option.label);
-                                                                                setSearchOpen(false);
-                                                                            }}>
-                                                                            <div className='left-item' >
-                                                                                <div>
-                                                                                    <div className='img-div'>
-                                                                                        <img src={option.imgSrc} alt={option.label} />
-                                                                                    </div>
-                                                                                    <div className='dCJIvZ'></div>
-                                                                                </div>
-                                                                                <div className='token-name'>
-                                                                                    <div className='token-name-value'>
-                                                                                        <span>{option.label}</span>
-                                                                                    </div>
-                                                                                    <div className='symbol'>
-                                                                                        {option.symbol && <span>{option.symbol}</span>}
-                                                                                        <div className=''>
-                                                                                            {option.items && <span> {option.items.toLocaleString()} items</span>}
-                                                                                        </div>
+                                                                                <div className='popular-tokens'>
+                                                                                    <div className="popular-title">
+                                                                                        <img className='rotate-arrow' src='assets/images/trends-arrow.png' />
+
+                                                                                        <div>Popular Tokens</div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
-                                                                            <div className='right-item'>
-                                                                                {/* data for Tokens */}
-                                                                                {option.price && (
-                                                                                    <React.Fragment>
-                                                                                        <div>
-                                                                                            <div className='price-item'>
-                                                                                                <span className='price-text'>${option.price.toFixed(2)}</span>
+                                                                            )}
+                                                                            {/* title for popular NFTs */}
+                                                                            {option.floor && !searchOptions[index - 1]?.floor && (
+                                                                                <div className='popular-tokens'>
+                                                                                    <div className="popular-title">
+                                                                                        <img className='rotate-arrow' src='assets/images/trends-arrow.png' />
+                                                                                        <div>Popular NFTs</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            )}
+                                                                            <React.Fragment>
+                                                                                <div className='popular-tokens-item'>
+                                                                                    <a
+                                                                                        href='/tokens'
+                                                                                        className='tokens-options' onClick={() => {
+                                                                                            handleOptionClick(option);
+                                                                                            setSearchTerm(option.label);
+                                                                                            setSearchOpen(false);
+                                                                                        }}>
+                                                                                        <div className='left-item' >
+                                                                                            <div>
+                                                                                                <div className='img-div'>
+                                                                                                    <img src={option.imgSrc} alt={option.label} />
+                                                                                                </div>
+                                                                                                <div className='dCJIvZ'></div>
+                                                                                            </div>
+                                                                                            <div className='token-name'>
+                                                                                                <div className='token-name-value'>
+                                                                                                    <span>{option.label}</span>
+                                                                                                </div>
+                                                                                                <div className='symbol'>
+                                                                                                    {option.symbol && <span>{option.symbol}</span>}
+                                                                                                    <div className=''>
+                                                                                                        {option.items && <span> {option.items.toLocaleString()} items</span>}
+                                                                                                    </div>
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
-                                                                                        <div className='percentage'>
+                                                                                        <div className='right-item'>
+                                                                                            {/* data for Tokens */}
+                                                                                            {option.price && (
+                                                                                                <React.Fragment>
+                                                                                                    <div>
+                                                                                                        <div className='price-item'>
+                                                                                                            <span className='price-text'>${option.price.toFixed(2)}</span>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className='percentage'>
 
-                                                                                            <span>{determineTrendIcon(option.price, option.oldPrice)}</span>
-                                                                                            <span className='percentage-text' style={{ color: option.price > option.oldPrice ? "rgb(118, 209, 145)" : "rgb(252, 83, 83)" }}>
-                                                                                                <span>
-                                                                                                    {calculatePercentChange(option.price, option.oldPrice).toFixed(2)}%
-                                                                                                </span>
-                                                                                            </span>
+                                                                                                        <span>{determineTrendIcon(option.price, option.oldPrice)}</span>
+                                                                                                        <span className='percentage-text' style={{ color: option.price > option.oldPrice ? "rgb(118, 209, 145)" : "rgb(252, 83, 83)" }}>
+                                                                                                            <span>
+                                                                                                                {calculatePercentChange(option.price, option.oldPrice).toFixed(2)}%
+                                                                                                            </span>
+                                                                                                        </span>
+                                                                                                    </div>
+
+                                                                                                </React.Fragment>
+                                                                                            )}
+                                                                                            {/* data for Floor */}
+                                                                                            {option.floor && (
+                                                                                                <React.Fragment>
+                                                                                                    <div className='floor-rate'>
+                                                                                                        <span>{option.floor.toFixed(2)} ETH</span>
+                                                                                                    </div>
+                                                                                                    <span className='floor-text'>
+                                                                                                        <p>Floor</p>
+                                                                                                    </span>
+                                                                                                </React.Fragment>
+                                                                                            )}
                                                                                         </div>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </React.Fragment>
 
-                                                                                    </React.Fragment>
-                                                                                )}
-                                                                                {/* data for Floor */}
-                                                                                {option.floor && (
-                                                                                    <React.Fragment>
-                                                                                        <div className='floor-rate'>
-                                                                                            <span>{option.floor.toFixed(2)} ETH</span>
-                                                                                        </div>
-                                                                                        <span className='floor-text'>
-                                                                                            <p>Floor</p>
-                                                                                        </span>
-                                                                                    </React.Fragment>
-                                                                                )}
-                                                                            </div>
-                                                                        </a>
-                                                                    </div>
-                                                                </React.Fragment>
+                                                                        </React.Fragment>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
 
-                                                            </React.Fragment>
-                                                        ))}
-                                                    </div>
-                                                </div>
+                                                        </div>
+                                                    </ul>
+                                                )}
 
                                             </div>
-                                        </ul>
-                                    )}
 
+                                        </div>
+
+                                    )}
+                                    <button className='search-button' onClick={() => setDropdownVisibility(!isDropdownVisible)}>
+                                        <i className="search-icon ri-search-line"></i>
+                                    </button>
                                 </div>
 
-                            </div>
+
+                                {
+                                    (location.pathname === '/nfts' || location.pathname.startsWith('/nfts/'))
+                                        ?
+                                        <Nftbag handleCart={handleCart} />
+                                        :
+                                        <CustomDropdown
+                                            selectedOption={selectedOption}
+                                            toggleDropdown={toggleDropdown}
+                                            isOpen={isOpen}
+                                            optionsLabel={optionsLabel}
+                                            handleOptionClick={handleOptionClick}
+                                        />
+                                }
 
 
-                            {
-                                (location.pathname === '/nfts' || location.pathname.startsWith('/nfts/'))
-                                    ?
-                                    <Nftbag handleCart={handleCart} />
-                                    :
-                                    <CustomDropdown
-                                        selectedOption={selectedOption}
-                                        toggleDropdown={toggleDropdown}
-                                        isOpen={isOpen}
-                                        optionsLabel={optionsLabel}
-                                        handleOptionClick={handleOptionClick}
-                                    />
-                            }
-
-
-                            <div className='connect'>
-                                <button className='connect-btn' onClick={connectHandler}> Connect</button>
+                                <div className='connect'>
+                                    <button className='connect-btn' onClick={connectHandler}> Connect</button>
+                                </div>
                             </div>
                         </div>
                     </nav>
+
                 </header>
                 <Modal
                     isModalOpen={isModalOpen}
