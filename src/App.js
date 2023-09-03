@@ -53,6 +53,7 @@ function App() {
 
   const [liquidityTokenOne, setLiquidityTokenOne] = useState(swapTokens[0]);
   const [liquidityTokenTwo, setLiquidityTokenTwo] = useState({ symbol: 'Select Token' });
+  const [isLiquidityTokenSelected, setIsLiquidityTokenSelected] = useState(false);
 
   const [currency, setCurrency] = useState('ETH');
 
@@ -60,6 +61,8 @@ function App() {
   const handleSwapModal = (currencyId) => {
     setSwapModal(true);
     setCurrentCurrencyId(currencyId);
+    setIsLiquidityTokenSelected(currencyId)
+
   }
 
   //Cart
@@ -255,6 +258,7 @@ function App() {
               selectedToken={selectedToken}
               liquidityTokenOne={liquidityTokenOne}
               liquidityTokenTwo={liquidityTokenTwo}
+              isLiquidityTokenSelected={isLiquidityTokenSelected}
 
             />} />
 

@@ -3,6 +3,7 @@ import './LiquidityModal.css';
 import SwapModal from '../SwapModal/SwapModal';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import BarChart from './BarChart/BarChart';
 
 const LiquidityModal = (
     {
@@ -11,11 +12,14 @@ const LiquidityModal = (
         swapModal,
         setSwapModal,
         handleSelect,
-        selectedToken,
         currentCurrencyId,
         setCurrentCurrencyId,
         liquidityTokenOne,
-        liquidityTokenTwo
+        liquidityTokenTwo,
+        isLiquidityTokenSelected,
+        minInputValue,
+        maxInputValue
+
     }
 ) => {
 
@@ -36,20 +40,22 @@ const LiquidityModal = (
 
 
     // console.log(selectedToken)
-
     const [hideButton, setHideButton] = useState(false);
-    const [minValue, setMinValue] = useState("350,234")
+
+    // const [minInputValue, setMinInputValue] = useState("320,323")
+    // const [maxInputValue, setMaxInputValue] = useState("160,304")
+
+    // const handleInputValue = (e) => {
+
+    // }
 
     const handleButtonHide = () => {
         setHideButton((prev) => !prev)
     }
 
     const renderLiquidityButtonContent = (currencyId) => {
-        let currentToken = (currencyId === "liquidityEthId") ? liquidityTokenOne : liquidityTokenTwo;
-        // console.log(currentToken)
-        // console.log(currencyId)
-        // console.log(liquidityTokenTwo)
 
+        let currentToken = (currencyId === "liquidityEthId") ? liquidityTokenOne : liquidityTokenTwo;
         if (currencyId === "liquidityEthId" || (currencyId !== "liquidityEthId" && currentToken?.symbol !== 'Select Token')) {
             return (
                 <button
@@ -104,6 +110,7 @@ const LiquidityModal = (
                 </button>
             )
         }
+
     };
 
     return (
@@ -284,8 +291,9 @@ const LiquidityModal = (
                                         </div>
                                         <div className="Column__AutoColumn-sc-72c388fb-2 ereioh">
                                             <div
+
                                                 disabled=""
-                                                className="Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 erfjwt dRMJzS"
+                                                className={`Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 erfjwt isLiqudity ${isLiquidityTokenSelected ? 'token-selected' : ''}`}
                                             >
                                                 <div className="sc-bczRLJ Card-sc-8b665604-0 FeeSelector__FocusedOutlineCard-sc-2b537477-0 hJYFVB jlQAxw jgrgoQ">
                                                     <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
@@ -376,7 +384,7 @@ const LiquidityModal = (
                                 </div>
                                 <div
                                     disabled=""
-                                    className="Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 erfjwt dRMJzS"
+                                    className={`Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 erfjwt isLiqudity ${isLiquidityTokenSelected ? 'token-selected' : ''} `}
                                 >
                                     <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
                                         <div className="text__TextWrapper-sc-9327e48a-0 blhgKn css-1lohbqv">
@@ -402,8 +410,7 @@ const LiquidityModal = (
                                                         minLength={1}
                                                         maxLength={79}
                                                         spellCheck="false"
-                                                        // value="822.26855"
-                                                        value={minValue}
+                                                        value={minInputValue}
                                                     />
                                                     <div className="text__TextWrapper-sc-9327e48a-0 iJbhaU InputStepCounter__InputTitle-sc-98d37844-5 eRovVv css-2qpl5c">
                                                         per ETH
@@ -480,8 +487,7 @@ const LiquidityModal = (
                                                         minLength={1}
                                                         maxLength={79}
                                                         spellCheck="false"
-                                                        defaultValue="3268.2111"
-                                                        value="3268.2111"
+                                                        value={maxInputValue}
 
                                                     />
                                                     <div className="text__TextWrapper-sc-9327e48a-0 iJbhaU InputStepCounter__InputTitle-sc-98d37844-5 eRovVv css-2qpl5c">
@@ -545,78 +551,24 @@ const LiquidityModal = (
                                 </div>
                                 <div
                                     disabled=""
-                                    className="Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 erfjwt dRMJzS"
+                                    className={`Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 erfjwt isLiqudity ${isLiquidityTokenSelected ? 'token-selected' : ''}`}
                                 >
-                                    {/* <div
-                                        className="Column__AutoColumn-sc-72c388fb-2 erfjwt"
-                                        style={{ minHeight: 200 }}
-                                    > */}
-                                    {/* <div
-                                            className="Column-sc-72c388fb-0 Column__ColumnCenter-sc-72c388fb-1 hAwhdH kValYi"
-                                            style={{ height: "100%", justifyContent: "center" }}
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={56}
-                                                height={56}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="#FFFFFF"
-                                                strokeWidth={2}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            >
-                                                <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
-                                                <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
-                                            </svg>
-                                            <div className="text__TextWrapper-sc-9327e48a-0 iJbhaU css-2c5569">
-                                                Your position will appear here.
-                                            </div>
-                                        </div> */}
-
-
-                                    {/* <ResponsiveContainer width="100%" height="100%"> */}
-                                    {/* <RangeSelector
-                                            id="range-selector"
-                                            dataSource={dataSource}
-                                            defaultValue={range}
-                                        >
-                                            <Margin top={50} />
-                                            <Scale>
-                                                <TickInterval days={7} />
-                                                <MinorTickInterval days={1} />
-                                            </Scale>
-                                            <Chart>
-                                                <Series argumentField="t" valueField="costs" />
-                                                <Series argumentField="t" valueField="income" />
-                                                <ValueAxis min={0} max={100} />
-                                            </Chart>
-                                            <Behavior
-                                                callValueChanged="onMoving"
-                                                moveSelectedRangeByClick={true}
-                                            />
-                                        </RangeSelector> */}
-                                    {/* </ResponsiveContainer> */}
-
-                                    {/* </div> */}
-
-
                                     {/* CHART */}
                                     <div
                                         className="Column__AutoColumn-sc-72c388fb-2 erfjwt"
                                         style={{ minHeight: 200 }}
                                     >
+                                        <BarChart />
                                         <div className="LiquidityChartRangeInput__ChartWrapper-sc-4b8a30c6-0 AKZXT">
-                                           
+
                                         </div>
-                                        </div>
-                                    {/* ChartEND */}
+                                    </div>
 
                                 </div>
                                 <div>
                                     <div
                                         disabled=""
-                                        className="Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 gXqkQO dRMJzS"
+                                        className={`Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 gXqkQO isLiqudity ${isLiquidityTokenSelected ? 'token-selected' : ''}`}
                                     >
                                         <div className="Column__AutoColumn-sc-72c388fb-2 erfjwt">
                                             <div className="text__TextWrapper-sc-9327e48a-0 blhgKn css-1lohbqv">
@@ -730,7 +682,7 @@ const LiquidityModal = (
                         </div>
                     </main>
                 </div>
-        
+
                 <SwapModal
                     swapTokens={swapTokens}
                     // selectedToken={selectedToken}

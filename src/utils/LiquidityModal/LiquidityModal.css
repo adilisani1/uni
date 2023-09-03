@@ -664,9 +664,14 @@ a {
     justify-content: space-between;
 }
 
-.dRMJzS {
+.isLiqudity {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.isLiqudity.token-selected {
     opacity: 1;
-    /* pointer-events: none; */
+    pointer-events: auto;
 }
 
 .bEIXES {
@@ -723,7 +728,7 @@ a {
 
 .gZlbTK {
     color: rgb(255, 255, 255);
-    width: 0px;
+    /* width: 0px; */
     position: relative;
     font-weight: 400;
     outline: none;
@@ -736,7 +741,7 @@ a {
     text-overflow: ellipsis;
     padding: 0px;
     appearance: textfield;
-    text-align: right;
+    /* text-align: right; */
 }
 
 .css-2qpl5c {
