@@ -18,36 +18,18 @@ const NftsDetails = ({
     onRemoveBagItem
 
 }) => {
-
     const [isHovered, setIsHovered] = useState(false);
     //ShowMoreBtn
     const [showMore, setShowMore] = useState(false);
     const toggleShowMore = () => {
         setShowMore(!showMore);
     };
-    // Degods
-    // https://metadata.degods.com/g/238-s3-male.png
-    // https://metadata.degods.com/g/6716-dead.png
 
-    // const cardData = [
-    //     {
-    //         id: 1,
-    //         image: "https://cdn.center.app/v2/1/b3f42ad408226d768e31432539609c37cf97ee548cfbd7bc468aa6fbebec3d50/11ff5077bf74434942c3f0354d153285137192d6d8dc21303af7134125e6e994.png",
-    //         cardNumber: 7730,
-    //         serialNumber: 1682,
-    //         ethValue: 28.5,
-    //         priceValue: 9174
-    //     },
-    //     {
-    //         id: 2,
-    //         image: "https://cdn.center.app/v2/1/72da0239d4ae18ca5bba2dbdab42e7cb22527bb1034f61da26ce5bc7d66ded4f/e59de98b066e0247a1c4199c9a63cee7abb95fcc785848a15f984a7597c719a9.png",
-    //         cardNumber: 7564,
-    //         serialNumber: 1659,
-    //         ethValue: 29,
-    //         priceValue: 4174
+    const projectIdPattern = /\/nfts\/(\d+)\?currency=USD/;
+    const urlMatch = window.location.href.match(projectIdPattern);
+    const projectIDFromUrl = urlMatch ? Number(urlMatch[1]) : null;
+    const filteredItems = cardData.filter(item => item.projectID === projectIDFromUrl);
 
-    //     }
-    // ]
 
     const { id } = useParams();
     const location = useLocation();
@@ -69,6 +51,9 @@ const NftsDetails = ({
             console.log('No NFT found with the given ID');
         }
     }, [id, allTableDataETH, allTableDataUSD, location]);
+
+
+
 
     return (
         <div>
@@ -403,7 +388,7 @@ const NftsDetails = ({
                                         className="infinite-scroll-component _1w5t04p1 rgw6ez45d rgw6ez3t7 rgw6ez3t8 rgw6ez3tl rgw6ez3ty"
                                         style={{ height: "auto", overflow: "unset" }}
                                     >
-                                        {cardData.map((item) => {
+                                        {filteredItems.map((item) => {
                                             return (
                                                 <div
                                                     draggable="false"

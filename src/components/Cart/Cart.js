@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Cart.css';
 
 const Cart = ({ addToBag, setIsCartVisible, onRemoveBagItem }) => {
+    const [totalEth, setTotalEth] = useState(0);
+    const [showConnectWallet, setShowConnectWallet] = useState(true);
+
+    useEffect(() => {
+        let total = 0;
+        addToBag?.forEach(item => {
+            total += item.ethValue;
+        });
+        setTotalEth(total);
+    }, [addToBag]);
+
     return (
         <div>
 
@@ -32,9 +43,9 @@ const Cart = ({ addToBag, setIsCartVisible, onRemoveBagItem }) => {
                 </div>
                 <div className="_1klryar0 rgw6ezml rgw6ezs3 rgw6ez895 rgw6ez7zp rgw6ez59f rgw6ez6hf rgw6ez5yr rgw6ez4a9 rgw6ez8e1" />
 
-                {addToBag?.map((item) => (
-                    <div>
 
+                <div>
+                    {addToBag?.map((item) => (
                         <div className="_1klryar0 rgw6ez44r rgw6ez473 rgw6ez3tf _1jcz50r1 rgw6ez2ef rgw6ez2jx rgw6ez1yr rgw6ez8ct" id={item.id}>
                             <div className="_1klryar0 rgw6ez44f rgw6ez473" />
                             <div className="_1klryar0 rgw6ez44r rgw6ez473">
@@ -116,7 +127,8 @@ const Cart = ({ addToBag, setIsCartVisible, onRemoveBagItem }) => {
                             </div>
                         </div>
 
-
+                    ))}
+                    {showConnectWallet && addToBag?.length > 0 && (
                         <div className="BagFooter__FooterContainer-sc-8e61f205-0 isERZK">
                             <div className="BagFooter__Footer-sc-8e61f205-1 gLQTOK">
                                 <div className="Column-sc-72c388fb-0 BagFooter__FooterHeader-sc-8e61f205-2 fnQjPn ixcFPf">
@@ -161,31 +173,33 @@ const Cart = ({ addToBag, setIsCartVisible, onRemoveBagItem }) => {
                                                 Total
                                             </div>
                                             <div className="text__TextWrapper-sc-b23cf51f-0 iPDTcg css-45h1g">
-                                                28.75&nbsp;ETH
+                                                {totalEth} ETH
                                             </div>
                                         </div>
                                     </div>
                                     <div className="sc-bczRLJ Row-sc-34df4f97-0 BagFooter__PriceImpactContainer-sc-8e61f205-11 hJYFVB pay-with broPIr">
-                                        <div className="text__TextWrapper-sc-b23cf51f-0 bmvmkq css-1a4qi6e">
+                                        {/* <div className="text__TextWrapper-sc-b23cf51f-0 bmvmkq css-1a4qi6e">
                                             $48,313.44
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                                 <button
                                     data-testid="nft-buy-button"
                                     className="BagFooter__ActionButton-sc-8e61f205-9 KXFgS"
+                                    // onClick={() => setShowConnectWallet(false)}
                                 >
                                     Connect wallet
                                 </button>
                             </div>
-                        </div>
-                    </div>
+                        </div>)}
+                </div>
 
-                ))}
+
 
             </div>
 
         </div>
+        
     )
 }
 

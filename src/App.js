@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 
 import Navbar from "./components/Navbar/Navbar";
 // import Footer from "./components/Footer/Footer";
-
 import Home from './pages/Home/Home';
 import Swap from "./pages/Swap/Swap";
 import Token from "./pages/Tokens/Token";
@@ -27,13 +26,13 @@ import { swapTokens } from "./service/swapTokens";
 
 import SettingModal from "./utils/SettingModal/SettingModal";
 import { allTableDataETH, allTableDataUSD } from "./service/nfts";
+import CartModal from "./components/Cart/CartModal/CartModal";
 
 function App() {
 
   //Add to Bag
   const [addToBag, setAddToBag] = useState([]);
   const [data, setData] = useState(null);
-
 
   //SideBarConnectModal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,7 +51,6 @@ function App() {
   const [selectedTokenSecond, setSelectedTokenSecond] = useState({ symbol: 'Select Token' });
   const [currentCurrencyId, setCurrentCurrencyId] = useState(null);
 
-
   const [liquidityTokenOne, setLiquidityTokenOne] = useState(swapTokens[0]);
   const [liquidityTokenTwo, setLiquidityTokenTwo] = useState({ symbol: 'Select Token' });
 
@@ -68,8 +66,8 @@ function App() {
   const handleCart = () => {
     setIsCartVisible(!isCartVisible)
   }
-  //Swaptokensfunc
 
+  //Swaptokensfunc
   const handleTokenSelect = (token) => {
     const newToken = { ...token };
     if (currentCurrencyId === "ethId") {
@@ -79,8 +77,8 @@ function App() {
     }
     setSwapModal(false);
   }
-  //SwapTokensfunc-liquidty0
 
+  //SwapTokensfunc-liquidty0
   const handleLiquidityTokenSelect = (token) => {
     const newToken = { ...token };
     if (currentCurrencyId === "liquidityEthId") {
@@ -140,20 +138,28 @@ function App() {
   // };
 
   const onAddToBagHandler = (product) => {
-    const existing = addToBag.find((item) => item.id === product.id);
-    console.log(existing);
+    const existing = addToBag.find((item) => item.id === product.id)
+    if (existing) {
+      const newBagItems = addToBag.map((item) =>
+        item.id === product.id
+          ? { ...existing, qty: existing.qty + 1 }
+          : item
+      );
+      setAddToBag(newBagItems);
+      localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
 
+    } else {
+      const newBagItems = [...addToBag, { ...product, qty: 1 }]
+      setAddToBag(newBagItems)
+    }
   }
-
   const onRemoveBagItem = (product) => {
-    // const newBagItems = addToBag.filter((item) => item.id !== product.id);
-    // setAddToBag(newBagItems);
-    // localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
+    const newBagItems = addToBag.filter((item) => item.id !== product.id);
+    setAddToBag(newBagItems);
+    localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
   }
 
   //showmore click
-
-
   // Theme 
   const [theme, setTheme] = useLocalStorage('light', 'dark');
   function switchTheme() {
@@ -251,6 +257,8 @@ function App() {
               liquidityTokenTwo={liquidityTokenTwo}
 
             />} />
+
+            <Route path="/cart-modal" element={<CartModal />} />
             <Route path="/settings" element={<SettingModal />} />
           </Routes>
         </div >

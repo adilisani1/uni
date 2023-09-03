@@ -2,19 +2,26 @@ import React, { useState } from 'react';
 import './Modal.css';
 
 const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
+
+    const languages = [
+        "English",
+        "Afrikaans",
+        "العربية",
+        "Español",
+        "Català",
+        "čeština"
+    ]
+
+    console.log(languages)
     const [isSecondModalOpen, setSecondModalOpen] = useState(false);
 
     const handleButtonClick = () => {
         setSecondModalOpen(true);
     };
 
-    const [languages, setLanguages] = useState([])
 
     // const [sunClicked, setSunClicked] = useState(false);
-
     const [allowLightTheme, setAllowLightTheme] = useState(true);
-
-
     const [activeTheme, setActiveTheme] = useState('dark'); // Default to light theme
 
     const handleSunClick = () => {
@@ -335,7 +342,30 @@ const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
                                                     >
                                                         Language
                                                     </div>
+
                                                     <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=en-US">
+                                                        <div
+                                                            data-testid="wallet-language-item"
+                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
+                                                        >
+                                                            English
+                                                        </div>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={20}
+                                                            height={20}
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="#4C82FB"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            opacity={1}
+                                                        >
+                                                            <polyline points="20 6 9 17 4 12" />
+                                                        </svg>
+                                                    </a>
+                                                    {/* <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=en-US">
                                                         <div
                                                             data-testid="wallet-language-item"
                                                             className="sc-sx9n2y-0 kivXvb css-zhpkf8"
@@ -604,7 +634,7 @@ const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
                                                         >
                                                             繁体中文
                                                         </div>
-                                                    </a>
+                                                    </a> */}
                                                     <div className="sc-1lgoclx-0 zoyEF">
                                                         <div className="sc-d5tbhs-1 cSretk">
                                                             <div className="sc-sx9n2y-0 bqwbXT css-zhpkf8">

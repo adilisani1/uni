@@ -998,10 +998,9 @@ a {
 }
 
 
-
 .CeCJo {
     position: relative;
-    height: 100px;
+    height: 110px;
 }
 
 .iVpcBV {
@@ -1149,11 +1148,12 @@ a {
     box-shadow: rgba(51, 53, 72, 0.04) 0px 0px 8px, rgba(51, 53, 72, 0.12) 1px 2px 4px;
     box-sizing: border-box;
     isolation: isolate;
+    height: auto;
     transition: transform 250ms ease;
 }
 
 .jtXgVB:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
 }
 
 .cpLvLV {
@@ -1179,8 +1179,6 @@ a {
     visibility: visible;
     bottom: 7px;
 }
-
-
 
 
 
