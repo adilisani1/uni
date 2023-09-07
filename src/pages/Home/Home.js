@@ -2,6 +2,7 @@ import React from 'react';
 
 import './Home.css';
 import Footer from '../../components/Footer/Footer';
+import { NavLink } from 'react-router-dom';
 
 const Home = () => {
     return (
@@ -24,7 +25,7 @@ const Home = () => {
                                     <div className='gear'>
                                         <button className='gear-btn'>
                                             <div>
-                                                <i class="ri-settings-3-fill gear-icon"></i>
+                                                <i className="ri-settings-3-fill gear-icon"></i>
                                             </div>
                                         </button>
                                     </div>
@@ -37,7 +38,7 @@ const Home = () => {
                                             <div className='input-wrapper'>
                                                 <label className='youPay-label'>You pay</label>
                                                 <div className='paying-wrapper' >
-                                                    <input id="token-amount" class="token-amount-input token-home"
+                                                    <input id="token-amount" className="token-amount-input token-home"
                                                         inputMode="numeric"
                                                         autocomplete="off"
                                                         autocorrect="off"
@@ -54,7 +55,7 @@ const Home = () => {
                                                         <button id="open-currency-select" className='open-currency-btn-top'>
                                                             <span className='span-one'>
                                                                 <div className='cryptocurrency-wrapper'>
-                                                                    <div class="image-wrapper " >
+                                                                    <div className="image-wrapper " >
                                                                         <div>
                                                                             <img className='icon-image' src='./assets/images/tokens/eth-icon.png' alt='eth-icon' />
                                                                         </div>
@@ -89,7 +90,7 @@ const Home = () => {
                                                 <div className='input-wrapper'>
                                                     <label className='youPay-label'>You receive</label>
                                                     <div className='paying-wrapper'>
-                                                        <input id="token-amount" class="token-amount-input token-home"
+                                                        <input id="token-amount" className="token-amount-input token-home"
                                                             inputMode="numeric"
                                                             autocomplete="off"
                                                             autocorrect="off"
@@ -106,8 +107,8 @@ const Home = () => {
                                                             <button id="open-currency-select" className='open-currency-btn-bottom'>
                                                                 <span className='span-two'>
                                                                     <div className='cryptocurrency-wrapper'>
-                                                                        <div class="text-wrapper" >
-                                                                            <span class="select-token">Select token</span>
+                                                                        <div className="text-wrapper" >
+                                                                            <span className="select-token">Select token</span>
                                                                         </div>
 
                                                                     </div>
@@ -127,8 +128,8 @@ const Home = () => {
 
                                         </div>
                                         <div>
-                                            <button font-weight="600" id="connectId" class="connect-wallet">
-                                                <div class=""></div>
+                                            <button font-weight="600" id="connectId" className="connect-wallet">
+                                                <div className=""></div>
                                                 Connect Wallet
                                             </button>
                                         </div>
@@ -153,11 +154,11 @@ const Home = () => {
                         <p>Buy, sell, and explore tokens and NFTs</p>
                     </div>
                     <span className='get-started-wrapper'>
-                        <a id='getStartedBtnId' className='get-started-btn get-btn' href='#/swap'>
+                        <NavLink id='getStartedBtnId' className='get-started-btn get-btn' to='/swap'>
                             <p className='get-started-text'>
                                 Get Started
                             </p>
-                        </a>
+                        </NavLink>
                     </span>
                     <div className='learn-more'>
                         Learn more

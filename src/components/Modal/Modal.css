@@ -139,6 +139,12 @@
     color: var(--color-white);
 }
 
+.kivXvxb:hover {
+
+    background: rgb(188, 188, 188);
+
+}
+
 .NRTGQ>* {}
 
 .kIafUC {
@@ -452,6 +458,8 @@ a {
     width: fit-content;
 }
 
+
+
 button {
     user-select: none;
 }
@@ -464,6 +472,7 @@ button {
     margin-left: 2.2em;
     width: 24px;
 }
+
 
 .fhPvJh {
     width: 100%;
@@ -532,9 +541,16 @@ button {
     color: rgb(13, 17, 28);
 }
 
+
+
+.lang-tick {
+    color: var(--btn-color);
+    font-size: 20px;
+}
+
 .css-zhpkf8 {
     box-sizing: border-box;
-    margin: 0px;
+    margin: rgb(156, 156, 156);
     min-width: 0px;
     font-weight: 400;
     font-size: 14px;

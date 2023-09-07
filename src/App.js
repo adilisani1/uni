@@ -20,7 +20,7 @@ import TokenDetails from "./components/TokenDetails/TokenDetails";
 //Navbar Data
 import { optionsLabel, searchOptions } from "./service/navbar";
 //Tokens Data
-import { allTableData, updateTime, options, chartData } from "./service/tokens";
+import { allTableData, updateTime, options } from "./service/tokens";
 //Swap Modal Tokens Data
 import { swapTokens } from "./service/swapTokens";
 
@@ -57,19 +57,42 @@ function App() {
 
   const [currency, setCurrency] = useState('ETH');
 
-  //Swap Modal Func
+  const [inputValues, setInputValues] = useState({
+    youPay: "",
+    youReceive: ""
+  });
+
+  const handleInputChange = (event) => {
+    const inputValue = event.target.value;
+    const inputName = event.target.name;
+
+    if (/^[0-9]*[.,]?[0-9]*$/.test(inputValue)) {
+      setInputValues((prevInputValues) => ({
+        ...prevInputValues,
+        [inputName]: inputValue,
+      }));
+    }
+  };
+
+  const calculateYouReceiveAmount = () => {
+    if (inputValues.youPay && selectedToken.price && selectedTokenSecond.price) {
+      const youPayAmount = parseFloat(inputValues.youPay);
+      const youReceiveAmount = (youPayAmount * selectedToken.price) / selectedTokenSecond.price;
+      return youReceiveAmount.toFixed(4);
+    }
+    return;
+  };
+
+  //Swap Modal Open Func
   const handleSwapModal = (currencyId) => {
     setSwapModal(true);
     setCurrentCurrencyId(currencyId);
     setIsLiquidityTokenSelected(currencyId)
-
   }
-
   //Cart
   const handleCart = () => {
     setIsCartVisible(!isCartVisible)
   }
-
   //Swaptokensfunc
   const handleTokenSelect = (token) => {
     const newToken = { ...token };
@@ -80,7 +103,6 @@ function App() {
     }
     setSwapModal(false);
   }
-
   //SwapTokensfunc-liquidty0
   const handleLiquidityTokenSelect = (token) => {
     const newToken = { ...token };
@@ -100,8 +122,8 @@ function App() {
       handleTokenSelect(token);
     }
     setSwapModal(false);
-  }
 
+  }
 
   //Save bag item
   useEffect(() => {
@@ -109,37 +131,6 @@ function App() {
   }, []);
 
   //Add to Bag
-  // const onAddToBagHandler = (product) => {
-  //   const existing = addToBag.find((item) => item.id === product.id);
-
-  //   if (existing) {
-  //     const newBagItems = addToBag.map((item) =>
-  //       item.id === product.id
-  //         ? { ...existing, qty: existing.qty + 1 }
-  //         : item
-  //     );
-  //     setAddToBag(newBagItems);
-  //     localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
-  //   } else {
-  //     const matchingDataItem = data.find((item) => item.id === product.id);
-
-  //     if (matchingDataItem) {
-  //       const newBagItems = [
-  //         ...addToBag,
-  //         {
-  //           ...product,
-  //           qty: 1,
-  //           selectedName: matchingDataItem.title,
-  //         },
-  //       ];
-  //       setAddToBag(newBagItems);
-  //       localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
-  //     } else {
-  //       console.log('No matching data found for the product ID');
-  //     }
-  //   }
-  // };
-
   const onAddToBagHandler = (product) => {
     const existing = addToBag.find((item) => item.id === product.id)
     if (existing) {
@@ -162,7 +153,6 @@ function App() {
     localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
   }
 
-  //showmore click
   // Theme 
   const [theme, setTheme] = useLocalStorage('light', 'dark');
   function switchTheme() {
@@ -184,6 +174,7 @@ function App() {
           privacyModal={privacyModal}
           setPrivacyModal={setPrivacyModal}
           handleCart={handleCart}
+          addToBag={addToBag}
 
         />
         <div>
@@ -193,6 +184,8 @@ function App() {
 
             <Route path="/swap" element={<Swap
               swapTokens={swapTokens}
+              handleInputChange={handleInputChange}
+              calculateYouReceiveAmount={calculateYouReceiveAmount}
               handleSwapModal={handleSwapModal}
               swapModal={swapModal}
               setSwapModal={setSwapModal}
@@ -201,13 +194,18 @@ function App() {
               setSelectedToken={setSelectedToken}
               selectedTokenSecond={selectedTokenSecond}
               setSelectedTokenSecond={setSelectedTokenSecond}
+              inputValues={inputValues}
+              setInputValues={setInputValues}
               // handleTokenSelect={handleTokenSelect}
               handleSelect={(token, isLiquidity) => handleSelect(token, isLiquidity)}
-              currentCurrencyId={currentCurrencyId} />}
-              setCurrentCurrencyId={setCurrentCurrencyId} />
+              currentCurrencyId={currentCurrencyId}
+              setCurrentCurrencyId={setCurrentCurrencyId}
+            />} />
 
             <Route path="/tokens" element={<Token allTableData={allTableData} updateTime={updateTime} options={options} />} />
+
             <Route path="/pools" element={<Pools setIsModalOpen={setIsModalOpen} />} />
+
             <Route path="/nfts"
               element={
                 <Nfts
@@ -225,7 +223,30 @@ function App() {
                   currency={currency}
                   setCurrency={setCurrency}
                 />} />
-            <Route path="/tokens/:id" element={<TokenDetails allTableData={allTableData} chartData={chartData} />} />
+
+            <Route path="/tokens/:id" element={
+
+              <TokenDetails
+                setIsModalOpen={setIsModalOpen}
+                allTableData={allTableData}
+                swapTokens={swapTokens}
+                inputValues={inputValues}
+                setInputValues={setInputValues}
+                handleInputChange={handleInputChange}
+                calculateYouReceiveAmount={calculateYouReceiveAmount}
+                selectedToken={selectedToken}
+                setSelectedToken={setSelectedToken}
+                selectedTokenSecond={selectedTokenSecond}
+                setSelectedTokenSecond={setSelectedTokenSecond}
+                swapModal={swapModal}
+                setSwapModal={setSwapModal}
+                handleSwapModal={handleSwapModal}
+                handleSelect={handleSelect}
+
+              />} />
+
+
+
             <Route path="/nfts/:id" element={
               <NftsDetails
                 data={data}
@@ -239,15 +260,14 @@ function App() {
                 currency={currency}
                 setCurrency={setCurrency}
                 isCartVisible={isCartVisible} setIsCartVisible={setIsCartVisible}
+                setIsModalOpen={setIsModalOpen}
               />}
             />
 
             <Route path="/vote" element={<Vote />} />
-
             <Route path="/privacy" element={<PrivacyModal />} />
 
             <Route path="/liquidity" element={<LiquidityModal
-              chartData={chartData}
               swapTokens={swapTokens}
               handleSwapModal={handleSwapModal}
               swapModal={swapModal}
@@ -264,6 +284,7 @@ function App() {
 
             <Route path="/cart-modal" element={<CartModal />} />
             <Route path="/settings" element={<SettingModal />} />
+
           </Routes>
         </div >
 

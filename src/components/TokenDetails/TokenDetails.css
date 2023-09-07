@@ -10,6 +10,10 @@
 
 }
 
+.recharts-default-tooltip {
+    display: none;
+}
+
 .hoPRWs {
     position: fixed;
     top: 72px;
@@ -348,7 +352,7 @@ a {
 }
 
 .hZgvDp {
-    position: absolute;
+    /* position: absolute; */
     animation: 250ms ease-in 0s 1 normal none running jBcSpD;
 }
 

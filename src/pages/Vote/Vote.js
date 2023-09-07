@@ -28,7 +28,7 @@ const Vote = () => {
                                     rel="noopener noreferrer"
                                     href="https://uniswap.org/blog/uni"
                                     className="sc-7yzmni-9 koQguv"
-                                    style={{ color: "rgb(255, 255, 255)", textDecoration: "underline" }}
+                                    style={{ color: "rgb(255, 255, 255)", textDecoration: "none" }}
                                 >
                                     <div className="sc-sx9n2y-0 EngNh css-1aekuku">
                                         Read more about Uniswap governance
@@ -44,7 +44,7 @@ const Vote = () => {
                     <div className="sc-bczRLJ sc-nrd8cx-0 sc-nrd8cx-1 sc-uxt6ak-6 hJYFVB fhPvJh frnZMK bqNfQS">
                         <div
                             className="sc-sx9n2y-0 kandXm css-68pfx3"
-                            style={{ margin: "0.5rem 0.5rem 0.5rem 0px", flexShrink: 0 ,color:"var(--color-white)"}}
+                            style={{ margin: "0.5rem 0.5rem 0.5rem 0px", flexShrink: 0, color: "var(--color-white)" }}
                         >
                             Proposals
                         </div>
@@ -259,7 +259,7 @@ const Vote = () => {
                     </a>
                 </div>
                 <div className="sc-sx9n2y-0 kandXm css-zhpkf8" style={{ color: "var(--color-white)" }}
-                  >
+                >
                     A minimum threshold of 0.25% of the total UNI supply is required to submit
                     proposals
                 </div>

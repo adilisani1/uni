@@ -6,7 +6,7 @@ import CustomDropdown from './dropdown.js';
 import { NavLink } from 'react-router-dom';
 import Modal from '../Modal/Modal';
 
-const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModalOpen, setIsModalOpen, handleCart, }) => {
+const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModalOpen, setIsModalOpen, addToBag, handleCart, }) => {
     const logoImage = currentTheme === 'dark' ? '/assets/images/logo/logo-two.png' : '/assets/images/logo/logo-two-black.png';
     const location = useLocation();
     const [isActiveHeader, setIsActiveHeader] = useState(false);
@@ -58,27 +58,6 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
         option.label.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-
-    // useEffect(() => {
-    //     const handleClickOutside = (event) => {
-    //         console.log("Clicked outside");  // This should log when you click outside
-
-    //         // larger dropdown
-    //         if (ref.current && !ref.current.contains(event.target)) {
-    //             setSearchOpen(false);
-    //         }
-    //         //  smaller search box
-    //         else if (searchInsideRef.current && !searchInsideRef.current.contains(event.target)) {
-    //             setSearchOpen(false);
-    //         }
-    //     };
-
-    //     document.addEventListener("mousedown", handleClickOutside);
-
-    //     return () => {
-    //         document.removeEventListener("mousedown", handleClickOutside);
-    //     };
-    // }, [ref, searchInsideRef]);
     useEffect(() => {
         if (!isSearchOpen && !isDropdownVisible) return; // If both dropdowns are closed, no need for the listener
 
@@ -101,9 +80,6 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isSearchOpen, isDropdownVisible, centerSearchRef, rightSearchRef, rightSearchInsideRef]);
-
-
-
 
 
     function determineTrendIcon(current, old) {
@@ -460,7 +436,7 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                                 {
                                     (location.pathname === '/nfts' || location.pathname.startsWith('/nfts/'))
                                         ?
-                                        <Nftbag handleCart={handleCart} />
+                                        <Nftbag addToBag={addToBag} handleCart={handleCart} />
                                         :
                                         <CustomDropdown
                                             selectedOption={selectedOption}

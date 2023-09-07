@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import './Token.css';
 import { Link } from 'react-router-dom';
+import { LineChart, Line } from 'recharts';
 
 const Token = ({ allTableData, updateTime, options }) => {
 
     const [sortBy, setSortBy] = useState(null);
     const [sortOrder, setSortOrder] = useState('desc');
+    const [apiData, setApiData] = useState([]);
 
     const [selectedOption, setSelectedOption] = useState(options[0]);
-    const [updateOption, setUpdateOption] = useState(updateTime[1])
+    // const [updateOption, setUpdateOption] = useState(updateTime[1])
     const [isOpen, setIsOpen] = useState(false);
     const [handleOpen, setHandleOpen] = useState(false);
 
     const [filteredTableData, setFilteredTableData] = useState(allTableData);
+    const [selectedTimePeriod, setSelectedTimePeriod] = useState(updateTime[1]);
+
+    const handleTimePeriodChange = (newTimePeriod) => {
+        setSelectedTimePeriod(newTimePeriod);
+    };
 
     const sortData = (criteria) => {
         const newSortOrder = sortBy === criteria && sortOrder === 'asc' ? 'desc' : 'asc';
@@ -33,7 +40,25 @@ const Token = ({ allTableData, updateTime, options }) => {
         setFilteredTableData(sortedData);
     };
 
+    const filteredData = allTableData.filter((data) =>
+        data.label === selectedOption.label
+    );
 
+    if (allTableData[0].api) {
+        fetch(allTableData[0].api)
+            .then((response) => response.json())
+            .then((data) => {
+                setApiData(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching data from API:', error);
+            });
+    }
+
+    useEffect(() => {
+
+        setFilteredTableData(filteredData);
+    }, [selectedOption]);
 
     const handleCryptoOpen = () => {
         setIsOpen(!isOpen);
@@ -71,6 +96,25 @@ const Token = ({ allTableData, updateTime, options }) => {
         return Math.abs((current - old) / old * 100);
     }
 
+    //tvl data 
+    function formatTvlWithLabel(value) {
+        if (value >= 1000000000) {
+            return {
+                formattedValue: (value / 1000000000).toFixed(2),
+                label: 'B',
+            };
+        } else if (value >= 1000000) {
+            return {
+                formattedValue: (value / 1000000).toFixed(2),
+                label: 'M',
+            };
+        } else {
+            return {
+                formattedValue: value.toFixed(2),
+                label: '',
+            };
+        }
+    }
     return (
         <React.Fragment>
             <div className='token-wrapper'>
@@ -123,7 +167,7 @@ const Token = ({ allTableData, updateTime, options }) => {
                                 <div className='token-update'>
                                     <button id='updateBtn' className='update-btn' onClick={handleUpdateOpen}>
                                         <div className='token-update-text'>
-                                            {updateOption.label}
+                                            {selectedTimePeriod.label}
                                             <span className={`icon-drop ${handleOpen ? 'rotated' : ''}`}>
                                                 <i className="ri-arrow-down-s-line"></i>
                                             </span>
@@ -135,13 +179,14 @@ const Token = ({ allTableData, updateTime, options }) => {
                                         {updateTime.map((op) => (
                                             <li id='' className='chstga iCcgEc' >
                                                 <div className='' onClick={() => {
-                                                    setUpdateOption(op);
+                                                    handleTimePeriodChange(op.value)
+                                                    // setSelectedTimePeriod(op);
                                                     setHandleOpen(false);
                                                 }}>
                                                     {op.label}
                                                 </div>
                                                 <div className=''>
-                                                    {updateOption.value === op.value && <i className="tick-icon ri-check-line"></i>}
+                                                    {selectedTimePeriod.value === op.value && <i className="tick-icon ri-check-line"></i>}
                                                 </div>
                                             </li>
                                         ))}
@@ -330,7 +375,10 @@ const Token = ({ allTableData, updateTime, options }) => {
                                                 data-testid="tvl-cell"
                                                 className="sc-1bit9h6-0 sc-1bit9h6-6 sc-1bit9h6-7 hJyIyF dQscKx fLGPoq"
                                             >
-                                                <div className="sc-1bit9h6-2 bvHTKj">{`$${data.tvl}`}</div>
+                                                <div className="sc-1bit9h6-2 bvHTKj">
+                                                    ${formatTvlWithLabel(data.tvl).formattedValue}
+                                                    {formatTvlWithLabel(data.tvl).label}
+                                                </div>
                                             </div>
                                             <div
                                                 data-testid="volume-cell"
@@ -340,7 +388,15 @@ const Token = ({ allTableData, updateTime, options }) => {
                                             </div>
                                             <div className="sc-1bit9h6-0 sc-1bit9h6-14 hJyIyF NpKpm">
                                                 <div className="sc-1bit9h6-0 sc-1bit9h6-15 hJyIyF FLymZ">
-                                                    <div style={{ width: '100%', height: '100%' }}>graph-img</div>
+                                                    <div style={{ width: '100%', height: '100%' }}>
+                                                        <LineChart
+                                                            width={60}
+                                                            height={30}
+                                                            data={apiData}
+                                                        >
+                                                            <Line type="monotone" dataKey="price" stroke="#FB118E" dot={false} />
+                                                        </LineChart>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

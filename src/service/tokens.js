@@ -9,12 +9,14 @@ export const options = [
     { value: 'base', imgSrc: '/assets/images/tokens/base.svg', label: 'Base' },
 ];
 
+
 export const updateTime = [
-    { value: "1h", label: '1H' },
-    { value: "1d", label: '1D' },
-    { value: "1w", label: '1W' },
-    { value: "1m", label: '1M' },
-    { value: "1y", label: '1Y' },
+    { value: "1h", label: '1H', duration: 3600000 }, // 1 hour in milliseconds
+    { value: "1d", label: '1D', duration: 86400000 }, // 1 day in milliseconds
+    { value: "1w", label: '1W', duration: 604800000 }, // 1 week in milliseconds
+    { value: "1m", label: '1M', duration: 2592000000 }, // 1 month in milliseconds
+    { value: "1y", label: '1Y', duration: 31536000000 }, // 1 year in milliseconds
+
 ]
 
 export const allTableData = [
@@ -25,10 +27,11 @@ export const allTableData = [
         image: '/assets/images/tokens/eth-icon.png',
         price: 1847.65,
         oldPrice: 1720.65,
-        tvl: 1.2,
+        tvl: 1200000000,
         volume: 257.0,
         label: 'Ethereum',
-        bioData: "Ethereum is a smart contract platform"
+        bioData: "Ethereum is a smart contract platform",
+        api: 'http://localhost:3001/api/eth'
     },
 
     {
@@ -38,42 +41,12 @@ export const allTableData = [
         image: '/assets/images/usdt-polygon-icon.png',
         price: 1.00,
         oldPrice: 1.00,
-        tvl: 617.1,
+        tvl: 6170000,
         volume: 149.4,
         label: 'Ethereum',
-        bioData: "USDC is a fully collateralized US dollar stablecoin. USDC is the bridge between dollars and trading on cryptocurrency exchanges.  "
+        bioData: "USDC is a fully collateralized US dollar stablecoin. USDC is the bridge between dollars and trading on cryptocurrency exchanges.  ",
+        api: 'http://localhost:3001/api/usd'
     },
 ]
 
-
-export const chartData = [
-    {
-        name: 'ETH',
-        uv: 600,
-    },
-    {
-        name: 'ETH',
-        uv: 900,
-    },
-    {
-        name: 'ETH',
-        uv: 500,
-    },
-    {
-        name: 'ETH',
-        uv: 1100,
-    },
-    {
-        name: 'ETH',
-        uv: 1790,
-    },
-    {
-        name: 'ETH',
-        uv: 1890,
-    },
-    {
-        name: 'ETH',
-        uv: 1600,
-    },
-];
 

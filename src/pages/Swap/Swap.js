@@ -14,35 +14,21 @@ const Swap = (
         setSelectedToken,
         selectedTokenSecond,
         setSelectedTokenSecond,
+        inputValues,
+        handleInputChange,
+        calculateYouReceiveAmount,
         handleSelect
     }) => {
 
-
-    const [inputValues, setInputValues] = useState({
-        "you-pay": "",
-        "you-receive": ""
-    });
-
     const [etheriumId, setEtheriumId] = useState("ethId");
     const [tokenId, setTokenId] = useState("tokenId");
-
-    const handleInputChange = (event) => {
-        const inputValue = event.target.value;
-        const inputName = event.target.name;
-
-        if (/^[0-9]*[.,]?[0-9]*$/.test(inputValue)) {
-            setInputValues((prevInputValues) => ({
-                ...prevInputValues,
-                [inputName]: inputValue
-            }));
-        }
-    };
 
     const switchHandler = () => {
         const temp = etheriumId;
         setEtheriumId(tokenId);
         setTokenId(temp);
     };
+
     const renderButtonContent = (currencyId) => {
         let currentToken = (currencyId === "ethId") ? selectedToken : selectedTokenSecond;
         if (currencyId === "ethId" || (currencyId !== "ethId" && currentToken?.symbol !== 'Select Token')) {
@@ -65,6 +51,7 @@ const Swap = (
                         <div className='dropdown-icon'>
                             <i className="ri-arrow-down-s-line"></i>
                         </div>
+
                     </span>
                 </button>
             );
@@ -85,7 +72,6 @@ const Swap = (
             )
         }
     };
-
 
     return (
 
@@ -115,19 +101,20 @@ const Swap = (
                             <div className='you-pay'>
                                 <div id='swap-currency-input' className='swap-currency'>
                                     <div className='input-wrapper'>
-                                        <label className='youPay-label'>You pay</label>
+                                        <div className='youPay-label'>You pay</div>
                                         <div className='paying-wrapper'>
+
                                             <input id="token-amount" class="token-amount-input"
                                                 inputMode="numeric"
                                                 autocomplete="off"
                                                 autocorrect="off"
                                                 type="text"
-                                                name="you-pay"
+                                                name="youPay"
                                                 placeholder="0"
                                                 minlength="1"
                                                 maxlength="79"
                                                 spellcheck="false"
-                                                value={inputValues["you-pay"]}
+                                                value={inputValues.youPay}
                                                 onChange={handleInputChange} />
 
                                             <div id={etheriumId}>
@@ -135,7 +122,11 @@ const Swap = (
                                             </div>
 
                                         </div>
-
+                                        {inputValues.youPay && (
+                                            <div className='youPay-label-2'>
+                                                ${(inputValues.youPay * selectedToken.price).toFixed(2)}
+                                            </div>
+                                        )}
                                     </div>
 
                                 </div>
@@ -152,25 +143,29 @@ const Swap = (
                                 <div className='you-receive'>
                                     <div id='swap-currency-input' className='swap-currency'>
                                         <div className='input-wrapper'>
-                                            <label className='youPay-label'>You receive</label>
+                                            <label className='youReceive-label'>You receive</label>
                                             <div className='paying-wrapper'>
                                                 <input id="token-amount" class="token-amount-input"
                                                     inputMode="numeric"
                                                     autocomplete="off"
                                                     autocorrect="off"
-                                                    name="you-receive"
+                                                    name="youReceive"
                                                     type="text"
                                                     placeholder="0"
                                                     minlength="1"
                                                     maxlength="79"
                                                     spellcheck="false"
-                                                    value={inputValues["you-receive"]}
+                                                    value={calculateYouReceiveAmount()}
                                                     onChange={handleInputChange} />
 
                                                 <div id={tokenId}>
                                                     {renderButtonContent(tokenId)}
                                                 </div>
 
+                                            </div>
+
+                                            <div className='youReceive-label2'>
+                                                {/* {calculateYouReceiveAmount()} */}
                                             </div>
 
                                         </div>
@@ -180,7 +175,7 @@ const Swap = (
                                 </div>
                                 <div>
                                     <button font-weight="600" id="connectId" class="connect-wallet" onClick={() => setIsModalOpen(true)}>
-                                        <div class=""></div>
+                                        <div className=""></div>
                                         Connect Wallet
                                     </button>
                                 </div>

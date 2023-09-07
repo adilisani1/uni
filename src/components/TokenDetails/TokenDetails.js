@@ -2,10 +2,30 @@ import React, { useEffect, useState } from 'react';
 import Swap from '../../pages/Swap/Swap'
 import './TokenDetails.css';
 import { useParams } from 'react-router-dom';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, Tooltip, ResponsiveContainer } from 'recharts';
 import { NavLink } from 'react-router-dom';
+import SwapModal from '../../utils/SwapModal/SwapModal';
 
-const TokenDetails = ({ allTableData, chartData }) => {
+const TokenDetails = (
+    {
+        setIsModalOpen,
+        allTableData,
+        inputValues,
+        setInputValues,
+        swapTokens,
+        handleInputChange,
+        calculateYouReceiveAmount,
+        selectedToken,
+        selectedTokenSecond,
+        swapModal,
+        setSwapModal,
+        handleSwapModal,
+        handleSelect
+
+
+    }) => {
+    const [activePrice, setActivePrice] = useState(null);
+    const [apiData, setApiData] = useState([]);
 
     //ShowMoreBtn
     const [showMore, setShowMore] = useState(false);
@@ -13,18 +33,29 @@ const TokenDetails = ({ allTableData, chartData }) => {
         setShowMore(!showMore);
     };
 
-    const [tokensData, setTokensData] = useState(allTableData)
+    const [tokensData, setTokensData] = useState(allTableData);
     const { id } = useParams();
 
-    useEffect(() => {
-        const tokenDetails = () => {
-            const singleToken = allTableData.filter((item) => item.id === Number(id));
-            setTokensData(singleToken);
+    //tvl data 
+    function formatTvlWithLabel(value) {
+        if (value >= 1000000000) {
+            return {
+                formattedValue: (value / 1000000000).toFixed(2),
+                label: 'B',
+            };
+        } else if (value >= 1000000) {
+            return {
+                formattedValue: (value / 1000000).toFixed(2),
+                label: 'M',
+            };
+        } else {
+            return {
+                formattedValue: value.toFixed(2),
+                label: '',
+            };
+        }
+    }
 
-        };
-
-        tokenDetails();
-    }, [id, allTableData]);
 
     function determineTrendIcon(current, old) {
         if (current > old) {
@@ -43,8 +74,24 @@ const TokenDetails = ({ allTableData, chartData }) => {
         return Math.abs((current - old) / old * 100);
     }
 
+    useEffect(() => {
+        const tokenDetails = () => {
+            const singleToken = allTableData.filter((item) => item.id === Number(id));
+            setTokensData(singleToken);
+        };
 
+        // Fetch data API
+        fetch('http://localhost:3001/api/eth')
+            .then((response) => response.json())
+            .then((data) => {
+                setApiData(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching API data:', error);
+            });
 
+        tokenDetails();
+    }, [id, allTableData]);
 
     return (
         <div>
@@ -110,7 +157,6 @@ const TokenDetails = ({ allTableData, chartData }) => {
                                 <i className="ri-arrow-left-line"></i>
                                 Tokens
                             </NavLink>
-
                             <div
                                 data-testid="token-info-container"
                                 className="sc-qwzj9s-6 kbDyok"
@@ -158,7 +204,10 @@ const TokenDetails = ({ allTableData, chartData }) => {
                                 <div data-testid="chart-container" className="sc-qwzj9s-4 eDREki">
                                     <div style={{ width: "100%", height: "100%" }}>
                                         <div data-cy="chart-header" className="sc-1nu6e54-3 hZgvDp">
-                                            <span className="sc-1nu6e54-4 gLsRgG textclr">${data.price.toFixed(2).toLocaleString()}</span>
+                                            <span className="sc-1nu6e54-4 gLsRgG textclr">
+                                                ${activePrice ? activePrice.toFixed(2).toLocaleString() : data.price.toFixed(2).toLocaleString()}
+                                            </span>
+
                                             <div className="sc-1nu6e54-6 khjLim textclr">
                                                 {/* 0.38% */}
 
@@ -172,11 +221,21 @@ const TokenDetails = ({ allTableData, chartData }) => {
                                             </div>
                                         </div>
                                         <ResponsiveContainer width="100%" height="100%">
-                                            <LineChart width={780} height={392} data={chartData}>
-                                                <Line type="monotone" dataKey="uv" stroke="#FB118E" dot={false} />
+                                            <LineChart
+                                                width={780}
+                                                height={392}
+                                                data={apiData}
+                                                onMouseMove={e => {
+                                                    if (e?.activePayload && e?.activePayload[0] && e?.activePayload[0].payload) {
+                                                        setActivePrice(e.activePayload[0]?.payload?.uv);
+                                                    }
+                                                }}
+                                                onMouseLeave={() => setActivePrice(null)}
+                                            >
+                                                <Line type="monotone" dataKey="price" stroke="#FB118E" dot={false} />
+                                                <Tooltip />
                                             </LineChart>
                                         </ResponsiveContainer>
-
                                     </div>
                                     <div className="sc-1wj62vu-0 ibmoxq">
                                         <div className="sc-1wj62vu-1 fvQpGv">
@@ -199,7 +258,10 @@ const TokenDetails = ({ allTableData, chartData }) => {
                                             <div className="sc-d5tbhs-1 cSretk">
                                                 <div>TVL</div>
                                             </div>
-                                            <div className="sc-y05v5v-4 iydZZJ">${data.tvl}</div>
+                                            <div className="sc-y05v5v-4 iydZZJ">
+                                                ${formatTvlWithLabel(data.tvl).formattedValue}
+                                                {formatTvlWithLabel(data.tvl).label}
+                                            </div>
                                         </div>
                                         <div data-cy="volume-24h" className="sc-y05v5v-0 iJvfTG">
                                             <div className="sc-d5tbhs-1 cSretk">
@@ -282,14 +344,31 @@ const TokenDetails = ({ allTableData, chartData }) => {
                         </div>
                     ))}
 
-
-
                     <div className='kFzxb'>
-                        <Swap />
+                        <Swap
+                            selectedToken={selectedToken}
+                            selectedTokenSecond={selectedTokenSecond}
+                            setIsModalOpen={setIsModalOpen}
+                            handleSwapModal={handleSwapModal}
+                            swapTokens={swapTokens}
+                            inputValues={inputValues}
+                            setInputValues={setInputValues}
+                            handleInputChange={handleInputChange}
+                            calculateYouReceiveAmount={calculateYouReceiveAmount}
+                        />
                     </div>
 
                 </div>
             </div>
+
+            <SwapModal
+                handleSwapModal={handleSwapModal}
+                swapModal={swapModal}
+                setSwapModal={setSwapModal}
+                swapTokens={swapTokens}
+                selectedToken={selectedToken}
+                selectedTokenSecond={selectedTokenSecond}
+                handleSelect={handleSelect} />
         </div>
     )
 }

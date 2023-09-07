@@ -5,20 +5,29 @@ const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
 
     const languages = [
         "English",
-        "Afrikaans",
-        "العربية",
-        "Español",
-        "Català",
-        "čeština"
+        // "Afrikaans",
+        // "العربية",
+        // "Español",
+        // "Català",
+        // "čeština",
+        // "dansk",
+        // "Deutsch",
     ]
 
-    console.log(languages)
     const [isSecondModalOpen, setSecondModalOpen] = useState(false);
+    const [selectedLanguage, setSelectedLanguage] = useState([0]);
+    const [isChecked, setIsChecked] = useState(false);
+
+    const toggleChecked = () => {
+        setIsChecked(!isChecked);
+    }
+    const handleLanguageClick = (index) => {
+        setSelectedLanguage(index);
+    };
 
     const handleButtonClick = () => {
         setSecondModalOpen(true);
     };
-
 
     // const [sunClicked, setSunClicked] = useState(false);
     const [allowLightTheme, setAllowLightTheme] = useState(true);
@@ -288,9 +297,10 @@ const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
                                                                 </div>
                                                             </div>
                                                             <button
-                                                                role="option"
-                                                                aria-selected="true"
-                                                                className="sc-1poje5t-0 jANAGB"
+                                                                role="checkbox"
+                                                                aria-checked={isChecked}
+                                                                className={`sc-1poje5t-0 jANAGB ${isChecked ? 'checked' : ''}`}
+                                                                onClick={toggleChecked}
                                                             >
                                                                 <span className="sc-1poje5t-1 jsjUXs" />
                                                             </button>
@@ -342,299 +352,24 @@ const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
                                                     >
                                                         Language
                                                     </div>
+                                                    {languages.map((lang, index) => (
+                                                        <React.Fragment key={index}>
+                                                            <a
+                                                                className={`sc-k6pz4u-0 iFDhEy ${index === selectedLanguage ? 'active' : ''}`}
+                                                                href="#/nfts?lng=en-US"
+                                                                onClick={() => handleLanguageClick(index)}
+                                                            >
+                                                                <div
+                                                                    data-testid="wallet-language-item"
+                                                                    className="sc-sx9n2y-0 kivXvb css-zhpkf8"
+                                                                >
+                                                                    {lang}
+                                                                </div>
+                                                                {index === selectedLanguage && <i className="lang-tick ri-check-line"></i>}
+                                                            </a>
+                                                        </React.Fragment>
+                                                    ))}
 
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=en-US">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            English
-                                                        </div>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            width={20}
-                                                            height={20}
-                                                            viewBox="0 0 24 24"
-                                                            fill="none"
-                                                            stroke="#4C82FB"
-                                                            strokeWidth={2}
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            opacity={1}
-                                                        >
-                                                            <polyline points="20 6 9 17 4 12" />
-                                                        </svg>
-                                                    </a>
-                                                    {/* <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=en-US">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            English
-                                                        </div>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            width={20}
-                                                            height={20}
-                                                            viewBox="0 0 24 24"
-                                                            fill="none"
-                                                            stroke="#4C82FB"
-                                                            strokeWidth={2}
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            opacity={1}
-                                                        >
-                                                            <polyline points="20 6 9 17 4 12" />
-                                                        </svg>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=af-ZA">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            Afrikaans
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=ar-SA">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            العربية
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=ca-ES">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            Català
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=cs-CZ">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            čeština
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=da-DK">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            dansk
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=de-DE">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            Deutsch
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=el-GR">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            ελληνικά
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=es-ES">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            Español
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=fi-FI">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            suomi
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=fr-FR">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            français
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=he-IL">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            עִברִית
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=hu-HU">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            Magyar
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=id-ID">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            bahasa Indonesia
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=it-IT">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            Italiano
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=ja-JP">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            日本語
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=ko-KR">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            한국어
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=nl-NL">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            Nederlands
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=no-NO">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            norsk
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=pl-PL">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            Polskie
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=pt-BR">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            português
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=pt-PT">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            português
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=ro-RO">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            Română
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=ru-RU">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            русский
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=sr-SP">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            Српски
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=sv-SE">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            svenska
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=sw-TZ">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            Kiswahili
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=tr-TR">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            Türkçe
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=uk-UA">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            Український
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=vi-VN">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            Tiếng Việt
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=zh-CN">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            简体中文
-                                                        </div>
-                                                    </a>
-                                                    <a className="sc-k6pz4u-0 iFDhEy" href="#/nfts?lng=zh-TW">
-                                                        <div
-                                                            data-testid="wallet-language-item"
-                                                            className="sc-sx9n2y-0 kivXvb css-zhpkf8"
-                                                        >
-                                                            繁体中文
-                                                        </div>
-                                                    </a> */}
                                                     <div className="sc-1lgoclx-0 zoyEF">
                                                         <div className="sc-d5tbhs-1 cSretk">
                                                             <div className="sc-sx9n2y-0 bqwbXT css-zhpkf8">

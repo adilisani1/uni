@@ -5,6 +5,13 @@ import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import BarChart from './BarChart/BarChart';
 
+const feeOptions = [
+    { value: 0.01, percent: 0, description: 'Best for very stable pairs' },
+    { value: 0.05, percent: 25, description: 'Best for stable pairs' },
+    { value: 0.3, percent: 74, description: 'Best for most pairs' },
+    { value: 1, percent: 2, description: 'Best for exotic pairs' },
+];
+
 const LiquidityModal = (
     {
         swapTokens,
@@ -25,6 +32,13 @@ const LiquidityModal = (
 
     const [data, setData] = useState([]);
 
+    const [hideButton, setHideButton] = useState(false);
+    const [feeValue, setFeeValue] = useState(0.3);
+
+    const handleButtonClick = (newFeeValue) => {
+        setFeeValue(newFeeValue);
+    };
+
     const fetchData = async () => {
         try {
             const response = await axios.get('https://mocki.io/v1/5aee862d-4403-46a6-8b57-948563486117');
@@ -39,15 +53,6 @@ const LiquidityModal = (
     }, []);
 
 
-    // console.log(selectedToken)
-    const [hideButton, setHideButton] = useState(false);
-
-    // const [minInputValue, setMinInputValue] = useState("320,323")
-    // const [maxInputValue, setMaxInputValue] = useState("160,304")
-
-    // const handleInputValue = (e) => {
-
-    // }
 
     const handleButtonHide = () => {
         setHideButton((prev) => !prev)
@@ -189,63 +194,64 @@ const LiquidityModal = (
                     </div>
                 </div>
                 <div className="styled__ScrollablePage-sc-a3e32a7b-1 kVNjZg">
-                    <main className={`AppBody_BodyWrapper-sc-19e20e47-0 AddLiquidity_StyledBodyWrapper-sc-91848848-0 GfTH ${hideButton ? "FuZnx-expanded" : "FuZnx"}`}>                        <div className="NavigationTabs__Tabs-sc-b4540a6e-0 kmmojd">
-                        <div
-                            className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr"
-                            style={{ padding: "1rem 1rem 0px" }}
-                        >
-                            <NavLink
-                                flex={1}
-                                className="NavigationTabs__StyledLink-sc-b4540a6e-1 dIAqzj"
-                                to="/pools"
+                    <main className={`AppBody_BodyWrapper-sc-19e20e47-0 AddLiquidity_StyledBodyWrapper-sc-91848848-0 GfTH ${hideButton ? "FuZnx-expanded" : "FuZnx"}`}>
+                        <div className="NavigationTabs__Tabs-sc-b4540a6e-0 kmmojd">
+                            <div
+                                className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr"
+                                style={{ padding: "1rem 1rem 0px" }}
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width={24}
-                                    height={24}
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="#98A1C0"
-                                    strokeWidth={2}
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="NavigationTabs__StyledArrowLeft-sc-b4540a6e-3 jpkEeW"
+                                <NavLink
+                                    flex={1}
+                                    className="NavigationTabs__StyledLink-sc-b4540a6e-1 dIAqzj"
+                                    to="/pools"
                                 >
-                                    <line x1={19} y1={12} x2={5} y2={12} />
-                                    <polyline points="12 19 5 12 12 5" />
-                                </svg>
-                            </NavLink>
-                            <div className="text__TextWrapper-sc-9327e48a-0 blhgKn NavigationTabs__AddRemoveTitleText-sc-b4540a6e-4 cMHLWt css-12uvan3">
-                                Add Liquidity
-                            </div>
-                            <div className="css-vurnku" style={{ marginRight: "0.5rem" }}>
-                                <div
-                                    className="sc-bczRLJ Row-sc-34df4f97-0 fgCeff gOYHMo"
-                                    style={{ width: "fit-content", minWidth: "fit-content" }}
-                                >
-                                    <div className="styled__MediumOnly-sc-a3e32a7b-6 cYrhOe">
-                                        <button className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonText-sc-4f96dcd8-9 hWKjgZ jtnClT">
-                                            <div className="text__TextWrapper-sc-9327e48a-0 cWDToC css-15li2d9">
-                                                Clear All
-                                            </div>
-                                        </button>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width={24}
+                                        height={24}
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="#98A1C0"
+                                        strokeWidth={2}
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className="NavigationTabs__StyledArrowLeft-sc-b4540a6e-3 jpkEeW"
+                                    >
+                                        <line x1={19} y1={12} x2={5} y2={12} />
+                                        <polyline points="12 19 5 12 12 5" />
+                                    </svg>
+                                </NavLink>
+                                <div className="text__TextWrapper-sc-9327e48a-0 blhgKn NavigationTabs__AddRemoveTitleText-sc-b4540a6e-4 cMHLWt css-12uvan3">
+                                    Add Liquidity
+                                </div>
+                                <div className="css-vurnku" style={{ marginRight: "0.5rem" }}>
+                                    <div
+                                        className="sc-bczRLJ Row-sc-34df4f97-0 fgCeff gOYHMo"
+                                        style={{ width: "fit-content", minWidth: "fit-content" }}
+                                    >
+                                        <div className="styled__MediumOnly-sc-a3e32a7b-6 cYrhOe">
+                                            <button className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonText-sc-4f96dcd8-9 hWKjgZ jtnClT">
+                                                <div className="text__TextWrapper-sc-9327e48a-0 cWDToC css-15li2d9">
+                                                    {/* Clear All */}
+                                                </div>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="Settings__Menu-sc-6676197f-0 imhdhD">
-                                <button
-                                    id="open-settings-dialog-button"
-                                    data-testid="open-settings-dialog-button"
-                                    aria-label="Transaction Settings"
-                                    className="MenuButton__Button-sc-773d3ba1-1 kHIRPQ"
-                                >
-                                    <div className="sc-bczRLJ Row-sc-34df4f97-0 MenuButton__IconContainer-sc-773d3ba1-2 hJYFVB gOYHMo hrkQLI">
-                                        <i className="text-white  ri-settings-3-fill"></i>
-                                    </div>
-                                </button>
+                                <div className="Settings__Menu-sc-6676197f-0 imhdhD">
+                                    <button
+                                        id="open-settings-dialog-button"
+                                        data-testid="open-settings-dialog-button"
+                                        aria-label="Transaction Settings"
+                                        className="MenuButton__Button-sc-773d3ba1-1 kHIRPQ"
+                                    >
+                                        <div className="sc-bczRLJ Row-sc-34df4f97-0 MenuButton__IconContainer-sc-773d3ba1-2 hJYFVB gOYHMo hrkQLI">
+                                            <i style={{ fontSize: "22px" }} className="ri-settings-3-fill"></i>
+                                        </div>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
                         <div className="styled__Wrapper-sc-a3e32a7b-0 vSeCC">
                             <div className="styled__ResponsiveTwoColumns-sc-a3e32a7b-5 dXokMm">
                                 <div className="Column__AutoColumn-sc-72c388fb-2 ereGUg">
@@ -267,7 +273,6 @@ const LiquidityModal = (
                                                     >
                                                         {/* ETH BUTTON */}
                                                         {renderLiquidityButtonContent("liquidityEthId")}
-
 
                                                     </div>
                                                 </div>
@@ -302,7 +307,7 @@ const LiquidityModal = (
                                                             className="Column__AutoColumn-sc-72c388fb-2 gXqkQO"
                                                         >
                                                             <div className="text__TextWrapper-sc-9327e48a-0 blhgKn css-1lohbqv">
-                                                                0.3% fee tier
+                                                                {feeValue}% fee tier
 
                                                             </div>
                                                             <div className="text__TextWrapper-sc-9327e48a-0 fbSdRZ css-fczr0v">
@@ -319,62 +324,30 @@ const LiquidityModal = (
                                                 </div>
                                                 {hideButton && (
                                                     <div className="FeeSelector__Select-sc-2b537477-1 dpNkPS">
-                                                        <button className="sc-bczRLJ lbXqUa Button__BaseButton-sc-4f96dcd8-1 Button__ButtonOutlined-sc-4f96dcd8-7 eOoGds aQTri">
-                                                            <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
-                                                                <div className="Column__AutoColumn-sc-72c388fb-2 ezHOjM">
-                                                                    <div className="Column__AutoColumn-sc-72c388fb-2 gajsee">
-                                                                        <div className="text__TextWrapper-sc-9327e48a-0 blhgKn FeeOption__ResponsiveText-sc-6b7ccec1-0 fYKQxG css-1lohbqv">
-                                                                            0.01%
-                                                                        </div>
-                                                                        <div className="text__TextWrapper-sc-9327e48a-0 fbSdRZ css-fczr0v">
-                                                                            Best for very stable pairs.
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </button>
-                                                        <button className="sc-bczRLJ lbXqUa Button__BaseButton-sc-4f96dcd8-1 Button__ButtonOutlined-sc-4f96dcd8-7 eOoGds aQTri">
-                                                            <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
-                                                                <div className="Column__AutoColumn-sc-72c388fb-2 ezHOjM">
-                                                                    <div className="Column__AutoColumn-sc-72c388fb-2 gajsee">
-                                                                        <div className="text__TextWrapper-sc-9327e48a-0 blhgKn FeeOption__ResponsiveText-sc-6b7ccec1-0 fYKQxG css-1lohbqv">
-                                                                            0.05%
-                                                                        </div>
-                                                                        <div className="text__TextWrapper-sc-9327e48a-0 fbSdRZ css-fczr0v">
-                                                                            Best for stable pairs.
+                                                        {feeOptions.map((feeItem, index) => (
+                                                            <button className={`sc-bczRLJ  Button__BaseButton-sc-4f96dcd8-1 Button__ButtonOutlined-sc-4f96dcd8-7 eOoGds aQTri
+                                                              lbXqUa  ${feeValue === feeItem.value ? 'selected' : ""}`}
+                                                                key={index} onClick={() => handleButtonClick(feeItem.value)}>
+                                                                <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
+                                                                    <div className="Column__AutoColumn-sc-72c388fb-2 ezHOjM">
+                                                                        <div className="Column__AutoColumn-sc-72c388fb-2 gajsee">
+                                                                            <div className="text__TextWrapper-sc-9327e48a-0 blhgKn FeeOption__ResponsiveText-sc-6b7ccec1-0 fYKQxG css-1lohbqv">
+                                                                                {feeItem.value}%
+                                                                            </div>
+
+                                                                            <div className="text__TextWrapper-sc-9327e48a-0 fbSdRZ css-fczr0v">
+                                                                                {feeItem.description}
+                                                                            </div>
+                                                                            <div className="Badge-sc-8f0f9d15-0 gYarwg">
+                                                                                <div className="text__TextWrapper-sc-58dbf47a-0 lkkRDH css-fppy5i">
+                                                                                    {feeItem.percent}% select
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </button>
-                                                        <button className="sc-bczRLJ lbXqUa Button__BaseButton-sc-4f96dcd8-1 Button__ButtonOutlined-sc-4f96dcd8-7 eOoGds aQTri">
-                                                            <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
-                                                                <div className="Column__AutoColumn-sc-72c388fb-2 ezHOjM">
-                                                                    <div className="Column__AutoColumn-sc-72c388fb-2 gajsee">
-                                                                        <div className="text__TextWrapper-sc-9327e48a-0 blhgKn FeeOption__ResponsiveText-sc-6b7ccec1-0 fYKQxG css-1lohbqv">
-                                                                            0.3%
-                                                                        </div>
-                                                                        <div className="text__TextWrapper-sc-9327e48a-0 fbSdRZ css-fczr0v">
-                                                                            Best for most pairs.
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </button>
-                                                        <button className="sc-bczRLJ lbXqUa Button__BaseButton-sc-4f96dcd8-1 Button__ButtonOutlined-sc-4f96dcd8-7 eOoGds aQTri">
-                                                            <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
-                                                                <div className="Column__AutoColumn-sc-72c388fb-2 ezHOjM">
-                                                                    <div className="Column__AutoColumn-sc-72c388fb-2 gajsee">
-                                                                        <div className="text__TextWrapper-sc-9327e48a-0 blhgKn FeeOption__ResponsiveText-sc-6b7ccec1-0 fYKQxG css-1lohbqv">
-                                                                            1%
-                                                                        </div>
-                                                                        <div className="text__TextWrapper-sc-9327e48a-0 fbSdRZ css-fczr0v">
-                                                                            Best for exotic pairs.
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </button>
+                                                            </button>
+                                                        ))}
                                                     </div>
                                                 )}
 
@@ -560,7 +533,6 @@ const LiquidityModal = (
                                     >
                                         <BarChart />
                                         <div className="LiquidityChartRangeInput__ChartWrapper-sc-4b8a30c6-0 AKZXT">
-
                                         </div>
                                     </div>
 

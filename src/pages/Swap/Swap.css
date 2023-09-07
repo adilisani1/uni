@@ -208,7 +208,7 @@
 }
 
 .paying-wrapper .token-amount-input {
-    color: rgb(255, 255, 255);
+    color: var(--color-white);
     width: 0px;
     position: relative;
     font-weight: 400;
@@ -372,10 +372,10 @@
 .open-currency-btn-bottom {
     -webkit-box-align: center;
     align-items: center;
-    background-color: var(--btn-color);
+    background-color: var(--open-currency-btn-bg);
     opacity: 1;
     box-shadow: rgba(0, 0, 0, 0.075) 0px 6px 10px;
-    color: var(--open-currency-btn-color);
+    color: var(--open-currency-btn-top);
     cursor: pointer;
     height: unset;
     border-radius: 16px;

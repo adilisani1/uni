@@ -3,6 +3,7 @@ import './NftsDetails.css';
 import { useParams, useLocation } from 'react-router-dom';
 import Cart from '../../components/Cart/Cart';
 import { cardData } from '../../service/nftDetails';
+// import { swapTokens } from '../../service/swapTokens';
 
 const NftsDetails = ({
     allTableDataETH,
@@ -14,17 +15,20 @@ const NftsDetails = ({
     data,
     setData,
     addToBag,
+    setAddToBag,
     onAddToBagHandler,
-    onRemoveBagItem
+    onRemoveBagItem,
+    setIsModalOpen
 
 }) => {
     const [isHovered, setIsHovered] = useState(false);
+    //CartModal
+    const [cartModal, setCartModal] = useState(false);
     //ShowMoreBtn
     const [showMore, setShowMore] = useState(false);
     const toggleShowMore = () => {
         setShowMore(!showMore);
     };
-
     const projectIdPattern = /\/nfts\/(\d+)\?currency=USD/;
     const urlMatch = window.location.href.match(projectIdPattern);
     const projectIDFromUrl = urlMatch ? Number(urlMatch[1]) : null;
@@ -53,6 +57,11 @@ const NftsDetails = ({
     }, [id, allTableDataETH, allTableDataUSD, location]);
 
 
+    //Cart Modal Open Func
+    const handleCartModal = () => {
+        setCartModal(true)
+    }
+
 
 
     return (
@@ -61,8 +70,12 @@ const NftsDetails = ({
                 addToBag={addToBag}
                 onRemoveBagItem={onRemoveBagItem}
                 onAddToBagHandler={onAddToBagHandler}
-
-                setIsCartVisible={setIsCartVisible} />}
+                cartModal={cartModal}
+                setCartModal={setCartModal}
+                handleCartModal={handleCartModal}
+                setIsModalOpen={setIsModalOpen}
+                setIsCartVisible={setIsCartVisible}
+                setAddToBag={setAddToBag} />}
 
             <div className="sc-1dv6j2d-0 bCNYil">
 

@@ -252,10 +252,10 @@ button {
     font-feature-settings: "ss01", "ss02", "cv01", "cv03";
 }
 
-/* .FuZnx {
+.FuZnx {
     padding: 0px;
     max-width: 640px;
-} */
+}
 
 .FuZnx-expanded {
     width: 640px !important;
@@ -322,7 +322,7 @@ a {
 
 
 .cWDToC {
-    color: var(--model-btn-color);
+    /* color: var(--model-btn-color); */
 }
 
 .imhdhD {
@@ -610,6 +610,24 @@ a {
     padding: 12px 8px;
 }
 
+.lbXqUa.selected {
+    border: 1px solid #979797;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.lfTBxZ {
+    height: 17px;
+    width: 17px;
+    border-radius: 50%;
+    background-color: rgb(252, 114, 255);
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+
 .eOoGds>* {
     user-select: none;
 }
@@ -643,6 +661,8 @@ a {
 
 .blhgKn {
     color: var(--color-white);
+
+
 }
 
 .fYKQxG {
@@ -657,6 +677,28 @@ a {
     font-weight: 400;
     font-size: 12px;
     text-align: left;
+}
+
+.gYarwg {
+    -webkit-box-align: center;
+    align-items: center;
+    background: rgb(249, 249, 249);
+    border: unset;
+    border-radius: 0.5rem;
+    color: rgb(0, 0, 0);
+    display: inline-flex;
+    padding: 4px 6px;
+    -webkit-box-pack: center;
+    justify-content: center;
+    font-weight: 535;
+}
+
+.css-fppy5i {
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    font-weight: 485;
+    font-size: 10px;
 }
 
 .BkVYr {
@@ -727,7 +769,7 @@ a {
 }
 
 .gZlbTK {
-    color: rgb(255, 255, 255);
+    color: var(--model-bg-text);
     /* width: 0px; */
     position: relative;
     font-weight: 400;
@@ -735,7 +777,7 @@ a {
     border: none;
     flex: 1 1 auto;
     background-color: transparent;
-    font-size: 20px;
+    font-size: 23px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

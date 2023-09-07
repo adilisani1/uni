@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './Navbar.css';
 
 
-function Nftbag({ handleCart }) {
+function Nftbag({ addToBag, handleCart }) {
 
 
     return (
@@ -35,6 +35,7 @@ function Nftbag({ handleCart }) {
                         strokeLinejoin="round"
                     />
                 </svg>
+                <div className={`${addToBag?.length === 0 ? "" : "bag-counter"}`}>{addToBag?.length >= 1 ? addToBag.length : ""}</div>
             </button>
 
         </div >
