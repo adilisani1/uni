@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './LiquidityModal.css';
 import SwapModal from '../SwapModal/SwapModal';
 import { NavLink } from 'react-router-dom';
-import axios from 'axios';
 import BarChart from './BarChart/BarChart';
+import SettingModal from '../../utils/SettingModal/SettingModal';
 
 const feeOptions = [
     { value: 0.01, percent: 0, description: 'Best for very stable pairs' },
@@ -24,49 +24,37 @@ const LiquidityModal = (
         liquidityTokenOne,
         liquidityTokenTwo,
         isLiquidityTokenSelected,
-        minInputValue,
-        maxInputValue
+        isSettingModal,
+        handleSettingModal,
 
+        // minInputValue,
+        // maxInputValue
     }
 ) => {
 
-    const [data, setData] = useState([]);
-
     const [hideButton, setHideButton] = useState(false);
     const [feeValue, setFeeValue] = useState(0.3);
+    const [minInputValue, setMinInputValue] = useState(0);
+    const [maxInputValue, setMaxInputValue] = useState(0);
 
     const handleButtonClick = (newFeeValue) => {
         setFeeValue(newFeeValue);
     };
 
-    const fetchData = async () => {
-        try {
-            const response = await axios.get('https://mocki.io/v1/5aee862d-4403-46a6-8b57-948563486117');
-            setData(response.data);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-
-
     const handleButtonHide = () => {
         setHideButton((prev) => !prev)
     }
 
+    //Token
     const renderLiquidityButtonContent = (currencyId) => {
-
         let currentToken = (currencyId === "liquidityEthId") ? liquidityTokenOne : liquidityTokenTwo;
         if (currencyId === "liquidityEthId" || (currencyId !== "liquidityEthId" && currentToken?.symbol !== 'Select Token')) {
             return (
                 <button
                     id={`open-currency-select-${currencyId}`}
                     className={`sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP hcUXCv ${currencyId === "liquidityEthId" ? 'open-currency-selected-top' : 'open-currency-selected-bottom'}`}
-                    onClick={() => handleSwapModal(currencyId)}
+                // onClick={() => handleSwapModal(currencyId)
+                // }
                 >
 
                     <span className="CurrencyInputPanel__Aligner-sc-73f91aaf-6 kkiXeD">
@@ -99,8 +87,14 @@ const LiquidityModal = (
                 </button>
             );
         } else {
+
             return (
-                <button id={`open-currency-select-${currencyId}`} className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP iGQvak open-currency-selected-bottom" onClick={() => handleSwapModal(currencyId)}
+                <button id={`open-currency-select-${currencyId}`}
+                    className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP iGQvak open-currency-selected-bottom"
+                    onClick={() => {
+                        handleSwapModal(currencyId);
+                        // handleTokenSelection(currencyId);
+                    }}
                 >
                     <span className="CurrencyInputPanel__Aligner-sc-73f91aaf-6 kkiXeD">
                         <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowFixed-sc-34df4f97-4 hJYFVB gOYHMo jeYuAz">
@@ -117,6 +111,7 @@ const LiquidityModal = (
         }
 
     };
+
 
     return (
         <div>
@@ -244,11 +239,16 @@ const LiquidityModal = (
                                         data-testid="open-settings-dialog-button"
                                         aria-label="Transaction Settings"
                                         className="MenuButton__Button-sc-773d3ba1-1 kHIRPQ"
+                                        onClick={handleSettingModal}
                                     >
                                         <div className="sc-bczRLJ Row-sc-34df4f97-0 MenuButton__IconContainer-sc-773d3ba1-2 hJYFVB gOYHMo hrkQLI">
                                             <i style={{ fontSize: "22px" }} className="ri-settings-3-fill"></i>
                                         </div>
+
                                     </button>
+                                    {isSettingModal && (
+                                        <SettingModal />
+                                    )}
                                 </div>
                             </div>
                         </div>

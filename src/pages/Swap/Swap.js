@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Swap.css';
 import SwapModal from '../../utils/SwapModal/SwapModal';
+import SettingModal from '../../utils/SettingModal/SettingModal';
 
 const Swap = (
     {
@@ -17,7 +18,9 @@ const Swap = (
         inputValues,
         handleInputChange,
         calculateYouReceiveAmount,
-        handleSelect
+        handleSelect,
+        isSettingModal,
+        handleSettingModal
     }) => {
 
     const [etheriumId, setEtheriumId] = useState("ethId");
@@ -88,11 +91,14 @@ const Swap = (
                             </div>
 
                             <div className='gear'>
-                                <button className='gear-btn'>
+                                <button className='gear-btn' onClick={handleSettingModal}>
                                     <div>
-                                        <i class="ri-settings-3-fill gear-icon"></i>
+                                        <i class="ri-settings-3-fill gear-icon" ></i>
                                     </div>
                                 </button>
+                                {isSettingModal && (
+                                    <SettingModal />
+                                )}
                             </div>
                         </div>
 
@@ -186,6 +192,7 @@ const Swap = (
 
                     </main>
                 </div>
+
             </div>
 
             <SwapModal

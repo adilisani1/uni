@@ -24,9 +24,7 @@ import { allTableData, updateTime, options } from "./service/tokens";
 //Swap Modal Tokens Data
 import { swapTokens } from "./service/swapTokens";
 
-import SettingModal from "./utils/SettingModal/SettingModal";
 import { allTableDataETH, allTableDataUSD } from "./service/nfts";
-import CartModal from "./components/Cart/CartModal/CartModal";
 
 function App() {
 
@@ -46,6 +44,9 @@ function App() {
   //NFT BAG 
   const [isCartVisible, setIsCartVisible] = useState(false);
 
+  //Setting modal
+
+
   //Swap .js
   const [selectedToken, setSelectedToken] = useState(swapTokens[0]);
   const [selectedTokenSecond, setSelectedTokenSecond] = useState({ symbol: 'Select Token' });
@@ -54,6 +55,7 @@ function App() {
   const [liquidityTokenOne, setLiquidityTokenOne] = useState(swapTokens[0]);
   const [liquidityTokenTwo, setLiquidityTokenTwo] = useState({ symbol: 'Select Token' });
   const [isLiquidityTokenSelected, setIsLiquidityTokenSelected] = useState(false);
+  const [isSettingModal, setIsSettingModal] = useState(false);
 
   const [currency, setCurrency] = useState('ETH');
 
@@ -93,6 +95,7 @@ function App() {
   const handleCart = () => {
     setIsCartVisible(!isCartVisible)
   }
+
   //Swaptokensfunc
   const handleTokenSelect = (token) => {
     const newToken = { ...token };
@@ -103,6 +106,7 @@ function App() {
     }
     setSwapModal(false);
   }
+
   //SwapTokensfunc-liquidty0
   const handleLiquidityTokenSelect = (token) => {
     const newToken = { ...token };
@@ -114,7 +118,6 @@ function App() {
     setSwapModal(false);
   }
 
-
   const handleSelect = (token, isLiquidity) => {
     if (isLiquidity) {
       handleLiquidityTokenSelect(token);
@@ -122,7 +125,6 @@ function App() {
       handleTokenSelect(token);
     }
     setSwapModal(false);
-
   }
 
   //Save bag item
@@ -152,7 +154,11 @@ function App() {
     setAddToBag(newBagItems);
     localStorage.setItem("newBagItems", JSON.stringify(newBagItems));
   }
-
+  // Setting modal
+  const handleSettingModal = () => {
+    setIsSettingModal((prev) => !prev);
+    console.log(!isSettingModal)
+  }
   // Theme 
   const [theme, setTheme] = useLocalStorage('light', 'dark');
   function switchTheme() {
@@ -200,9 +206,16 @@ function App() {
               handleSelect={(token, isLiquidity) => handleSelect(token, isLiquidity)}
               currentCurrencyId={currentCurrencyId}
               setCurrentCurrencyId={setCurrentCurrencyId}
+              isSettingModal={isSettingModal}
+              setIsSettingModal={setIsSettingModal}
+              handleSettingModal={handleSettingModal}
             />} />
 
-            <Route path="/tokens" element={<Token allTableData={allTableData} updateTime={updateTime} options={options} />} />
+            <Route path="/tokens" element={
+              <Token
+                allTableData={allTableData}
+                updateTime={updateTime}
+                options={options} />} />
 
             <Route path="/pools" element={<Pools setIsModalOpen={setIsModalOpen} />} />
 
@@ -246,7 +259,6 @@ function App() {
               />} />
 
 
-
             <Route path="/nfts/:id" element={
               <NftsDetails
                 data={data}
@@ -279,11 +291,11 @@ function App() {
               liquidityTokenOne={liquidityTokenOne}
               liquidityTokenTwo={liquidityTokenTwo}
               isLiquidityTokenSelected={isLiquidityTokenSelected}
+              isSettingModal={isSettingModal}
+              setIsSettingModal={setIsSettingModal}
+              handleSettingModal={handleSettingModal}
 
             />} />
-
-            <Route path="/cart-modal" element={<CartModal />} />
-            <Route path="/settings" element={<SettingModal />} />
 
           </Routes>
         </div >

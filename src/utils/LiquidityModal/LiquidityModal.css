@@ -36,11 +36,6 @@
     row-gap: 20px;
 }
 
-.hJYFVB {
-    box-sizing: border-box;
-    margin: 0px;
-    min-width: 0px;
-}
 
 .iHReYX {
     -webkit-box-align: center;
@@ -521,10 +516,10 @@ a {
     width: 100%;
 }
 
-.gXqkQO {
+/* .gXqkQO {
     display: grid;
     grid-auto-rows: auto;
-}
+} */
 
 .ddcmlg {
     display: flex;
@@ -701,10 +696,6 @@ a {
     font-size: 10px;
 }
 
-.BkVYr {
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-}
 
 .isLiqudity {
     opacity: 0.3;
@@ -1053,6 +1044,11 @@ a {
     -webkit-box-pack: start;
     justify-content: flex-start;
     gap: 8px;
+}
+
+.BkVYr {
+    -webkit-box-pack: justify;
+    justify-content: space-between;
 }
 
 .css-zhpkf8 {

@@ -6,7 +6,6 @@
     align-items: center;
     -webkit-box-pack: start;
     justify-content: space-between;
-    /* justify-content: flex-start; */
 }
 
 .mbicD {
@@ -346,7 +345,7 @@ a {
     cursor: pointer;
 }
 
-.gOYHMo {
+/* .gOYHMo {
     width: 100%;
     display: flex;
     padding: 0px;
@@ -354,7 +353,7 @@ a {
     align-items: center;
     -webkit-box-pack: start;
     justify-content: space-between;
-}
+} */
 
 .Glgcn {
     position: relative;

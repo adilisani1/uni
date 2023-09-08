@@ -8,6 +8,7 @@ const SwapModal = ({
     selectedToken,
     handleSelect,
     isLiquidity = false
+    
 }) => {
 
     const [searchTerm, setSearchTerm] = useState('');
