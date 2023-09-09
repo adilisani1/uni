@@ -45,7 +45,7 @@ function App() {
   const [isCartVisible, setIsCartVisible] = useState(false);
 
   //Setting modal
-
+  const [isSettingModal, setIsSettingModal] = useState(false);
 
   //Swap .js
   const [selectedToken, setSelectedToken] = useState(swapTokens[0]);
@@ -54,9 +54,8 @@ function App() {
 
   const [liquidityTokenOne, setLiquidityTokenOne] = useState(swapTokens[0]);
   const [liquidityTokenTwo, setLiquidityTokenTwo] = useState({ symbol: 'Select Token' });
-  const [isLiquidityTokenSelected, setIsLiquidityTokenSelected] = useState(false);
-  const [isSettingModal, setIsSettingModal] = useState(false);
 
+  const [isLiquidityTokenSelected, setIsLiquidityTokenSelected] = useState(false);
   const [currency, setCurrency] = useState('ETH');
 
   const [inputValues, setInputValues] = useState({
@@ -85,15 +84,16 @@ function App() {
     return;
   };
 
+  //Cart Modal
+  const handleCart = () => {
+    setIsCartVisible(!isCartVisible)
+  }
+
   //Swap Modal Open Func
   const handleSwapModal = (currencyId) => {
     setSwapModal(true);
     setCurrentCurrencyId(currencyId);
     setIsLiquidityTokenSelected(currencyId)
-  }
-  //Cart
-  const handleCart = () => {
-    setIsCartVisible(!isCartVisible)
   }
 
   //Swaptokensfunc
@@ -107,7 +107,7 @@ function App() {
     setSwapModal(false);
   }
 
-  //SwapTokensfunc-liquidty0
+  //SwapTokensfunc-liquidty
   const handleLiquidityTokenSelect = (token) => {
     const newToken = { ...token };
     if (currentCurrencyId === "liquidityEthId") {
@@ -118,6 +118,8 @@ function App() {
     setSwapModal(false);
   }
 
+
+
   const handleSelect = (token, isLiquidity) => {
     if (isLiquidity) {
       handleLiquidityTokenSelect(token);
@@ -126,6 +128,8 @@ function App() {
     }
     setSwapModal(false);
   }
+
+
 
   //Save bag item
   useEffect(() => {
@@ -149,6 +153,8 @@ function App() {
       setAddToBag(newBagItems)
     }
   }
+
+  //Remove Cart bag item
   const onRemoveBagItem = (product) => {
     const newBagItems = addToBag.filter((item) => item.id !== product.id);
     setAddToBag(newBagItems);
@@ -159,6 +165,11 @@ function App() {
     setIsSettingModal((prev) => !prev);
     console.log(!isSettingModal)
   }
+
+
+
+
+
   // Theme 
   const [theme, setTheme] = useLocalStorage('light', 'dark');
   function switchTheme() {
@@ -188,28 +199,29 @@ function App() {
 
             <Route exact path="/" element={<Home />} />
 
-            <Route path="/swap" element={<Swap
-              swapTokens={swapTokens}
-              handleInputChange={handleInputChange}
-              calculateYouReceiveAmount={calculateYouReceiveAmount}
-              handleSwapModal={handleSwapModal}
-              swapModal={swapModal}
-              setSwapModal={setSwapModal}
-              setIsModalOpen={setIsModalOpen}
-              selectedToken={selectedToken}
-              setSelectedToken={setSelectedToken}
-              selectedTokenSecond={selectedTokenSecond}
-              setSelectedTokenSecond={setSelectedTokenSecond}
-              inputValues={inputValues}
-              setInputValues={setInputValues}
-              // handleTokenSelect={handleTokenSelect}
-              handleSelect={(token, isLiquidity) => handleSelect(token, isLiquidity)}
-              currentCurrencyId={currentCurrencyId}
-              setCurrentCurrencyId={setCurrentCurrencyId}
-              isSettingModal={isSettingModal}
-              setIsSettingModal={setIsSettingModal}
-              handleSettingModal={handleSettingModal}
-            />} />
+            <Route path="/swap" element={
+              <Swap
+                swapTokens={swapTokens}
+                handleInputChange={handleInputChange}
+                calculateYouReceiveAmount={calculateYouReceiveAmount}
+                handleSwapModal={handleSwapModal}
+                swapModal={swapModal}
+                setSwapModal={setSwapModal}
+                setIsModalOpen={setIsModalOpen}
+                selectedToken={selectedToken}
+                setSelectedToken={setSelectedToken}
+                selectedTokenSecond={selectedTokenSecond}
+                setSelectedTokenSecond={setSelectedTokenSecond}
+                inputValues={inputValues}
+                setInputValues={setInputValues}
+                handleSelect={(token, isLiquidity) => handleSelect(token, isLiquidity)}
+                currentCurrencyId={currentCurrencyId}
+                setCurrentCurrencyId={setCurrentCurrencyId}
+                isSettingModal={isSettingModal}
+                setIsSettingModal={setIsSettingModal}
+                handleSettingModal={handleSettingModal}
+              />}
+            />
 
             <Route path="/tokens" element={
               <Token
@@ -217,7 +229,10 @@ function App() {
                 updateTime={updateTime}
                 options={options} />} />
 
-            <Route path="/pools" element={<Pools setIsModalOpen={setIsModalOpen} />} />
+            <Route path="/pools" element={
+              <Pools setIsModalOpen={setIsModalOpen}
+              />}
+            />
 
             <Route path="/nfts"
               element={
@@ -237,8 +252,8 @@ function App() {
                   setCurrency={setCurrency}
                 />} />
 
-            <Route path="/tokens/:id" element={
 
+            <Route path="/tokens/:id" element={
               <TokenDetails
                 setIsModalOpen={setIsModalOpen}
                 allTableData={allTableData}
@@ -279,27 +294,29 @@ function App() {
             <Route path="/vote" element={<Vote />} />
             <Route path="/privacy" element={<PrivacyModal />} />
 
-            <Route path="/liquidity" element={<LiquidityModal
-              swapTokens={swapTokens}
-              handleSwapModal={handleSwapModal}
-              swapModal={swapModal}
-              setSwapModal={setSwapModal}
-              currentCurrencyId={currentCurrencyId}
-              setCurrentCurrencyId={setCurrentCurrencyId}
-              handleSelect={(token, isLiquidity) => handleSelect(token, isLiquidity)}
-              selectedToken={selectedToken}
-              liquidityTokenOne={liquidityTokenOne}
-              liquidityTokenTwo={liquidityTokenTwo}
-              isLiquidityTokenSelected={isLiquidityTokenSelected}
-              isSettingModal={isSettingModal}
-              setIsSettingModal={setIsSettingModal}
-              handleSettingModal={handleSettingModal}
+            <Route path="/liquidity" element={
+              <LiquidityModal
+                swapTokens={swapTokens}
+                handleSwapModal={handleSwapModal}
+                swapModal={swapModal}
+                setSwapModal={setSwapModal}
+                currentCurrencyId={currentCurrencyId}
+                setCurrentCurrencyId={setCurrentCurrencyId}
+                handleSelect={(token, isLiquidity) => handleSelect(token, isLiquidity)}
+                selectedToken={selectedToken}
+                liquidityTokenOne={liquidityTokenOne}
+                liquidityTokenTwo={liquidityTokenTwo}
+                isLiquidityTokenSelected={isLiquidityTokenSelected}
+                isSettingModal={isSettingModal}
+                setIsSettingModal={setIsSettingModal}
+                handleSettingModal={handleSettingModal}
+              />} />
 
-            />} />
 
           </Routes>
-        </div >
 
+
+        </div >
       </>
     </div>
   );

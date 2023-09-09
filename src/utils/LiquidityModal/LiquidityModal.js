@@ -23,14 +23,11 @@ const LiquidityModal = (
         setCurrentCurrencyId,
         liquidityTokenOne,
         liquidityTokenTwo,
-        isLiquidityTokenSelected,
         isSettingModal,
         handleSettingModal,
-
-        // minInputValue,
-        // maxInputValue
     }
 ) => {
+    const isLiquiditySelected = liquidityTokenTwo.symbol !== 'Select Token';
 
     const [hideButton, setHideButton] = useState(false);
     const [feeValue, setFeeValue] = useState(0.3);
@@ -53,8 +50,8 @@ const LiquidityModal = (
                 <button
                     id={`open-currency-select-${currencyId}`}
                     className={`sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP hcUXCv ${currencyId === "liquidityEthId" ? 'open-currency-selected-top' : 'open-currency-selected-bottom'}`}
-                // onClick={() => handleSwapModal(currencyId)
-                // }
+                    onClick={() => handleSwapModal(currencyId)}
+
                 >
 
                     <span className="CurrencyInputPanel__Aligner-sc-73f91aaf-6 kkiXeD">
@@ -298,7 +295,7 @@ const LiquidityModal = (
                                             <div
 
                                                 disabled=""
-                                                className={`Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 erfjwt isLiqudity ${isLiquidityTokenSelected ? 'token-selected' : ''}`}
+                                                className={`Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 erfjwt isLiqudity ${isLiquiditySelected ? 'token-selected' : ''}`}
                                             >
                                                 <div className="sc-bczRLJ Card-sc-8b665604-0 FeeSelector__FocusedOutlineCard-sc-2b537477-0 hJYFVB jlQAxw jgrgoQ">
                                                     <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
@@ -357,7 +354,7 @@ const LiquidityModal = (
                                 </div>
                                 <div
                                     disabled=""
-                                    className={`Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 erfjwt isLiqudity ${isLiquidityTokenSelected ? 'token-selected' : ''} `}
+                                    className={`Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 erfjwt isLiqudity ${isLiquiditySelected ? 'token-selected' : ''} `}
                                 >
                                     <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB gOYHMo BkVYr">
                                         <div className="text__TextWrapper-sc-9327e48a-0 blhgKn css-1lohbqv">
@@ -524,7 +521,7 @@ const LiquidityModal = (
                                 </div>
                                 <div
                                     disabled=""
-                                    className={`Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 erfjwt isLiqudity ${isLiquidityTokenSelected ? 'token-selected' : ''}`}
+                                    className={`Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 erfjwt isLiqudity ${isLiquiditySelected ? 'token-selected' : ''}`}
                                 >
                                     {/* CHART */}
                                     <div
@@ -540,7 +537,7 @@ const LiquidityModal = (
                                 <div>
                                     <div
                                         disabled=""
-                                        className={`Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 gXqkQO isLiqudity ${isLiquidityTokenSelected ? 'token-selected' : ''}`}
+                                        className={`Column__AutoColumn-sc-72c388fb-2 styled__DynamicSection-sc-a3e32a7b-2 gXqkQO isLiqudity ${isLiquiditySelected ? 'token-selected' : ''}`}
                                     >
                                         <div className="Column__AutoColumn-sc-72c388fb-2 erfjwt">
                                             <div className="text__TextWrapper-sc-9327e48a-0 blhgKn css-1lohbqv">

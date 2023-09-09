@@ -296,14 +296,9 @@ const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <button
-                                                                role="checkbox"
-                                                                aria-checked={isChecked}
-                                                                className={`sc-1poje5t-0 jANAGB ${isChecked ? 'checked' : ''}`}
-                                                                onClick={toggleChecked}
-                                                            >
-                                                                <span className="sc-1poje5t-1 jsjUXs" />
-                                                            </button>
+                                                            <div>
+                                                                <input type='checkbox'></input>
+                                                            </div>
                                                         </div>
                                                         <div className="sc-bczRLJ sc-nrd8cx-0 hJYFVB xyz12">
                                                             <div className="sc-1kykgp9-0 sc-1opkkz6-0 iCxowP kMuqSe">
@@ -319,13 +314,9 @@ const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
                                                                     </div> */}
                                                                 </div>
                                                             </div>
-                                                            <button
-                                                                role="option"
-                                                                aria-selected="true"
-                                                                className="sc-1poje5t-0 jANAGB"
-                                                            >
-                                                                <span className="sc-1poje5t-1 jsjUXs" />
-                                                            </button>
+                                                            <div>
+                                                                <input type='checkbox'></input>
+                                                            </div>
                                                         </div>
                                                         <div className="sc-bczRLJ sc-nrd8cx-0 hJYFVB xyz12">
                                                             <div className="sc-1kykgp9-0 sc-1opkkz6-0 iCxowP kMuqSe">
@@ -335,15 +326,9 @@ const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <button
-                                                                id="testnets-toggle"
-                                                                data-testid="testnets-toggle"
-                                                                role="option"
-                                                                aria-selected="false"
-                                                                className="sc-1poje5t-0 ffxhvk"
-                                                            >
-                                                                <span className="sc-1poje5t-1 bQBOQe" />
-                                                            </button>
+                                                            <div>
+                                                                <input type='checkbox'></input>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div

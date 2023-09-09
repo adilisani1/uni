@@ -59,15 +59,9 @@ const SettingModal = () => {
                                 </div>
                             </div>
                         </div>
-                        <button
-                            id="toggle-local-routing-button"
-                            data-testid="toggle-local-routing-button"
-                            role="option"
-                            aria-selected="true"
-                            className="Toggle__Wrapper-sc-405c1245-0 cXKarZ"
-                        >
-                            <span className="Toggle__ToggleElement-sc-405c1245-1 byYXGz" />
-                        </button>
+                        <div>
+                            <input type='checkbox'></input>
+                        </div>
                     </div>
                 </div>
                 <div
