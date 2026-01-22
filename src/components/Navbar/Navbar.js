@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 import Modal from '../Modal/Modal';
 
 const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModalOpen, setIsModalOpen, addToBag, handleCart, }) => {
-    const logoImage = currentTheme === 'dark' ? '/assets/images/logo/logo-two.png' : '/assets/images/logo/logo-two-black.png';
+    const logoImage = currentTheme === 'dark' ? '/assets/images/logo/uniswap-logo-b.png' : '/assets/images/logo/uniswap-logo-w.png';
     const location = useLocation();
     const [isActiveHeader, setIsActiveHeader] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');

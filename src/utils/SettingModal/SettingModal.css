@@ -311,7 +311,7 @@ input[type="checkbox"] {
 }
 
 input:checked[type="checkbox"] {
-    background: var(--model-btn-color);
+    /* background: var(--model-btn-color); */
 }
 
 input[type="checkbox"]::before {

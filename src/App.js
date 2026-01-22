@@ -76,10 +76,10 @@ function App() {
   };
 
   const calculateYouReceiveAmount = () => {
-    if (inputValues.youPay && selectedToken.price && selectedTokenSecond.price) {
+    if (inputValues.youPay && selectedToken?.price && selectedTokenSecond?.price) {
       const youPayAmount = parseFloat(inputValues.youPay);
       const youReceiveAmount = (youPayAmount * selectedToken.price) / selectedTokenSecond.price;
-      return youReceiveAmount.toFixed(4);
+      return youReceiveAmount.toFixed(2);
     }
     return;
   };

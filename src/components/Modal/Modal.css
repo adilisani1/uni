@@ -8,6 +8,7 @@
     top: 8px;
     transition: right 0.5s;
     z-index: 1030;
+    align-items: flex-start;
 }
 
 .dLsVJq.open {
@@ -45,6 +46,8 @@
     padding: 24px calc(28px) 24px 14px;
     border-radius: 20px 0px 0px 20px;
     transition: background-color 250ms ease 0s, margin 250ms ease 0s;
+    flex-shrink: 0;
+    box-sizing: border-box;
 }
 
 .jEKWjE {
@@ -76,19 +79,26 @@
     border: 1px solid rgb(210, 217, 238);
     box-shadow: rgba(51, 53, 72, 0.04) 8px 12px 20px, rgba(51, 53, 72, 0.02) 4px 6px 12px, rgba(51, 53, 72, 0.04) 4px 4px 8px;
     transition: margin-right 250ms ease 0s;
+    box-sizing: border-box;
+    position: relative;
 }
 
 .fijsNj {
     overflow: hidden;
     height: 100%;
-    scrollbar-gutter: stable;
+    /* scrollbar-gutter: stable; */
     overscroll-behavior: contain;
     border-radius: 12px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .kfarYJ {
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .jcIclM {
@@ -96,8 +106,10 @@
     flex-flow: column;
     background-color: var(--model-bg);
     width: 100%;
-    padding: 14px 16px 16px;
+    padding: 14px;
     flex: 1 1 0%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .NRTGQ {
@@ -117,6 +129,8 @@
     align-items: center;
     -webkit-box-pack: justify;
     justify-content: space-between;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .laNPNA {
@@ -124,6 +138,7 @@
     margin: 0px 0px 16px;
     min-width: 0px;
     width: 100%;
+    padding: 0;
 }
 
 .css-rjqmed {
@@ -174,6 +189,9 @@
     display: grid;
     grid-auto-rows: auto;
     row-gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .hmenal {
@@ -181,6 +199,8 @@
     gap: 2px;
     border-radius: 12px;
     overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 button {
@@ -197,6 +217,8 @@ button {
     position: relative;
     width: 100%;
     background-color: var(--model-cards);
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .fRrCJL {
@@ -213,6 +235,9 @@ button {
     opacity: 1;
     padding: 18px;
     transition: all 125ms ease 0s;
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .fFbTKE {
@@ -220,6 +245,9 @@ button {
     flex-flow: row;
     -webkit-box-align: center;
     align-items: center;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .cyjnfZ {
@@ -253,6 +281,9 @@ button {
     font-size: 16px;
     font-weight: 600;
     padding: 0px 8px;
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .ilYVNX {
@@ -595,45 +626,47 @@ button {
     display: flex;
     padding: 4px;
     -webkit-box-align: center;
-    align-self: flex-start;
-
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
 }
 
 
 input[type="checkbox"] {
     position: relative;
-    width: 65px;
-    height: 33px;
+    width: 44px;
+    height: 24px;
     -webkit-appearance: none;
     background-color: var(--body-bg);
     outline: none;
-    border-radius: 20px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    transition: .5s;
-    border: 1px solid rgb(210, 217, 238);
+    border-radius: 12px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    border: 1px solid rgba(152, 161, 192, 0.24);
+    cursor: pointer;
 }
 
 input:checked[type="checkbox"] {
-    background: var(--model-btn-color);
+    /* background: var(--model-btn-color); */
+    border-color: var(--model-btn-color);
 }
 
 input[type="checkbox"]::before {
     content: '';
     position: absolute;
-    width: 22px;
-    height: 22px;
-    border-radius: 20px;
-    top: 5.5px;
-    left: 5px;
-    background: #ccc;
-    transform: scale(1.1);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: .5s;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: left 0.3s ease, background-color 0.3s ease;
 }
 
 input:checked[type="checkbox"]::before {
-    left: 35px;
-    background: var(--model-btn-hover)
+    left: 22px;
+    background: #ffffff;
 }
 
 

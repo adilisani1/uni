@@ -3,16 +3,18 @@
     flex-direction: column;
     width: 100%;
     min-height: 100vh;
-    padding: 72px 0px 5rem;
+    padding: 72px 0 5rem;
     -webkit-box-align: center;
     align-items: center;
     flex: 1 1 0%;
+    box-sizing: border-box;
 }
 
 .pools-container {
     padding: 68px 8px 0px;
     max-width: 870px;
     width: 100%;
+    box-sizing: border-box;
 }
 
 #poolsContainer {

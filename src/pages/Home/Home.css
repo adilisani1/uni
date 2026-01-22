@@ -32,12 +32,10 @@
     align-items: center;
     scroll-behavior: smooth;
     overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
     width: 100%;
     min-height: 100vh;
-    padding: 72px 0px 0rem;
-    align-items: center;
+    padding: 72px 0 0;
+    box-sizing: border-box;
 }
 
 .home-page .card-wrapper {
@@ -59,7 +57,8 @@
 .card-anchor .card-section {
     padding: 68px 8px 0px;
     max-width: 480px;
-    width: 100%
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .card-section .card-home-bg {
