@@ -40,10 +40,6 @@ const Token = ({ allTableData, updateTime, options }) => {
         setFilteredTableData(sortedData);
     };
 
-    const filteredData = allTableData.filter((data) =>
-        data.label === selectedOption.label
-    );
-
     if (allTableData[0].api) {
         fetch(allTableData[0].api)
             .then((response) => response.json())
@@ -56,9 +52,11 @@ const Token = ({ allTableData, updateTime, options }) => {
     }
 
     useEffect(() => {
-
+        const filteredData = allTableData.filter((data) =>
+            data.label === selectedOption.label
+        );
         setFilteredTableData(filteredData);
-    }, [selectedOption]);
+    }, [selectedOption, allTableData]);
 
     const handleCryptoOpen = () => {
         setIsOpen(!isOpen);
@@ -76,7 +74,7 @@ const Token = ({ allTableData, updateTime, options }) => {
         );
 
         setFilteredTableData(filteredData);
-    }, [selectedOption]);
+    }, [selectedOption, allTableData]);
 
 
     function determineTrendIcon(current, old) {
@@ -151,7 +149,7 @@ const Token = ({ allTableData, updateTime, options }) => {
                                                 setSelectedOption(option);
                                                 setIsOpen(false);
                                             }}>
-                                                <img src={option.imgSrc} />
+                                                <img src={option.imgSrc} alt={option.label || "Token icon"} />
                                                 {option.label}
                                             </div>
                                             <div className=''>

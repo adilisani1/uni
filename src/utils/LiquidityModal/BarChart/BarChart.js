@@ -6,16 +6,9 @@ import { bitcoinPrices } from "../fakePrices";
 
 const BarChart = () => {
     const [data, setData] = useState({ prices: [] });
-    const [minInputValue, setMinInputValue] = useState("");
-    const [maxInputValue, setMaxInputValue] = useState("");
-
 
     useEffect(() => {
         const prices = bitcoinPrices;
-        const minPrice = Math.min(...prices).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        const maxPrice = Math.max(...prices).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        setMinInputValue(minPrice);
-        setMaxInputValue(maxPrice);
         setData({ prices });
     }, []);
 

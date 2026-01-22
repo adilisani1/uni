@@ -308,7 +308,7 @@ a {
     left: 50%;
     bottom: 0px;
     display: none;
-    background: url("") 0% 0% / calc(16px) calc(16px) no-repeat;
+    /* background: url("") 0% 0% / calc(16px) calc(16px) no-repeat; */
     background-repeat: no-repeat;
 }
 

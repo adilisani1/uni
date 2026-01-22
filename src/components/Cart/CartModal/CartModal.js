@@ -11,10 +11,6 @@ const CartModal = ({
     const handleTokenChange = (e) => {
         setSearchTerm(e.target.value);
     }
-
-    const filteredTokenSearch = swapTokens?.filter(token =>
-        token.label.toLowerCase().includes(searchTerm.toLowerCase())
-    );
     return (
         <div>
             <div

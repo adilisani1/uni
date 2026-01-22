@@ -16,11 +16,11 @@ const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
 
     const [isSecondModalOpen, setSecondModalOpen] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState([0]);
-    const [isChecked, setIsChecked] = useState(false);
+    // const [isChecked, setIsChecked] = useState(false);
 
-    const toggleChecked = () => {
-        setIsChecked(!isChecked);
-    }
+    // const toggleChecked = () => {
+    //     setIsChecked(!isChecked);
+    // }
     const handleLanguageClick = (index) => {
         setSelectedLanguage(index);
     };

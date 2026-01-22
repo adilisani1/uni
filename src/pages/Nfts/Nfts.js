@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './Nfts.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -75,7 +75,7 @@ const Nfts = ({
     }
 
 
-    const handleTableClick = (tab) => {
+    const handleTableClick = useCallback((tab) => {
         setSelectedTab(tab);
         const allTableData = selectedCurrencyTab === 'USD' ? allTableDataUSD : allTableDataETH;
 
@@ -85,7 +85,7 @@ const Nfts = ({
             const sortedData = sortDataByTime(allTableData, tab);
             setTableData(sortedData);
         }
-    }
+    }, [selectedCurrencyTab, allTableDataUSD, allTableDataETH]);
 
     const sortDataByTime = (data, timePeriod) => {
         let sortKey = '';
@@ -117,7 +117,7 @@ const Nfts = ({
     }
     useEffect(() => {
         handleTableClick(selectedTab);
-    }, [selectedTab, selectedCurrencyTab]);
+    }, [selectedTab, selectedCurrencyTab, handleTableClick]);
 
     //cart bag
 
@@ -161,6 +161,7 @@ const Nfts = ({
                                                             <img
                                                                 src="https://i.seadn.io/gcs/files/c6cb0b1d6f2ab61c0efacf00e62e2230.jpg?w=500&auto=format"
                                                                 className="sc-1j367rv-8 cOWUkP"
+                                                                alt="DeGods NFT"
                                                             />
                                                             <div className="sc-1j367rv-5 MiMiH">
                                                                 <div className="sc-sx9n2y-0 eaUeqv sc-1j367rv-16 ehquD css-68pfx3">
@@ -190,7 +191,7 @@ const Nfts = ({
                                                     </div>
                                                     <div className="sc-1j367rv-13 kJvxXp">
                                                         <div className="sc-1j367rv-11 bZVieY active">
-                                                            <img src='/assets/images/logo/logo-two.png' style={{ width: "20px", height: "20px" }} />
+                                                            <img src='/assets/images/logo/logo-two.png' style={{ width: "20px", height: "20px" }} alt="Uniswap logo" />
                                                             <div className="sc-1j367rv-12 fUSiEW">
                                                                 <div className="sc-sx9n2y-0 lvXBN css-1aekuku">Uniswap</div>
                                                             </div>
@@ -269,13 +270,14 @@ const Nfts = ({
                                                             <img
                                                                 src="https://i.seadn.io/gae/Ju9CkWtV-1Okvf45wo8UctR-M9He2PjILP0oOvxE89AyiPPGtrR3gysu1Zgy0hjd2xKIgjJJtWIc0ybj4Vd7wv8t3pxDGHoJBzDB?w=500&auto=format"
                                                                 className="sc-1j367rv-8 cOWUkP"
+                                                                alt="Bored Ape Yacht Club NFT"
                                                             />
                                                             <div className="sc-1j367rv-5 MiMiH">
                                                                 <div className="sc-sx9n2y-0 eaUeqv sc-1j367rv-16 ehquD css-68pfx3">
                                                                     Bored Ape Yacht Club
                                                                 </div>
                                                                 <div className="sc-1j367rv-4 eUlOvo">
-                                                                    <img src='/assets/images/verified-icon.png' style={{ width: "20px", height: "20px" }} />
+                                                                    <img src='/assets/images/verified-icon.png' style={{ width: "20px", height: "20px" }} alt="Verified" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -283,7 +285,7 @@ const Nfts = ({
                                                     </div>
                                                     <div className="sc-1j367rv-13 kJvxXp">
                                                         <div className="sc-1j367rv-11 bZVieY active">
-                                                            <img src='/assets/images/logo/logo-two.png' style={{ width: "20px", height: "20px" }} />
+                                                            <img src='/assets/images/logo/logo-two.png' style={{ width: "20px", height: "20px" }} alt="Uniswap logo" />
 
                                                             <div className="sc-1j367rv-12 fUSiEW">
                                                                 <div className="sc-sx9n2y-0 lvXBN css-1aekuku">Uniswap</div>
@@ -503,7 +505,7 @@ const Nfts = ({
 
 
 
-                                <tbody role="rowgroup">
+                                <tbody>
 
                                     {tableData.map((item, index) => (
 
@@ -521,7 +523,7 @@ const Nfts = ({
                                                 <div className="sc-iwpsza-0 jNQukZ">
                                                     <div className="sc-sx9n2y-0 bftkTM css-1cjl26j">{index + 1}</div>
                                                     <div className="sc-1qdt28z-0 sc-1qdt28z-1 iQoJCd haocDl">
-                                                        <img src={item.image} className="sc-1qdt28z-5 fPJsfG" />
+                                                        <img src={item.image} className="sc-1qdt28z-5 fPJsfG" alt={item.title || "NFT collection"} />
                                                         <div className="sc-1qdt28z-0 sc-1qdt28z-2 iQoJCd dOdauD">
                                                             <div className="sc-sx9n2y-0 kivXvb sc-1qdt28z-3 FYrkO css-rjqme">
                                                                 {item.title}

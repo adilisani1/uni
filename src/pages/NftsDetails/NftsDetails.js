@@ -54,7 +54,7 @@ const NftsDetails = ({
         } else {
             console.log('No NFT found with the given ID');
         }
-    }, [id, allTableDataETH, allTableDataUSD, location]);
+    }, [id, allTableDataETH, allTableDataUSD, location, setCurrency, setData]);
 
 
     //Cart Modal Open Func
@@ -128,6 +128,7 @@ const NftsDetails = ({
                                 <img
                                     src={item.coverImage}
                                     className="sc-vlvksq-4 iqUAEN"
+                                    alt={item.title || "NFT cover"}
                                 />
                             </div>
                             <div className="sc-1kykgp9-0 sc-vlvksq-5 iCxowP jCWKjc">
@@ -138,6 +139,7 @@ const NftsDetails = ({
                                     <img
                                         className="_1klryar0 rgw6ez4o1 rgw6ez7cj rgw6ez48p jinxmn3 rgw6ez347 rgw6ez7ab rgw6ez7k7 rgw6ez517 rgw6ez7cj rgw6ez48p"
                                         src={item.image}
+                                        alt={item.title || "NFT image"}
                                     />
                                     <div className="_1klryar0 jinxmn1 rgw6ezwj rgw6ezye rgw6ezf7 rgw6ezhe">
                                         <div className="_1klryar0 rgw6ez44v rgw6ez471 rgw6ez3j rgw6ez48j">
@@ -145,7 +147,7 @@ const NftsDetails = ({
                                                 <div className="sc-1o7m3gg-1 hTeDjw rgw6ezd1 rgw6ezbj rgw6ezep">
                                                     {item.title}
                                                 </div>
-                                                <img style={{ width: "25px" }} src='/assets/images/verified-icon.png' />
+                                                <img style={{ width: "25px" }} src='/assets/images/verified-icon.png' alt="Verified" />
                                                 <div className="_1klryar0 rgw6ez44j rgw6ez44w rgw6ez471 rgw6ez3j rgw6ez47p rgw6ezn1 rgw6ez3t7 rgw6ez1a1">
                                                     <a
                                                         className="_1klryar0 _1klryar9 rgw6ez44v rgw6ez477 rgw6ez1dv rgw6ez47p"
@@ -385,7 +387,7 @@ const NftsDetails = ({
                                         className="sc-1wq7ulh-6 jVXqrs rgw6ezd1 rgw6ezb1 rgw6eze7"
                                         data-testid="nft-sweep-button"
                                     >
-                                        <img style={{ width: "20px" }} src='/assets/images/sweep-icon.png' />
+                                        <img style={{ width: "20px" }} src='/assets/images/sweep-icon.png' alt="Sweep" />
                                         <div className="sc-sx9n2y-0 kandXm sc-1wq7ulh-7 dNbQjm css-1xhs0h0">
                                             Sweep
                                         </div>
@@ -416,11 +418,12 @@ const NftsDetails = ({
                                                     >
                                                         <div className="sc-ckzh1u-0 hPMtfS">
                                                             <div className="sc-p1llhj-0 kcxohQ">
-                                                                <img style={{ width: "23px" }} src='/assets/images/card-top-ship-icon.png' />
+                                                                <img style={{ width: "23px" }} src='/assets/images/card-top-ship-icon.png' alt="" />
                                                             </div>
                                                             <div className="sc-bczRLJ sc-nrd8cx-0 sc-ckzh1u-1 hJYFVB fhPvJh jJAluP">
                                                                 <img
                                                                     src={item.image}
+                                                                    alt={item.title || "NFT item"}
                                                                     draggable="false"
                                                                     className="sc-ckzh1u-2 iKjeyI"
                                                                 />

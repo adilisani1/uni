@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './LiquidityModal.css';
 import SwapModal from '../SwapModal/SwapModal';
 import { NavLink } from 'react-router-dom';
@@ -31,8 +31,8 @@ const LiquidityModal = (
 
     const [hideButton, setHideButton] = useState(false);
     const [feeValue, setFeeValue] = useState(0.3);
-    const [minInputValue, setMinInputValue] = useState(0);
-    const [maxInputValue, setMaxInputValue] = useState(0);
+    const [minInputValue] = useState(0);
+    const [maxInputValue] = useState(0);
 
     const handleButtonClick = (newFeeValue) => {
         setFeeValue(newFeeValue);

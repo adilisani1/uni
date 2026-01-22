@@ -15,7 +15,7 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
     const [isDropdownVisible, setDropdownVisibility] = useState(false);
 
 
-    const ref = useRef(null);
+    // const ref = useRef(null);
     const centerSearchRef = useRef(null);
     const rightSearchRef = useRef(null);
     const rightSearchInsideRef = useRef(null);
@@ -107,7 +107,7 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                         {/* left____Nav */}
                         <div className="left-nav">
                             <NavLink className="logo-wrap" to="/">
-                                <img className="logo-image" src={logoImage} />
+                                <img className="logo-image" src={logoImage} alt="Uniswap logo" />
                             </NavLink>
                             <div className="nav-menu" id="nav-menu">
                                 <ul className="list-unstyled nav-list elYyfH">
@@ -125,18 +125,18 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                                     </li>
 
                                     <li className="nav-item dropdown">
-                                        <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
+                                        <button className="nav-link " type="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                                             <i className="ri-more-fill"></i>
-                                        </a>
+                                        </button>
                                         <ul className="dropdown-menu">
                                             <li><NavLink className="dropdown-item" href="/download-uniswap"><i className="me-1 icons ri-apple-fill"></i>Download Uniswap Wallet</NavLink></li>
                                             <li><a className="dropdown-item" href="/vote">Vote in governance</a></li>
-                                            <li><a className="dropdown-item" href="#">View more analytics</a></li>
+                                            <li><button className="dropdown-item" type="button" style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left' }}>View more analytics</button></li>
                                             <div className='borderr'></div>
-                                            <li><a className="dropdown-item" href="#">Help center</a></li>
-                                            <li><a className="dropdown-item" href="#">Documentation</a></li>
-                                            <li><a className="dropdown-item" href="#">Feedback</a></li>
+                                            <li><button className="dropdown-item" type="button" style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left' }}>Help center</button></li>
+                                            <li><button className="dropdown-item" type="button" style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left' }}>Documentation</button></li>
+                                            <li><button className="dropdown-item" type="button" style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left' }}>Feedback</button></li>
                                             {/* <li><a className="dropdown-item" href="/privacy" onClick={privacyHandler}>Legal & Privacy</a></li> */}
                                             <li><a className="dropdown-item" href='/privacy'>Legal & Privacy</a></li>
 
@@ -148,7 +148,7 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                 >
-                                                    <img src='/assets/images/discord-icon.svg' />
+                                                    <img src='/assets/images/discord-icon.svg' alt="Discord" />
                                                 </a>
                                                 <a
                                                     className="twitter"
@@ -156,7 +156,7 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                 >
-                                                    <img src='/assets/images/twitter-icon.svg' />
+                                                    <img src='/assets/images/twitter-icon.svg' alt="Twitter" />
                                                 </a>
                                                 <a
                                                     className="github"
@@ -164,7 +164,7 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                 >
-                                                    <img style={{ width: "25px" }} src='/assets/images/github-icon.svg' />
+                                                    <img style={{ width: "25px" }} src='/assets/images/github-icon.svg' alt="GitHub" />
                                                 </a>
                                             </div>
 
@@ -208,7 +208,7 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
 
                                                                 <div className='popular-tokens'>
                                                                     <div className="popular-title">
-                                                                        <img className='rotate-arrow' src='assets/images/trends-arrow.png' />
+                                                                        <img className='rotate-arrow' src='assets/images/trends-arrow.png' alt="" />
 
                                                                         <div>Popular Tokens</div>
                                                                     </div>
@@ -218,7 +218,7 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                                                             {option.floor && !searchOptions[index - 1]?.floor && (
                                                                 <div className='popular-tokens'>
                                                                     <div className="popular-title">
-                                                                        <img className='rotate-arrow' src='assets/images/trends-arrow.png' />
+                                                                        <img className='rotate-arrow' src='assets/images/trends-arrow.png' alt="" />
                                                                         <div>Popular NFTs</div>
                                                                     </div>
                                                                 </div>
@@ -333,7 +333,7 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
 
                                                                                 <div className='popular-tokens'>
                                                                                     <div className="popular-title">
-                                                                                        <img className='rotate-arrow' src='assets/images/trends-arrow.png' />
+                                                                                        <img className='rotate-arrow' src='assets/images/trends-arrow.png' alt="" />
 
                                                                                         <div>Popular Tokens</div>
                                                                                     </div>
@@ -343,7 +343,7 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                                                                             {option.floor && !searchOptions[index - 1]?.floor && (
                                                                                 <div className='popular-tokens'>
                                                                                     <div className="popular-title">
-                                                                                        <img className='rotate-arrow' src='assets/images/trends-arrow.png' />
+                                                                                        <img className='rotate-arrow' src='assets/images/trends-arrow.png' alt="" />
                                                                                         <div>Popular NFTs</div>
                                                                                     </div>
                                                                                 </div>
@@ -481,18 +481,18 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                     </li>
 
                     <li className="nav-item dropdown">
-                        <a className="nav-link " href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <button className="nav-link " type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                             <i className="ri-more-fill"></i>
-                        </a>
+                        </button>
                         <ul className="dropdown-menu">
                             <li><NavLink className="dropdown-item" href="/download-uniswap"><i className="me-1 icons ri-apple-fill"></i>Download Uniswap Wallet</NavLink></li>
                             <li><a className="dropdown-item" href="/vote">Vote in governance</a></li>
-                            <li><a className="dropdown-item" href="#">View more analytics</a></li>
+                            <li><button className="dropdown-item" type="button" style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left' }}>View more analytics</button></li>
                             <div className='borderr'></div>
-                            <li><a className="dropdown-item" href="#">Help center</a></li>
-                            <li><a className="dropdown-item" href="#">Documentation</a></li>
-                            <li><a className="dropdown-item" href="#">Feedback</a></li>
+                            <li><button className="dropdown-item" type="button" style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left' }}>Help center</button></li>
+                            <li><button className="dropdown-item" type="button" style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left' }}>Documentation</button></li>
+                            <li><button className="dropdown-item" type="button" style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left' }}>Feedback</button></li>
                             {/* <li><a className="dropdown-item" href="/privacy" onClick={privacyHandler}>Legal & Privacy</a></li> */}
                             <li><a className="dropdown-item" href='/privacy'>Legal & Privacy</a></li>
 
@@ -504,7 +504,7 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    <img src='/assets/images/discord-icon.svg' />
+                                    <img src='/assets/images/discord-icon.svg' alt="Discord" />
                                 </a>
                                 <a
                                     className="twitter"
@@ -512,7 +512,7 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    <img src='/assets/images/twitter-icon.svg' />
+                                    <img src='/assets/images/twitter-icon.svg' alt="Twitter" />
                                 </a>
                                 <a
                                     className="github"
@@ -520,7 +520,7 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    <img style={{ width: "25px" }} src='/assets/images/github-icon.svg' />
+                                    <img style={{ width: "25px" }} src='/assets/images/github-icon.svg' alt="GitHub" />
                                 </a>
                             </div>
 

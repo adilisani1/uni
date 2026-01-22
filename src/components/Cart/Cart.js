@@ -4,7 +4,7 @@ import CartModal from './CartModal/CartModal';
 
 const Cart = ({ addToBag, setAddToBag, setIsCartVisible, onRemoveBagItem, cartModal, setCartModal, setIsModalOpen, }) => {
     const [totalEth, setTotalEth] = useState(0);
-    const [showConnectWallet, setShowConnectWallet] = useState(true);
+    const [showConnectWallet] = useState(true);
 
     useEffect(() => {
         let total = 0;
@@ -74,6 +74,7 @@ const Cart = ({ addToBag, setAddToBag, setIsCartVisible, onRemoveBagItem, cartMo
                                                 className="_1klryar0 rgw6ez46l rgw6ez149 rgw6ez1b9 rgw6ez49l rgw6ez80p"
                                                 // src="https://i.seadn.io/gae/wN0r-6Axvdo5evMruw97dBlaZTfK_7VCk9lXWI5SWubZD_0ako-sUpByCUgzc-o8ZgnLwgdVbY9_A4WqqkEpEO7Ztrb7oYQKcvCpjA?w=500&auto=format"
                                                 src={item.image}
+                                                alt={item.title || "NFT item"}
                                             />
                                         </div>
                                         <div className="_1klryar0 rgw6ez44r rgw6ez473 rgw6ez8bh rgw6ez16r rgw6ez4b9">
