@@ -671,8 +671,6 @@ input:checked[type="checkbox"]::before {
     background: #ffffff;
 }
 
-
-
 @media screen and (min-width: 1440px) {
     .hyeEN1 {
         margin-right: 0px;
