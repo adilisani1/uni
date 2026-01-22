@@ -648,7 +648,6 @@ input[type="checkbox"] {
 }
 
 input:checked[type="checkbox"] {
-    /* background-color: var(--model-btn-color); */
     border-color: var(--model-btn-color);
 }
 
