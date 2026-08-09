@@ -6,6 +6,20 @@ const Cart = ({ addToBag, setAddToBag, setIsCartVisible, onRemoveBagItem, cartMo
     const [totalEth, setTotalEth] = useState(0);
     const [showConnectWallet] = useState(true);
 
+    // Item artwork is hosted on domains that no longer resolve, so fall back to
+    // the collection logo rather than rendering a broken image
+    const collectionFallbacks = {
+        1: '/assets/images/degodsicon.png',
+        2: '/assets/images/bored.png',
+        3: '/assets/images/mount.png'
+    };
+
+    const handleItemImageError = (projectID) => (event) => {
+        const fallback = collectionFallbacks[projectID] || '/assets/images/degodsicon.png';
+        if (event.target.getAttribute('src') === fallback) return;
+        event.target.src = fallback;
+    };
+
     useEffect(() => {
         let total = 0;
         addToBag?.forEach(item => {
@@ -75,6 +89,7 @@ const Cart = ({ addToBag, setAddToBag, setIsCartVisible, onRemoveBagItem, cartMo
                                                 // src="https://i.seadn.io/gae/wN0r-6Axvdo5evMruw97dBlaZTfK_7VCk9lXWI5SWubZD_0ako-sUpByCUgzc-o8ZgnLwgdVbY9_A4WqqkEpEO7Ztrb7oYQKcvCpjA?w=500&auto=format"
                                                 src={item.image}
                                                 alt={item.title || "NFT item"}
+                                                onError={handleItemImageError(item.projectID)}
                                             />
                                         </div>
                                         <div className="_1klryar0 rgw6ez44r rgw6ez473 rgw6ez8bh rgw6ez16r rgw6ez4b9">

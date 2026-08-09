@@ -29,6 +29,20 @@ const NftsDetails = ({
     const [addingItemId, setAddingItemId] = useState(null);
     const [addedItemId, setAddedItemId] = useState(null);
 
+    // Some item artwork is hosted on domains that no longer resolve, so fall
+    // back to the collection logo rather than rendering a broken image
+    const collectionFallbacks = {
+        1: '/assets/images/degodsicon.png',
+        2: '/assets/images/bored.png',
+        3: '/assets/images/mount.png'
+    };
+
+    const handleItemImageError = (projectID) => (event) => {
+        const fallback = collectionFallbacks[projectID] || '/assets/images/degodsicon.png';
+        if (event.target.getAttribute('src') === fallback) return;
+        event.target.src = fallback;
+    };
+
     const handleAddToBag = (event, item) => {
         // The card is wrapped in an anchor, don't navigate on button click
         event.preventDefault();
@@ -504,6 +518,7 @@ const NftsDetails = ({
                                                                     alt={item.title || "NFT item"}
                                                                     draggable="false"
                                                                     className="sc-ckzh1u-2 iKjeyI"
+                                                                    onError={handleItemImageError(item.projectID)}
                                                                 />
                                                             </div>
                                                         </div>
