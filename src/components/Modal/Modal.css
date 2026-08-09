@@ -676,3 +676,70 @@ input:checked[type="checkbox"]::before {
         width: 390px;
     }
 }
+/* Wallet connect states */
+.fRrCJL:disabled {
+    cursor: default;
+    opacity: 0.6;
+}
+
+.wallet-connecting {
+    color: var(--model-bg-text);
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.7;
+    white-space: nowrap;
+}
+
+.wallet-connected {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    padding: 18px;
+    box-sizing: border-box;
+    background-color: var(--model-cards);
+    border-radius: 12px;
+}
+
+.wallet-connected-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+}
+
+.wallet-connected-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+}
+
+.wallet-connected-info .kJBdbk {
+    justify-content: flex-start;
+    padding-bottom: 2px;
+}
+
+.wallet-connected-status {
+    color: rgb(64, 182, 107);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0px 8px;
+}
+
+.wallet-disconnect-btn {
+    background-color: unset;
+    border: 1px solid rgb(210, 217, 238);
+    border-radius: 12px;
+    color: var(--model-bg-text);
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 10px;
+    transition: all 125ms ease 0s;
+    width: 100%;
+}
+
+.wallet-disconnect-btn:hover {
+    opacity: 0.7;
+}

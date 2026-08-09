@@ -38,6 +38,35 @@ const Nfts = ({
         "https://i.seadn.io/gcs/files/0f98e562496514deec72096435a77eef.jpg",
         "https://i.seadn.io/gae/i5dYZRkVCUK97bfprQ3WXyrT9BnLSZtVKGJlKQ919uaUB0sxbngVCioaiyu9r6snqfi2aaTyIvv6DHm4m2R3y7hMajbsv14pSZK8mhs"
     ]
+    // The active theme lives on the App wrapper as data-theme
+    const [theme, setTheme] = useState(
+        () => document.querySelector('.App')?.getAttribute('data-theme') || 'dark'
+    );
+
+    useEffect(() => {
+        const appEl = document.querySelector('.App');
+        if (!appEl) return;
+
+        const observer = new MutationObserver(() => {
+            setTheme(appEl.getAttribute('data-theme') || 'dark');
+        });
+        observer.observe(appEl, { attributes: true, attributeFilter: ['data-theme'] });
+
+        return () => observer.disconnect();
+    }, []);
+
+    const uniswapLogo = theme === 'dark'
+        ? '/assets/images/logo/uniswap-logo-b.png'
+        : '/assets/images/logo/uniswap-logo-w.png';
+
+    // Some remote collection art is no longer hosted, fall back to a local icon.
+    // Pass a collection-specific image where one exists, otherwise use the generic mark.
+    const DEFAULT_FALLBACK = '/assets/images/degodsicon.png';
+    const handleImageError = (fallback = DEFAULT_FALLBACK) => (event) => {
+        if (event.target.getAttribute('src') === fallback) return;
+        event.target.src = fallback;
+    };
+
     //tabs values
     const tabs = ['1D', '1W', '1M', "All"];
     //currency tabs
@@ -159,9 +188,10 @@ const Nfts = ({
                                                     >
                                                         <div className="sc-1j367rv-3 dGnbgN">
                                                             <img
-                                                                src="https://i.seadn.io/gcs/files/c6cb0b1d6f2ab61c0efacf00e62e2230.jpg?w=500&auto=format"
+                                                                src="/assets/images/degodsicon.png"
                                                                 className="sc-1j367rv-8 cOWUkP"
                                                                 alt="DeGods NFT"
+                                                                onError={handleImageError()}
                                                             />
                                                             <div className="sc-1j367rv-5 MiMiH">
                                                                 <div className="sc-sx9n2y-0 eaUeqv sc-1j367rv-16 ehquD css-68pfx3">
@@ -191,7 +221,7 @@ const Nfts = ({
                                                     </div>
                                                     <div className="sc-1j367rv-13 kJvxXp">
                                                         <div className="sc-1j367rv-11 bZVieY active">
-                                                            <img src='/assets/images/logo/logo-two.png' style={{ width: "20px", height: "20px" }} alt="Uniswap logo" />
+                                                            <img src={uniswapLogo} style={{ width: "20px", height: "20px", objectFit: "cover" }} alt="Uniswap logo" />
                                                             <div className="sc-1j367rv-12 fUSiEW">
                                                                 <div className="sc-sx9n2y-0 lvXBN css-1aekuku">Uniswap</div>
                                                             </div>
@@ -268,9 +298,10 @@ const Nfts = ({
                                                     >
                                                         <div className="sc-1j367rv-3 dGnbgN">
                                                             <img
-                                                                src="https://i.seadn.io/gae/Ju9CkWtV-1Okvf45wo8UctR-M9He2PjILP0oOvxE89AyiPPGtrR3gysu1Zgy0hjd2xKIgjJJtWIc0ybj4Vd7wv8t3pxDGHoJBzDB?w=500&auto=format"
+                                                                src="/assets/images/bored.png"
                                                                 className="sc-1j367rv-8 cOWUkP"
                                                                 alt="Bored Ape Yacht Club NFT"
+                                                                onError={handleImageError('/assets/images/bored.png')}
                                                             />
                                                             <div className="sc-1j367rv-5 MiMiH">
                                                                 <div className="sc-sx9n2y-0 eaUeqv sc-1j367rv-16 ehquD css-68pfx3">
@@ -285,7 +316,7 @@ const Nfts = ({
                                                     </div>
                                                     <div className="sc-1j367rv-13 kJvxXp">
                                                         <div className="sc-1j367rv-11 bZVieY active">
-                                                            <img src='/assets/images/logo/logo-two.png' style={{ width: "20px", height: "20px" }} alt="Uniswap logo" />
+                                                            <img src={uniswapLogo} style={{ width: "20px", height: "20px", objectFit: "cover" }} alt="Uniswap logo" />
 
                                                             <div className="sc-1j367rv-12 fUSiEW">
                                                                 <div className="sc-sx9n2y-0 lvXBN css-1aekuku">Uniswap</div>
@@ -523,7 +554,12 @@ const Nfts = ({
                                                 <div className="sc-iwpsza-0 jNQukZ">
                                                     <div className="sc-sx9n2y-0 bftkTM css-1cjl26j">{index + 1}</div>
                                                     <div className="sc-1qdt28z-0 sc-1qdt28z-1 iQoJCd haocDl">
-                                                        <img src={item.image} className="sc-1qdt28z-5 fPJsfG" alt={item.title || "NFT collection"} />
+                                                        <img
+                                                            src={item.image}
+                                                            className="sc-1qdt28z-5 fPJsfG"
+                                                            alt={item.title || "NFT collection"}
+                                                            onError={handleImageError()}
+                                                        />
                                                         <div className="sc-1qdt28z-0 sc-1qdt28z-2 iQoJCd dOdauD">
                                                             <div className="sc-sx9n2y-0 kivXvb sc-1qdt28z-3 FYrkO css-rjqme">
                                                                 {item.title}

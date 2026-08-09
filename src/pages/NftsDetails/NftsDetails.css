@@ -885,7 +885,8 @@ button {
 .rgw6ez6cl:active,
 .rgw6ez6cm:focus,
 .rgw6ez6cn:before {
-    background-color: #fff;
+    background-color: var(--card-bg);
+    color: var(--model-bg-text);
 }
 
 .rgw6ez43d {
@@ -933,7 +934,7 @@ button {
 .jtXgVB {
     position: relative;
     border-radius: 12px;
-    background-color: rgb(255, 255, 255);
+    background-color: var(--card-bg);
     overflow: hidden;
     box-shadow: rgba(51, 53, 72, 0.04) 0px 0px 8px, rgba(51, 53, 72, 0.12) 1px 2px 4px;
     box-sizing: border-box;
@@ -1143,7 +1144,7 @@ a {
 .jtXgVB {
     position: relative;
     border-radius: 12px;
-    background-color: rgb(255, 255, 255);
+    background-color: var(--card-bg);
     overflow: hidden;
     box-shadow: rgba(51, 53, 72, 0.04) 0px 0px 8px, rgba(51, 53, 72, 0.12) 1px 2px 4px;
     box-sizing: border-box;
@@ -1178,6 +1179,47 @@ a {
 .jtXgVB:hover .cpLvLV {
     visibility: visible;
     bottom: 7px;
+}
+
+/* Keep the button on screen while the add is in flight or just confirmed,
+   even if the pointer has already left the card */
+.cpLvLV.is-adding,
+.cpLvLV.is-added {
+    visibility: visible;
+    bottom: 7px;
+    gap: 8px;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.cpLvLV.is-adding {
+    cursor: progress;
+}
+
+.cpLvLV.is-added {
+    background: rgb(64, 182, 107);
+    cursor: default;
+}
+
+.bag-check {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.bag-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: rgb(255, 255, 255);
+    border-radius: 50%;
+    animation: bag-spin 600ms linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes bag-spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 
@@ -1431,4 +1473,76 @@ a {
     ._1w5t04p1 {
         grid-template-columns: repeat(auto-fill, minmax(calc(25% - 16px), 1fr));
     }
+}
+/* Items / Activity tabs */
+.nft-tab {
+    color: var(--model-bg-text);
+    opacity: 0.5;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity 125ms ease;
+}
+
+.nft-tab:hover {
+    opacity: 0.8;
+}
+
+.nft-tab.nft-tab-active {
+    opacity: 1;
+    border-bottom: 2px solid var(--model-bg-text);
+}
+
+/* Sort dropdown */
+.sort-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    gap: 4px;
+    border-radius: 12px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--token-clrr);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.sort-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 8px;
+    background: none;
+    color: var(--model-bg-text);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 125ms ease;
+}
+
+.sort-option:hover {
+    background-color: var(--card-inside-color);
+}
+
+.sort-option.sort-option-active {
+    color: rgb(251, 17, 142);
+}
+
+/* Empty search result */
+.nft-empty-state {
+    width: 100%;
+    padding: 48px 0px;
+    text-align: center;
+    color: var(--model-bg-text);
+    opacity: 0.6;
+    font-size: 16px;
+    font-weight: 500;
 }

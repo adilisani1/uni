@@ -24,6 +24,26 @@ const NftsDetails = ({
     const [isHovered, setIsHovered] = useState(false);
     //CartModal
     const [cartModal, setCartModal] = useState(false);
+
+    // Tracks which item is mid-add so the card can show a spinner
+    const [addingItemId, setAddingItemId] = useState(null);
+    const [addedItemId, setAddedItemId] = useState(null);
+
+    const handleAddToBag = (event, item) => {
+        // The card is wrapped in an anchor, don't navigate on button click
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (addingItemId !== null) return;
+
+        setAddingItemId(item.id);
+        setTimeout(() => {
+            onAddToBagHandler(item);
+            setAddingItemId(null);
+            setAddedItemId(item.id);
+            setTimeout(() => setAddedItemId(null), 1200);
+        }, 700);
+    };
     //ShowMoreBtn
     const [showMore, setShowMore] = useState(false);
     const toggleShowMore = () => {
@@ -32,7 +52,35 @@ const NftsDetails = ({
     const projectIdPattern = /\/nfts\/(\d+)\?currency=USD/;
     const urlMatch = window.location.href.match(projectIdPattern);
     const projectIDFromUrl = urlMatch ? Number(urlMatch[1]) : null;
-    const filteredItems = cardData.filter(item => item.projectID === projectIDFromUrl);
+
+    //Items / Activity tab
+    const [activeTab, setActiveTab] = useState('items');
+    //Search + sort controls
+    const [searchQuery, setSearchQuery] = useState('');
+    const [sortOrder, setSortOrder] = useState('asc');
+    const [isSortOpen, setIsSortOpen] = useState(false);
+
+    const sortLabels = {
+        asc: 'Price: Low to High',
+        desc: 'Price: High to Low'
+    };
+
+    const collectionItems = cardData.filter(item => item.projectID === projectIDFromUrl);
+
+    // Search by card number or title, then order by price
+    const filteredItems = collectionItems
+        .filter((item) => {
+            const query = searchQuery.trim().toLowerCase();
+            if (!query) return true;
+            return (
+                String(item.cardNumber).includes(query) ||
+                String(item.serialNumber).includes(query) ||
+                (item.title || '').toLowerCase().includes(query)
+            );
+        })
+        .sort((a, b) => sortOrder === 'asc'
+            ? a.ethValue - b.ethValue
+            : b.ethValue - a.ethValue);
 
 
     const { id } = useParams();
@@ -324,12 +372,16 @@ const NftsDetails = ({
 
                                 <div id="nft-anchor" />
                                 <div className="_1klryar0 rgw6ez44v rgw6ez471 rgw6ez3j rgw6ez3ud rgw6ezgp sc-dvc2od-0 jasESJ">
-                                    <button className="_1klryar0 _1wiwg135 _1wiwg131 rgw6ezd1 rgw6ezb1 rgw6eze7 rgw6ez491 rgw6ez4sj rgw6ez7iz rgw6ez79z rgw6ezg1 rgw6ez4ej">
+                                    <button
+                                        className={`_1klryar0 _1wiwg131 rgw6ezd1 rgw6ezb1 rgw6eze7 rgw6ez491 rgw6ez4sj rgw6ez7iz rgw6ez79z rgw6ezg1 nft-tab ${activeTab === 'items' ? 'nft-tab-active' : ''}`}
+                                        onClick={() => setActiveTab('items')}
+                                    >
                                         Items
                                     </button>
                                     <button
-                                        className="_1klryar0 _1wiwg131 rgw6ezd1 rgw6ezb1 rgw6eze7 rgw6ez491 rgw6ez4sj rgw6ez7iz rgw6ez79z rgw6ezg1 rgw6ez4ep"
+                                        className={`_1klryar0 _1wiwg131 rgw6ezd1 rgw6ezb1 rgw6eze7 rgw6ez491 rgw6ez4sj rgw6ez7iz rgw6ez79z rgw6ezg1 nft-tab ${activeTab === 'activity' ? 'nft-tab-active' : ''}`}
                                         data-testid="nft-activity"
+                                        onClick={() => setActiveTab('activity')}
                                     >
                                         Activity
                                     </button>
@@ -355,32 +407,49 @@ const NftsDetails = ({
                                             <i style={{ fontSize: "22px" }} className="ri-filter-line "></i>
 
                                             <div className="_1klryar0 rgw6ezd1 rgw6ezb1 rgw6eze7 filter-text">
-                                                Filter • 9,998 results
+                                                Filter • {filteredItems.length.toLocaleString()} results
                                             </div>
                                         </div>
                                         <div className="sc-1wq7ulh-2 iiQqEu">
-                                            <div className="_1klryar0 rgw6ez7bj" style={{ width: 255 }}>
-                                                <button className="_1klryar0 rgw6ezav rgw6ez7bj rgw6ez7a7 rgw6ez4ov rgw6ez511 rgw6ez7jr rgw6ez2u1 rgw6ez4ej rgw6ez45p rgw6ez44v rgw6ez48j rgw6ez3j rgw6ez181 rgw6ez79z">
+                                            <div className="_1klryar0 rgw6ez7bj" style={{ width: 255, position: "relative" }}>
+                                                <button
+                                                    className="_1klryar0 rgw6ezav rgw6ez7bj rgw6ez7a7 rgw6ez4ov rgw6ez511 rgw6ez7jr rgw6ez2u1 rgw6ez4ej rgw6ez45p rgw6ez44v rgw6ez48j rgw6ez3j rgw6ez181 rgw6ez79z"
+                                                    onClick={() => setIsSortOpen((prev) => !prev)}
+                                                >
                                                     <div className="_1klryar0 rgw6ez44v rgw6ez3j rgw6ez4ej">
                                                         <div className="_1klryar0 rgw6ez44v rgw6ez471 rgw6ez3j">
                                                             <i style={{ fontSize: "22px" }} className="ri-arrow-up-down-line "></i>
                                                         </div>
                                                         <div className="_1klryar0 rgw6ezl7 rgw6ezq7 rgw6ez4ej rgw6ezd1 rgw6ezb1 rgw6eze7">
-                                                            Price: Low to High
+                                                            {sortLabels[sortOrder]}
                                                         </div>
                                                     </div>
 
                                                 </button>
-                                                <div
-                                                    className="_1klryar0 rgw6ez48p rgw6ez3qj rgw6ez181 rgw6ez3ev rgw6ez281 rgw6ezav rgw6ez4p1 rgw6ez7ab rgw6ez511 rgw6ez7jr rgw6ez7bb rgw6ez7cn rgw6ez7e7 rgw6ez7n7 rgw6ez7on rgw6ez44j rgw6ez46p rgw6ezvp _12q7kth1"
-                                                    style={{ top: "inherit", left: "inherit" }}
-                                                />
+                                                {isSortOpen && (
+                                                    <div className="sort-dropdown">
+                                                        {Object.keys(sortLabels).map((order) => (
+                                                            <button
+                                                                key={order}
+                                                                className={`sort-option ${sortOrder === order ? 'sort-option-active' : ''}`}
+                                                                onClick={() => {
+                                                                    setSortOrder(order);
+                                                                    setIsSortOpen(false);
+                                                                }}
+                                                            >
+                                                                {sortLabels[order]}
+                                                                {sortOrder === order && <i className="ri-check-line" />}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                         <input
                                             className="_1klryar0 _1klryar8 _1klryar5 _1klryar4 rgw6ez43d rgw6ez511 rgw6ez4zg rgw6ez7jv rgw6ez7ab rgw6ez7bj rgw6ez2ud rgw6ez6cj rgw6ez1kd  rgw6ezb1 rgw6ez1ap rgw6ez4f0 rgw6ez4ej"
                                             placeholder="Search by name"
-                                            defaultValue=""
+                                            value={searchQuery}
+                                            onChange={(event) => setSearchQuery(event.target.value)}
                                         />
                                     </div>
                                     <div
@@ -403,9 +472,18 @@ const NftsDetails = ({
                                         className="infinite-scroll-component _1w5t04p1 rgw6ez45d rgw6ez3t7 rgw6ez3t8 rgw6ez3tl rgw6ez3ty"
                                         style={{ height: "auto", overflow: "unset" }}
                                     >
-                                        {filteredItems.map((item) => {
+                                        {activeTab === 'activity' ? (
+                                            <div className="nft-empty-state">
+                                                No recent activity for this collection.
+                                            </div>
+                                        ) : filteredItems.length === 0 ? (
+                                            <div className="nft-empty-state">
+                                                No items match "{searchQuery}".
+                                            </div>
+                                        ) : filteredItems.map((item) => {
                                             return (
                                                 <div
+                                                    key={item.id}
                                                     draggable="false"
                                                     data-testid="nft-collection-asset"
                                                     className={`jtXgVB ${isHovered ? 'hovered' : ''}`}
@@ -457,8 +535,23 @@ const NftsDetails = ({
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className={`nft-card-text  css-zhpkf8 cpLvLV`} onClick={() => onAddToBagHandler(item)}>
-                                                            Add to bag
+                                                        <div
+                                                            className={`nft-card-text  css-zhpkf8 cpLvLV ${addingItemId === item.id ? 'is-adding' : ''} ${addedItemId === item.id ? 'is-added' : ''}`}
+                                                            onClick={(event) => handleAddToBag(event, item)}
+                                                        >
+                                                            {addingItemId === item.id ? (
+                                                                <>
+                                                                    <span className="bag-spinner" />
+                                                                    Adding...
+                                                                </>
+                                                            ) : addedItemId === item.id ? (
+                                                                <>
+                                                                    <i className="ri-check-line bag-check" />
+                                                                    Added to bag
+                                                                </>
+                                                            ) : (
+                                                                'Add to bag'
+                                                            )}
                                                         </div>
                                                     </a>
                                                 </div>

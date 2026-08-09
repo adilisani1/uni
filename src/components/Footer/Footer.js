@@ -1,14 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Footer.css';
 
 const Footer = () => {
+  // The active theme lives on the App wrapper as data-theme
+  const [theme, setTheme] = useState(
+    () => document.querySelector('.App')?.getAttribute('data-theme') || 'dark'
+  );
+
+  useEffect(() => {
+    const appEl = document.querySelector('.App');
+    if (!appEl) return;
+
+    const observer = new MutationObserver(() => {
+      setTheme(appEl.getAttribute('data-theme') || 'dark');
+    });
+    observer.observe(appEl, { attributes: true, attributeFilter: ['data-theme'] });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const logoImage = theme === 'dark'
+    ? '/assets/images/logo/uniswap-logo-b.png'
+    : '/assets/images/logo/uniswap-logo-w.png';
+
   return (
 
     <div className="cSdhBE">
       <div className="sc-161z70s-0 lcjkzD">
         <div className="sc-161z70s-1 sc-161z70s-2 jdWlrh dNOeBf">
           <img
-            src="assets/images/logo/logo-two.png"
+            src={logoImage}
             alt="Uniswap Logo"
             className="sc-161z70s-4 dIIePS"
           />

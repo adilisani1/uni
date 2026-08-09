@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Swap from '../../pages/Swap/Swap'
 import './TokenDetails.css';
 import { useParams } from 'react-router-dom';
-import { LineChart, Line, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, Tooltip, YAxis, ResponsiveContainer } from 'recharts';
 import { NavLink } from 'react-router-dom';
 import SwapModal from '../../utils/SwapModal/SwapModal';
 
@@ -25,7 +25,12 @@ const TokenDetails = (
 
     }) => {
     const [activePrice, setActivePrice] = useState(null);
+    const [activeTime, setActiveTime] = useState(null);
     const [apiData, setApiData] = useState([]);
+
+    //Chart timeframe
+    const timeRanges = ['1H', '1D', '1W', '1M', '1Y'];
+    const [activeRange, setActiveRange] = useState('1D');
 
     //ShowMoreBtn
     const [showMore, setShowMore] = useState(false);
@@ -74,6 +79,19 @@ const TokenDetails = (
         return Math.abs((current - old) / old * 100);
     }
 
+    // Label for the hovered point, granularity depends on the selected range
+    function formatChartTime(timestamp) {
+        const date = new Date(timestamp);
+        if (activeRange === '1H' || activeRange === '1D') {
+            return date.toLocaleString(undefined, {
+                month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'
+            });
+        }
+        return date.toLocaleDateString(undefined, {
+            month: 'short', day: 'numeric', year: 'numeric'
+        });
+    }
+
     useEffect(() => {
         const tokenDetails = () => {
             const singleToken = allTableData.filter((item) => item.id === Number(id));
@@ -81,17 +99,18 @@ const TokenDetails = (
         };
 
         // Fetch data API
-        fetch('http://localhost:3001/api/eth')
+        fetch(`http://localhost:3001/api/eth?range=${activeRange}`)
             .then((response) => response.json())
             .then((data) => {
                 setApiData(data);
+                setActivePrice(null);
             })
             .catch((error) => {
                 console.error('Error fetching API data:', error);
             });
 
         tokenDetails();
-    }, [id, allTableData]);
+    }, [id, allTableData, activeRange]);
 
     return (
         <div>
@@ -151,8 +170,16 @@ const TokenDetails = (
 
 
                 <div className="sc-qwzj9s-1 fBEeS">
-                    {tokensData.map((data) => (
-                        <div className="sc-qwzj9s-2 kUtZkz">
+                    {tokensData.map((data) => {
+                        // Percent change is measured across the visible range when
+                        // chart data is loaded, otherwise fall back to the table values
+                        const firstPrice = apiData.length ? apiData[0].price : data.oldPrice;
+                        const lastPrice = apiData.length ? apiData[apiData.length - 1].price : data.price;
+                        const currentPrice = activePrice ?? lastPrice;
+                        const referencePrice = firstPrice;
+
+                        return (
+                        <div className="sc-qwzj9s-2 kUtZkz" key={data.id}>
                             <NavLink className="sc-djdxof-0 MpERT" to="/tokens">
                                 <i className="ri-arrow-left-line"></i>
                                 Tokens
@@ -200,24 +227,29 @@ const TokenDetails = (
                                     </div>
                                 </div>
                             </div>
-                            <div className="sc-qwzj9s-4 eDREki">
+                            <div className="sc-qwzj9s-4 eDREki chart-outer">
                                 <div data-testid="chart-container" className="sc-qwzj9s-4 eDREki">
-                                    <div style={{ width: "100%", height: "100%" }}>
+                                    <div style={{ width: "100%", flex: "1 1 auto", minHeight: 0 }}>
                                         <div data-cy="chart-header" className="sc-1nu6e54-3 hZgvDp">
                                             <span className="sc-1nu6e54-4 gLsRgG textclr">
-                                                ${activePrice ? activePrice.toFixed(2).toLocaleString() : data.price.toFixed(2).toLocaleString()}
+                                                ${Number(currentPrice).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                             </span>
 
                                             <div className="sc-1nu6e54-6 khjLim textclr">
-                                                {/* 0.38% */}
-
-                                                <span className='percentage-text' style={{ color: data.price > data.oldPrice ? "rgb(118, 209, 145)" : "rgb(252, 83, 83)" }}>
-                                                    <span>
-                                                        {calculatePercentChange(data.price, data.oldPrice).toFixed(2)}%
+                                                {activeTime ? (
+                                                    <span className='chart-hover-time'>
+                                                        {formatChartTime(activeTime)}
                                                     </span>
-                                                </span>
-                                                <span>{determineTrendIcon(data.price, data.oldPrice)}</span>
-
+                                                ) : (
+                                                    <>
+                                                        <span className='percentage-text' style={{ color: currentPrice > referencePrice ? "rgb(118, 209, 145)" : "rgb(252, 83, 83)" }}>
+                                                            <span>
+                                                                {calculatePercentChange(currentPrice, referencePrice).toFixed(2)}%
+                                                            </span>
+                                                        </span>
+                                                        <span>{determineTrendIcon(currentPrice, referencePrice)}</span>
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                         <ResponsiveContainer width="100%" height="100%">
@@ -226,24 +258,45 @@ const TokenDetails = (
                                                 height={392}
                                                 data={apiData}
                                                 onMouseMove={e => {
-                                                    if (e?.activePayload && e?.activePayload[0] && e?.activePayload[0].payload) {
-                                                        setActivePrice(e.activePayload[0]?.payload?.uv);
+                                                    const point = e?.activePayload?.[0]?.payload;
+                                                    if (point) {
+                                                        setActivePrice(point.price);
+                                                        setActiveTime(point.time);
                                                     }
                                                 }}
-                                                onMouseLeave={() => setActivePrice(null)}
+                                                onMouseLeave={() => {
+                                                    setActivePrice(null);
+                                                    setActiveTime(null);
+                                                }}
                                             >
-                                                <Line type="monotone" dataKey="price" stroke="#FB118E" dot={false} />
-                                                <Tooltip />
+                                                <YAxis hide domain={['dataMin', 'dataMax']} />
+                                                <Line
+                                                    type="monotone"
+                                                    dataKey="price"
+                                                    stroke="#FB118E"
+                                                    strokeWidth={2}
+                                                    dot={false}
+                                                    activeDot={{ r: 5, fill: "#FB118E", stroke: "var(--card-bg)", strokeWidth: 2 }}
+                                                    isAnimationActive={false}
+                                                />
+                                                <Tooltip
+                                                    content={() => null}
+                                                    cursor={{ stroke: "var(--text-color)", strokeWidth: 1 }}
+                                                />
                                             </LineChart>
                                         </ResponsiveContainer>
                                     </div>
                                     <div className="sc-1wj62vu-0 ibmoxq">
                                         <div className="sc-1wj62vu-1 fvQpGv">
-                                            <button className="sc-1wj62vu-2 PSFWR">1H</button>
-                                            <button className="sc-1wj62vu-2 kRVxFs">1D</button>
-                                            <button className="sc-1wj62vu-2 PSFWR">1W</button>
-                                            <button className="sc-1wj62vu-2 PSFWR">1M</button>
-                                            <button className="sc-1wj62vu-2 PSFWR">1Y</button>
+                                            {timeRanges.map((range) => (
+                                                <button
+                                                    key={range}
+                                                    className={`sc-1wj62vu-2 ${activeRange === range ? 'kRVxFs' : 'PSFWR'}`}
+                                                    onClick={() => setActiveRange(range)}
+                                                >
+                                                    {range}
+                                                </button>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -342,7 +395,8 @@ const TokenDetails = (
                                 </div>
                             </div>
                         </div>
-                    ))}
+                        );
+                    })}
 
                     <div className='kFzxb'>
                         <Swap

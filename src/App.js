@@ -63,25 +63,66 @@ function App() {
     youReceive: ""
   });
 
+  // Keep enough significant digits for high-value pairs (e.g. ETH -> WBTC)
+  const formatAmount = (amount) => {
+    if (!isFinite(amount) || amount === 0) return "";
+    const decimals = amount < 1 ? 6 : 2;
+    return parseFloat(amount.toFixed(decimals)).toString();
+  };
+
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
     const inputName = event.target.name;
 
-    if (/^[0-9]*[.,]?[0-9]*$/.test(inputValue)) {
-      setInputValues((prevInputValues) => ({
-        ...prevInputValues,
-        [inputName]: inputValue,
-      }));
+    if (!/^[0-9]*[.,]?[0-9]*$/.test(inputValue)) return;
+
+    const normalized = inputValue.replace(",", ".");
+    const amount = parseFloat(normalized);
+
+    // Whichever field is typed in drives the other one
+    if (inputName === "youPay") {
+      const canConvert = normalized && !isNaN(amount) && selectedToken?.price && selectedTokenSecond?.price;
+      setInputValues({
+        youPay: inputValue,
+        youReceive: canConvert
+          ? formatAmount((amount * selectedToken.price) / selectedTokenSecond.price)
+          : "",
+      });
+    } else {
+      const canConvert = normalized && !isNaN(amount) && selectedToken?.price && selectedTokenSecond?.price;
+      setInputValues({
+        youPay: canConvert
+          ? formatAmount((amount * selectedTokenSecond.price) / selectedToken.price)
+          : "",
+        youReceive: inputValue,
+      });
     }
   };
 
-  const calculateYouReceiveAmount = () => {
-    if (inputValues.youPay && selectedToken?.price && selectedTokenSecond?.price) {
-      const youPayAmount = parseFloat(inputValues.youPay);
-      const youReceiveAmount = (youPayAmount * selectedToken.price) / selectedTokenSecond.price;
-      return youReceiveAmount.toFixed(2);
-    }
-    return;
+  const calculateYouReceiveAmount = () => inputValues.youReceive;
+
+  // Recompute the receive amount whenever either token changes
+  const recalculateFromPay = (tokenOne, tokenTwo) => {
+    setInputValues((prev) => {
+      const amount = parseFloat(String(prev.youPay).replace(",", "."));
+      if (!prev.youPay || isNaN(amount) || !tokenOne?.price || !tokenTwo?.price) {
+        return { ...prev, youReceive: "" };
+      }
+      return {
+        ...prev,
+        youReceive: formatAmount((amount * tokenOne.price) / tokenTwo.price),
+      };
+    });
+  };
+
+  // Swap the two tokens and their amounts
+  const switchTokens = () => {
+    setSelectedToken(selectedTokenSecond);
+    setSelectedTokenSecond(selectedToken);
+    setInputValues((prev) => ({
+      youPay: prev.youReceive,
+      youReceive: prev.youPay,
+    }));
   };
 
   //Cart Modal
@@ -101,8 +142,10 @@ function App() {
     const newToken = { ...token };
     if (currentCurrencyId === "ethId") {
       setSelectedToken(newToken);
+      recalculateFromPay(newToken, selectedTokenSecond);
     } else {
       setSelectedTokenSecond(newToken);
+      recalculateFromPay(selectedToken, newToken);
     }
     setSwapModal(false);
   }
@@ -220,6 +263,7 @@ function App() {
                 isSettingModal={isSettingModal}
                 setIsSettingModal={setIsSettingModal}
                 handleSettingModal={handleSettingModal}
+                switchTokens={switchTokens}
               />}
             />
 
@@ -297,6 +341,7 @@ function App() {
             <Route path="/liquidity" element={
               <LiquidityModal
                 swapTokens={swapTokens}
+                setIsModalOpen={setIsModalOpen}
                 handleSwapModal={handleSwapModal}
                 swapModal={swapModal}
                 setSwapModal={setSwapModal}

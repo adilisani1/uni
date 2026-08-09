@@ -1,70 +1,105 @@
-# Getting Started with Create React App
+# Uniswap Interface Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A front-end recreation of the [Uniswap](https://app.uniswap.org) decentralized exchange, built with React. It reproduces the app's swap flow, token explorer, NFT marketplace, liquidity provisioning and governance pages, including light/dark theming and responsive layouts.
 
-## Available Scripts
+This is a **UI/UX portfolio project**. There is no blockchain connection — token prices, NFT collections and chart data come from local fixtures and a small Express server, and wallet connection is simulated. See [Scope](#scope) below.
 
-In the project directory, you can run:
+## Screens
 
-### `npm start`
+| Route | What it does |
+| --- | --- |
+| `/` | Landing page with the hero swap card and feature sections |
+| `/swap` | Swap and Buy tabs, token selection, live pair conversion, slippage/deadline settings |
+| `/tokens` | Sortable token table with price, volume and TVL |
+| `/tokens/:id` | Token detail page with an interactive price chart (1H–1Y) and stats |
+| `/nfts` | Trending NFT collections, carousel, currency and timeframe filters |
+| `/nfts/:id` | Collection page with item grid, search, sorting and an add-to-bag cart |
+| `/pools` | Liquidity positions overview |
+| `/liquidity` | Add-liquidity flow: fee tier, price range, deposit amounts, distribution chart |
+| `/vote` | Governance proposal listing |
+| `/privacy` | Privacy policy modal page |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Swap** — bidirectional conversion between any two tokens; typing in either field derives the other. The switch arrow swaps both tokens and amounts.
+- **Buy tab** — fiat-denominated entry with preset amounts and a live token estimate.
+- **Settings** — UniswapX toggle, local routing, max slippage (auto/custom) and transaction deadline, each with working expand/collapse.
+- **Price chart** — hover to scrub the series; the header price and timestamp track the cursor. Timeframe buttons refetch at the matching resolution.
+- **NFT marketplace** — collection browsing, search by name or token id, price sorting, and a persistent bag stored in `localStorage`.
+- **Liquidity** — fee tier selection, price range with steppers, paired deposit amounts, and a liquidity distribution bar chart that highlights the selected range.
+- **Theming** — light and dark themes driven by CSS custom properties, persisted to `localStorage` via the `data-theme` attribute on the app root.
 
-### `npm test`
+## Tech stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| | |
+| --- | --- |
+| Framework | React 18 (Create React App) |
+| Routing | React Router 6 |
+| Charts | Recharts (line), ApexCharts (bar) |
+| Carousel | react-slick |
+| Mock API | Express + CORS |
+| Icons | Remix Icon (CDN) |
+| Styling | Plain CSS with custom properties |
 
-### `npm run build`
+## Getting started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Requires Node.js 18+ (developed on Node 22).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm install
+npm start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`npm start` runs the React dev server and the mock API together via `concurrently`:
 
-### `npm run eject`
+- App — http://localhost:3000
+- Mock API — http://localhost:3001
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The token detail chart reads from the mock API. If you run only `npm run client`, the chart will be empty and you'll see a fetch error in the console.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Scripts
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+| Command | Description |
+| --- | --- |
+| `npm start` | Run the client and mock API together |
+| `npm run client` | React dev server only |
+| `npm run server` | Mock price API only |
+| `npm run build` | Production build to `build/` |
+| `npm test` | Run tests in watch mode |
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Mock API
 
-## Learn More
+A small Express server in `src/service/server.js` generates plausible price series.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+GET /api/:cryptoName?range=1H|1D|1W|1M|1Y
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Returns `[{ time, price }]`. Point count and spacing vary by range (60 one-minute points for `1H`, 73 five-day points for `1Y`, and so on). Prices follow a random walk within a per-token band so the series reads as a continuous chart rather than noise. Results are cached per token and range for the lifetime of the process.
 
-### Code Splitting
+## Project structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
+src/
+├── components/      Navbar, Footer, Cart, Modal, TokenDetails
+├── pages/           Home, Swap, Tokens, Pools, Nfts, NftsDetails, Vote
+├── utils/           SwapModal, SettingModal, LiquidityModal, PrivacyModal
+├── service/         Static fixtures + Express mock server
+├── App.js           Routes and shared state
+└── index.css        Theme custom properties (light/dark)
+```
 
-### Analyzing the Bundle Size
+Most shared state — selected tokens, swap amounts, cart contents, theme — lives in `App.js` and is passed down as props.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Scope
 
-### Making a Progressive Web App
+Deliberately out of scope, since this is a UI project:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- No wallet integration. "Connect Wallet" opens the wallet picker and simulates a connection; no web3 provider is involved.
+- No real trades, approvals, or on-chain transactions.
+- Token prices in `src/service/swapTokens.js` are placeholders and not market-accurate. Conversion maths is correct, but the underlying numbers are illustrative.
+- NFT and collection data is static fixture data in `src/service/`.
 
-### Advanced Configuration
+## Credits
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Design and branding belong to [Uniswap Labs](https://uniswap.org). This clone is an independent build for learning and portfolio purposes, not affiliated with or endorsed by Uniswap Labs.

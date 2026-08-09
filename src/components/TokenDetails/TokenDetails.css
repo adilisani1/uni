@@ -378,6 +378,10 @@ a {
     width: 100%;
     -webkit-box-pack: end;
     justify-content: flex-end;
+    /* Keep the range buttons out of the chart's flex space so they stay clickable */
+    flex: 0 0 auto;
+    position: relative;
+    z-index: 1;
 }
 
 .cLYUzV {
@@ -622,4 +626,18 @@ sup {
     .fBEeS {
         gap: 60px;
     }
+}
+/* Hovered point timestamp in the chart header */
+.chart-hover-time {
+    color: var(--text-color);
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+/* The chart wrapper is nested inside an identical fixed-height box; let the
+   outer one grow so the range buttons are not pushed over the stats below */
+.chart-outer {
+    height: auto;
+    min-height: 436px;
 }

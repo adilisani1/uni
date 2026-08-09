@@ -956,7 +956,7 @@ a {
 
 
 .hmakIi {
-    color: green;
+    color: var(--color-white);
     width: 0px;
     position: relative;
     font-weight: 400;

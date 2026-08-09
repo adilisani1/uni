@@ -24,6 +24,7 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
         setIsModalOpen(true)
     }
 
+
     //For header
     useEffect(() => {
         function handleScroll() {
@@ -38,9 +39,6 @@ const Navbar = ({ optionsLabel, searchOptions, switchTheme, currentTheme, isModa
     }, []);
 
     const [isOpen, setIsOpen] = useState(false);
-
-
-
     const [selectedOption, setSelectedOption] = useState(optionsLabel[0]);
 
     const toggleDropdown = () => setIsOpen(!isOpen);

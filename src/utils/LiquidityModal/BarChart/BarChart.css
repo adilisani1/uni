@@ -33,3 +33,20 @@
 .apexcharts-zoomout-icon {
     transform: scale(1.5);
 }
+.liquidity-bar-chart {
+    width: 100%;
+}
+
+/* ApexCharts renders its own tooltip markup, keep it on-theme */
+.liquidity-bar-chart .apexcharts-tooltip {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--token-clrr) !important;
+    color: var(--model-bg-text) !important;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.liquidity-bar-chart .apexcharts-tooltip-title {
+    background: var(--card-inside-color) !important;
+    border-bottom: 1px solid var(--token-clrr) !important;
+    color: var(--model-bg-text) !important;
+}

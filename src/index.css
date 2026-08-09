@@ -55,6 +55,8 @@
   --dropdown-border: rgb(13, 17, 28);
   --model-btn-color: rgb(76, 130, 251);
   --token-clrr: rgba(152, 161, 192, 0.24);
+  /* NFT table row hover */
+  --table-row-hover: rgb(31, 39, 61);
 }
 
 
@@ -111,6 +113,8 @@
   /* Liquidity page */
   --dropdown-bg: rgb(245, 246, 252);
   --dropdown-border: #fff;
+  /* NFT table row hover */
+  --table-row-hover: #f5f6fc;
 }
 
 

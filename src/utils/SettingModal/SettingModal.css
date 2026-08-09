@@ -209,6 +209,42 @@
     transition: transform 250ms ease 0s;
 }
 
+.expand-icon-open {
+    transform: rotate(180deg);
+}
+
+/* UniswapX toggle */
+.cOnDjy {
+    align-items: center;
+    background: rgba(152, 161, 192, 0.24);
+    border: 1px solid transparent;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    outline: none;
+    padding: 4px;
+    width: fit-content;
+    transition: background 250ms ease;
+}
+
+.cOnDjy.toggle-active {
+    background: rgba(76, 130, 251, 0.24);
+}
+
+.dqIabT {
+    background: rgb(152, 161, 192);
+    border-radius: 50%;
+    height: 24px;
+    width: 24px;
+    margin-left: 0;
+    transition: margin-left 250ms ease, background 250ms ease;
+}
+
+.dqIabT.toggle-element-active {
+    background: rgb(76, 130, 251);
+    margin-left: 2.2em;
+}
+
 .dKVRAc {
     padding-top: 12px;
 }

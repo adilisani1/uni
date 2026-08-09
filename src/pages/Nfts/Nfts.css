@@ -236,6 +236,13 @@
 .cSkBzZ {
     width: 20px;
     height: 20px;
+    /* The marketplace marks ship with a dark slate fill that disappears on the
+       dark card, lift them to match their adjacent label colour */
+    filter: brightness(1.6);
+}
+
+[data-theme='light'] .cSkBzZ {
+    filter: none;
 }
 
 .css-zhpkf8 {
@@ -607,7 +614,7 @@ NavLink {
 }
 
 .dbIfpX:hover {
-    background-color: #f5f6fc;
+    background-color: var(--table-row-hover);
 }
 
 tr {
@@ -743,7 +750,7 @@ td {
     height: 36px;
     width: 36px;
     border-radius: 36px;
-    background: url("https://i.seadn.io/gae/Ju9CkWtV-1Okvf45wo8UctR-M9He2PjILP0oOvxE89AyiPPGtrR3gysu1Zgy0hjd2xKIgjJJtWIc0ybj4Vd7wv8t3pxDGHoJBzDB?w=500&auto=format") center center / cover;
+    background: url(/public/assets/images/bored.png) center center / cover;
     flex-shrink: 0;
 }
 

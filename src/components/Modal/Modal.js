@@ -16,6 +16,30 @@ const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
 
     const [isSecondModalOpen, setSecondModalOpen] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState([0]);
+    const [connectingWallet, setConnectingWallet] = useState(null);
+    const [connectedWallet, setConnectedWallet] = useState(null);
+
+    // No web3 provider is wired up here, so simulate the connect handshake
+    const handleWalletConnect = (walletName) => {
+        if (connectingWallet) return;
+        setConnectingWallet(walletName);
+        setTimeout(() => {
+            setConnectedWallet(walletName);
+            setConnectingWallet(null);
+        }, 1200);
+    };
+
+    const handleDisconnect = () => {
+        setConnectedWallet(null);
+        setConnectingWallet(null);
+    };
+
+    const wallets = [
+        { name: "Uniswap Wallet", testId: "UNISWAP_WALLET_V2", icon: "/assets/images/uniswap-wallet-icon.png" },
+        { name: "MetaMask", testId: "INJECTED", icon: "/assets/images/metamask-icon.svg" },
+        { name: "WalletConnect", testId: "WALLET_CONNECT_V2", icon: "/assets/images/walletconnect-icon.svg" },
+        { name: "Coinbase Wallet", testId: "COINBASE_WALLET", icon: "/assets/images/coinbase-icon.svg" },
+    ];
     // const [isChecked, setIsChecked] = useState(false);
 
     // const toggleChecked = () => {
@@ -116,70 +140,49 @@ const Modal = ({ isModalOpen, setIsModalOpen, switchTheme }) => {
                                     </div>
                                     <div className="sc-1kykgp9-2 kqzAOQ">
                                         <div data-testid="option-grid" className="sc-1hmbv05-1 hmenal">
-                                            <div className="sc-us24id-4 hKmnVf">
-                                                <button
-                                                    data-testid="wallet-option-UNISWAP_WALLET_V2"
-                                                    className="sc-us24id-1 fRrCJL"
-                                                >
-                                                    <div className="sc-us24id-0 fFbTKE">
+                                            {connectedWallet ? (
+                                                <div className="wallet-connected">
+                                                    <div className="wallet-connected-row">
                                                         <div className="sc-us24id-3 cyjnfZ">
                                                             <img
-                                                                src="/assets/images/uniswap-wallet-icon.png"
-                                                                alt="Uniswap Wallet"
+                                                                src={wallets.find((w) => w.name === connectedWallet)?.icon}
+                                                                alt={connectedWallet}
                                                             />
                                                         </div>
-                                                        <div className="sc-us24id-2 kJBdbk">Uniswap Wallet</div>
-                                                    </div>
-                                                </button>
-                                            </div>
-                                            <div className="sc-us24id-4 hKmnVf">
-                                                <button
-                                                    data-testid="wallet-option-INJECTED"
-                                                    className="sc-us24id-1 fRrCJL"
-                                                >
-                                                    <div className="sc-us24id-0 fFbTKE">
-                                                        <div className="sc-us24id-3 cyjnfZ">
-                                                            <img
-                                                                src="/assets/images/metamask-icon.svg"
-                                                                alt="MetaMask"
-                                                            />
+                                                        <div className="wallet-connected-info">
+                                                            <div className="sc-us24id-2 kJBdbk">{connectedWallet}</div>
+                                                            <div className="wallet-connected-status">Connected</div>
                                                         </div>
-                                                        <div className="sc-us24id-2 kJBdbk">MetaMask</div>
                                                     </div>
-                                                </button>
-                                            </div>
-                                            <div className="sc-us24id-4 hKmnVf">
-                                                <button
-                                                    data-testid="wallet-option-WALLET_CONNECT_V2"
-                                                    className="sc-us24id-1 fRrCJL"
-                                                >
-                                                    <div className="sc-us24id-0 fFbTKE">
-                                                        <div className="sc-us24id-3 cyjnfZ">
-                                                            <img
-                                                                src="/assets/images/walletconnect-icon.svg"
-                                                                alt="WalletConnect"
-                                                            />
-                                                        </div>
-                                                        <div className="sc-us24id-2 kJBdbk">WalletConnect</div>
+                                                    <button
+                                                        className="wallet-disconnect-btn"
+                                                        onClick={handleDisconnect}
+                                                    >
+                                                        Disconnect
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                wallets.map((wallet) => (
+                                                    <div className="sc-us24id-4 hKmnVf" key={wallet.testId}>
+                                                        <button
+                                                            data-testid={`wallet-option-${wallet.testId}`}
+                                                            className="sc-us24id-1 fRrCJL"
+                                                            disabled={Boolean(connectingWallet)}
+                                                            onClick={() => handleWalletConnect(wallet.name)}
+                                                        >
+                                                            <div className="sc-us24id-0 fFbTKE">
+                                                                <div className="sc-us24id-3 cyjnfZ">
+                                                                    <img src={wallet.icon} alt={wallet.name} />
+                                                                </div>
+                                                                <div className="sc-us24id-2 kJBdbk">{wallet.name}</div>
+                                                                {connectingWallet === wallet.name && (
+                                                                    <div className="wallet-connecting">Connecting…</div>
+                                                                )}
+                                                            </div>
+                                                        </button>
                                                     </div>
-                                                </button>
-                                            </div>
-                                            <div className="sc-us24id-4 hKmnVf">
-                                                <button
-                                                    data-testid="wallet-option-COINBASE_WALLET"
-                                                    className="sc-us24id-1 fRrCJL"
-                                                >
-                                                    <div className="sc-us24id-0 fFbTKE">
-                                                        <div className="sc-us24id-3 cyjnfZ">
-                                                            <img
-                                                                src="/assets/images/coinbase-icon.svg"
-                                                                alt="Coinbase Wallet"
-                                                            />
-                                                        </div>
-                                                        <div className="sc-us24id-2 kJBdbk">Coinbase Wallet</div>
-                                                    </div>
-                                                </button>
-                                            </div>
+                                                ))
+                                            )}
                                         </div>
                                         <div className="sc-1hmbv05-2 ilYVNX">
                                             <div className="sc-sx9n2y-0 bftkTM css-4u0e4f">

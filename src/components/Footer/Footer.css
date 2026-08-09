@@ -17,8 +17,10 @@
 }
 
 .dIIePS {
-    width: 72px;
-    height: 72px;
+    width: 56px;
+    height: 56px;
+    -o-object-fit: cover;
+    object-fit: cover;
     /* display: none; */
 }
 

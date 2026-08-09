@@ -1,9 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './SettingModal.css';
 
 const SettingModal = () => {
+    const [uniswapX, setUniswapX] = useState(false);
+    const [localRouting, setLocalRouting] = useState(false);
+
+    const [isSlippageOpen, setIsSlippageOpen] = useState(false);
+    const [slippageMode, setSlippageMode] = useState('auto');
+    const [slippage, setSlippage] = useState('');
+
+    const [isDeadlineOpen, setIsDeadlineOpen] = useState(false);
+    const [deadline, setDeadline] = useState('');
+
+    // Only allow numbers with an optional single decimal separator
+    const handleNumericChange = (setter) => (event) => {
+        const { value } = event.target;
+        if (/^[0-9]*[.,]?[0-9]*$/.test(value)) {
+            setter(value);
+        }
+    };
+
+    const slippageLabel = (slippageMode === 'custom' && slippage)
+        ? `${slippage}%`
+        : 'Auto';
+
+    const deadlineLabel = deadline ? `${deadline}m` : '30m';
+
     return (
-        <div className="imhdhD">
+        <div className="imhdhD" onClick={(e) => e.stopPropagation()}>
             <div className="Column__AutoColumn-sc-72c388fb-2 Settings__MenuFlyout-sc-6676197f-1 gXqkQO fkhvJx">
                 <div className="Column__AutoColumn-sc-72c388fb-2 uniswapx">
                     <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB cPkaXY BkVYr">
@@ -44,10 +68,11 @@ const SettingModal = () => {
                             id="toggle-uniswap-x-button"
                             data-testid="toggle-uniswap-x-button"
                             role="option"
-                            aria-selected="false"
-                            className="Toggle__Wrapper-sc-405c1245-0 cOnDjy"
+                            aria-selected={uniswapX}
+                            onClick={() => setUniswapX((prev) => !prev)}
+                            className={`Toggle__Wrapper-sc-405c1245-0 cOnDjy ${uniswapX ? 'toggle-active' : ''}`}
                         >
-                            <span className="Toggle__ToggleElement-sc-405c1245-1 dqIabT" />
+                            <span className={`Toggle__ToggleElement-sc-405c1245-1 dqIabT ${uniswapX ? 'toggle-element-active' : ''}`} />
                         </button>
                     </div>
                     <div className="components__Divider-sc-81cd496b-33 gFmEMo" />
@@ -60,13 +85,16 @@ const SettingModal = () => {
                             </div>
                         </div>
                         <div>
-                            <input type='checkbox'></input>
+                            <input
+                                type='checkbox'
+                                checked={localRouting}
+                                onChange={() => setLocalRouting((prev) => !prev)}
+                            />
                         </div>
                     </div>
                 </div>
                 <div
                     style={{
-                        height: 114,
                         overflow: "hidden",
                         width: "100%",
                         minWidth: "min-content",
@@ -100,11 +128,12 @@ const SettingModal = () => {
                                     </div>
                                     <div
                                         data-testid="max-slippage-settings"
-                                        aria-expanded="false"
+                                        aria-expanded={isSlippageOpen}
+                                        onClick={() => setIsSlippageOpen((prev) => !prev)}
                                         className="sc-bczRLJ Row-sc-34df4f97-0 Expand__ButtonContainer-sc-c6541f6c-0 hJYFVB settings-modal kwEKCQ"
                                     >
                                         <div className="text__TextWrapper-sc-9327e48a-0 blhgKn css-1jljtub">
-                                            Auto
+                                            {slippageLabel}
                                         </div>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -116,15 +145,16 @@ const SettingModal = () => {
                                             strokeWidth={2}
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
-                                            className="Expand__ExpandIcon-sc-c6541f6c-1 kdjsvs"
+                                            className={`Expand__ExpandIcon-sc-c6541f6c-1 kdjsvs ${isSlippageOpen ? 'expand-icon-open' : ''}`}
                                         >
                                             <polyline points="6 9 12 15 18 9" />
                                         </svg>
                                     </div>
                                 </div>
                                 <div
+                                    className="expand-panel"
                                     style={{
-                                        height: 0,
+                                        height: isSlippageOpen ? 'auto' : 0,
                                         overflow: "hidden",
                                         width: "100%",
                                         minWidth: "min-content",
@@ -135,12 +165,18 @@ const SettingModal = () => {
                                         <div className="Column-sc-72c388fb-0 Expand__Content-sc-c6541f6c-2 eqAZdA dKVRAc">
                                             <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowBetween-sc-34df4f97-1 hJYFVB bObhWT BkVYr">
                                                 <div className="sc-bczRLJ Row-sc-34df4f97-0 MaxSlippageSettings__Switch-sc-ab328b30-1 hJYFVB settings-modal krAXBK">
-                                                    <div className="sc-bczRLJ Row-sc-34df4f97-0 MaxSlippageSettings__Option-sc-ab328b30-0 hJYFVB settings-modal ccVORp">
+                                                    <div
+                                                        onClick={() => { setSlippageMode('auto'); setSlippage(''); }}
+                                                        className={`sc-bczRLJ Row-sc-34df4f97-0 MaxSlippageSettings__Option-sc-ab328b30-0 hJYFVB settings-modal ${slippageMode === 'auto' ? 'ccVORp' : 'jYYYB'}`}
+                                                    >
                                                         <div className="text__TextWrapper-sc-9327e48a-0 blhgKn css-1jljtub">
                                                             Auto
                                                         </div>
                                                     </div>
-                                                    <div className="sc-bczRLJ Row-sc-34df4f97-0 MaxSlippageSettings__Option-sc-ab328b30-0 hJYFVB settings-modal jYYYB">
+                                                    <div
+                                                        onClick={() => setSlippageMode('custom')}
+                                                        className={`sc-bczRLJ Row-sc-34df4f97-0 MaxSlippageSettings__Option-sc-ab328b30-0 hJYFVB settings-modal ${slippageMode === 'custom' ? 'ccVORp' : 'jYYYB'}`}
+                                                    >
                                                         <div className="text__TextWrapper-sc-9327e48a-0 blhgKn css-1jljtub">
                                                             Custom
                                                         </div>
@@ -151,7 +187,9 @@ const SettingModal = () => {
                                                         data-testid="slippage-input"
                                                         placeholder="0.50"
                                                         className="Input-sc-ddc3b6a9-0 bqpUJc"
-                                                        defaultValue=""
+                                                        value={slippage}
+                                                        onChange={handleNumericChange(setSlippage)}
+                                                        onFocus={() => setSlippageMode('custom')}
                                                     />
                                                     <div className="text__TextWrapper-sc-9327e48a-0 blhgKn css-1jljtub">
                                                         %
@@ -187,10 +225,11 @@ const SettingModal = () => {
                                     </div>
                                     <div
                                         data-testid="transaction-deadline-settings"
-                                        aria-expanded="false"
+                                        aria-expanded={isDeadlineOpen}
+                                        onClick={() => setIsDeadlineOpen((prev) => !prev)}
                                         className="sc-bczRLJ Row-sc-34df4f97-0 Expand__ButtonContainer-sc-c6541f6c-0 hJYFVB settings-modal kwEKCQ"
                                     >
-                                        30m
+                                        {deadlineLabel}
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width={24}
@@ -201,15 +240,16 @@ const SettingModal = () => {
                                             strokeWidth={2}
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
-                                            className="Expand__ExpandIcon-sc-c6541f6c-1 kdjsvs"
+                                            className={`Expand__ExpandIcon-sc-c6541f6c-1 kdjsvs ${isDeadlineOpen ? 'expand-icon-open' : ''}`}
                                         >
                                             <polyline points="6 9 12 15 18 9" />
                                         </svg>
                                     </div>
                                 </div>
                                 <div
+                                    className="expand-panel"
                                     style={{
-                                        height: 0,
+                                        height: isDeadlineOpen ? 'auto' : 0,
                                         overflow: "hidden",
                                         width: "100%",
                                         minWidth: "min-content",
@@ -224,7 +264,8 @@ const SettingModal = () => {
                                                         data-testid="deadline-input"
                                                         placeholder={30}
                                                         className="Input-sc-ddc3b6a9-0 bqpUJc"
-                                                        defaultValue=""
+                                                        value={deadline}
+                                                        onChange={handleNumericChange(setDeadline)}
                                                     />
                                                     <div className="text__TextWrapper-sc-9327e48a-0 blhgKn css-1jljtub">
                                                         minutes

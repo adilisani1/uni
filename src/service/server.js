@@ -10,26 +10,46 @@ const generatePrice = (minValue, maxValue) => {
     return Math.min((Math.random() * (maxValue - minValue) + minValue).toFixed(2), maxValue);
 };
 
-const getCryptoPrice = (cryptoName, minValue, maxValue) => {
-    if (!cryptoPrices[cryptoName]) {
-        // Generate prices for the past 10 hours.
-        cryptoPrices[cryptoName] = [];
-        for (let i = 0; i < 10; i++) {
+// How many points to plot per range, and how far apart they sit
+const RANGES = {
+    '1H': { points: 60, interval: 60 * 1000 },            // one per minute
+    '1D': { points: 96, interval: 15 * 60 * 1000 },       // one per 15 minutes
+    '1W': { points: 84, interval: 2 * 60 * 60 * 1000 },   // one per 2 hours
+    '1M': { points: 60, interval: 12 * 60 * 60 * 1000 },  // one per 12 hours
+    '1Y': { points: 73, interval: 5 * 24 * 60 * 60 * 1000 } // one per 5 days
+};
+
+const getCryptoPrice = (cryptoName, minValue, maxValue, range) => {
+    const { points, interval } = RANGES[range] || RANGES['1D'];
+    const cacheKey = `${cryptoName}-${range}`;
+
+    if (!cryptoPrices[cacheKey]) {
+        const series = [];
+        const now = new Date().getTime();
+
+        // Random-walk the price so the line looks continuous rather than jagged
+        let current = generatePrice(minValue, maxValue);
+        const drift = (maxValue - minValue) * 0.05;
+
+        for (let i = 0; i < points; i++) {
             if (cryptoName === 'usd') {
-                cryptoPrices[cryptoName].push({
-                    time: new Date().getTime() - (10 - i) * 3600000,
-                    price: 1
-                });
-            } else {
-                cryptoPrices[cryptoName].push({
-                    time: new Date().getTime() - (10 - i) * 3600000,
-                    price: generatePrice(minValue, maxValue)
-                });
+                series.push({ time: now - (points - i) * interval, price: 1 });
+                continue;
             }
+
+            const step = (Math.random() - 0.5) * 2 * drift;
+            current = Math.max(minValue, Math.min(maxValue, Number(current) + step));
+
+            series.push({
+                time: now - (points - i) * interval,
+                price: Number(current.toFixed(2))
+            });
         }
+
+        cryptoPrices[cacheKey] = series;
     }
 
-    return cryptoPrices[cryptoName];
+    return cryptoPrices[cacheKey];
 };
 
 app.get('/api/:cryptoName', (req, res) => {
@@ -52,7 +72,8 @@ app.get('/api/:cryptoName', (req, res) => {
             break;
     }
 
-    res.json(getCryptoPrice(cryptoName, minValue, maxValue));
+    const range = (req.query.range || '1D').toUpperCase();
+    res.json(getCryptoPrice(cryptoName, minValue, maxValue, range));
 });
 
 app.listen(port, () => {

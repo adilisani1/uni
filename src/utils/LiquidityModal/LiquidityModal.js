@@ -15,6 +15,7 @@ const feeOptions = [
 const LiquidityModal = (
     {
         swapTokens,
+        setIsModalOpen,
         handleSwapModal,
         swapModal,
         setSwapModal,
@@ -31,11 +32,52 @@ const LiquidityModal = (
 
     const [hideButton, setHideButton] = useState(false);
     const [feeValue, setFeeValue] = useState(0.3);
-    const [minInputValue] = useState(0);
-    const [maxInputValue] = useState(0);
+    const [minInputValue, setMinInputValue] = useState(0);
+    const [maxInputValue, setMaxInputValue] = useState(0);
 
     const handleButtonClick = (newFeeValue) => {
         setFeeValue(newFeeValue);
+    };
+
+    // Price range inputs accept numbers only, and the steppers nudge by 0.01
+    const handleRangeChange = (setter) => (event) => {
+        const { value } = event.target;
+        if (/^[0-9]*[.,]?[0-9]*$/.test(value)) {
+            setter(value);
+        }
+    };
+
+    const stepRangeValue = (setter, direction) => () => {
+        setter((prev) => {
+            const current = parseFloat(String(prev).replace(",", ".")) || 0;
+            const next = current + direction * 0.01;
+            return next < 0 ? 0 : Number(next.toFixed(4));
+        });
+    };
+
+    //Deposit amounts
+    const [depositOne, setDepositOne] = useState("");
+    const [depositTwo, setDepositTwo] = useState("");
+
+    // Typing in one side derives the other from the two token prices
+    const handleDepositChange = (side) => (event) => {
+        const { value } = event.target;
+        if (!/^[0-9]*[.,]?[0-9]*$/.test(value)) return;
+
+        const amount = parseFloat(value.replace(",", "."));
+        const priceOne = liquidityTokenOne?.price;
+        const priceTwo = liquidityTokenTwo?.price;
+        const canConvert = value && !isNaN(amount) && priceOne && priceTwo;
+
+        const format = (n) => parseFloat(n.toFixed(n < 1 ? 6 : 2)).toString();
+
+        if (side === "one") {
+            setDepositOne(value);
+            setDepositTwo(canConvert ? format((amount * priceOne) / priceTwo) : "");
+        } else {
+            setDepositTwo(value);
+            setDepositOne(canConvert ? format((amount * priceTwo) / priceOne) : "");
+        }
     };
 
     const handleButtonHide = () => {
@@ -45,7 +87,8 @@ const LiquidityModal = (
     //Token
     const renderLiquidityButtonContent = (currencyId) => {
         let currentToken = (currencyId === "liquidityEthId") ? liquidityTokenOne : liquidityTokenTwo;
-        if (currencyId === "liquidityEthId" || (currencyId !== "liquidityEthId" && currentToken?.symbol !== 'Select Token')) {
+        // The placeholder token carries no image, so show the plain label instead
+        if (currentToken?.symbol && currentToken.symbol !== 'Select Token') {
             return (
                 <button
                     id={`open-currency-select-${currencyId}`}
@@ -381,6 +424,7 @@ const LiquidityModal = (
                                                         maxLength={79}
                                                         spellCheck="false"
                                                         value={minInputValue}
+                                                        onChange={handleRangeChange(setMinInputValue)}
                                                     />
                                                     <div className="text__TextWrapper-sc-9327e48a-0 iJbhaU InputStepCounter__InputTitle-sc-98d37844-5 eRovVv css-2qpl5c">
                                                         per ETH
@@ -389,7 +433,7 @@ const LiquidityModal = (
                                                 <div className="Column__AutoColumn-sc-72c388fb-2 dCQVZu">
                                                     <button
                                                         data-testid="increment-price-range"
-                                                        disabled=""
+                                                        onClick={stepRangeValue(setMinInputValue, 1)}
                                                         className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 InputStepCounter__SmallButton-sc-98d37844-1 hWKjgZ bdLEKg eKOJak"
                                                     >
                                                         <div
@@ -414,7 +458,7 @@ const LiquidityModal = (
                                                     </button>
                                                     <button
                                                         data-testid="decrement-price-range"
-                                                        disabled=""
+                                                        onClick={stepRangeValue(setMinInputValue, -1)}
                                                         className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 InputStepCounter__SmallButton-sc-98d37844-1 hWKjgZ bdLEKg eKOJak"
                                                     >
                                                         <div
@@ -458,7 +502,7 @@ const LiquidityModal = (
                                                         maxLength={79}
                                                         spellCheck="false"
                                                         value={maxInputValue}
-
+                                                        onChange={handleRangeChange(setMaxInputValue)}
                                                     />
                                                     <div className="text__TextWrapper-sc-9327e48a-0 iJbhaU InputStepCounter__InputTitle-sc-98d37844-5 eRovVv css-2qpl5c">
                                                         per ETH
@@ -467,7 +511,7 @@ const LiquidityModal = (
                                                 <div className="Column__AutoColumn-sc-72c388fb-2 dCQVZu">
                                                     <button
                                                         data-testid="increment-price-range"
-                                                        disabled=""
+                                                        onClick={stepRangeValue(setMaxInputValue, 1)}
                                                         className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 InputStepCounter__SmallButton-sc-98d37844-1 hWKjgZ bdLEKg eKOJak"
                                                     >
                                                         <div
@@ -492,7 +536,7 @@ const LiquidityModal = (
                                                     </button>
                                                     <button
                                                         data-testid="decrement-price-range"
-                                                        disabled=""
+                                                        onClick={stepRangeValue(setMaxInputValue, -1)}
                                                         className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 InputStepCounter__SmallButton-sc-98d37844-1 hWKjgZ bdLEKg eKOJak"
                                                     >
                                                         <div
@@ -528,7 +572,7 @@ const LiquidityModal = (
                                         className="Column__AutoColumn-sc-72c388fb-2 erfjwt"
                                         style={{ minHeight: 200 }}
                                     >
-                                        <BarChart />
+                                        <BarChart minPrice={minInputValue} maxPrice={maxInputValue} />
                                         <div className="LiquidityChartRangeInput__ChartWrapper-sc-4b8a30c6-0 AKZXT">
                                         </div>
                                     </div>
@@ -560,7 +604,8 @@ const LiquidityModal = (
                                                             minLength={1}
                                                             maxLength={79}
                                                             spellCheck="false"
-                                                            defaultValue=""
+                                                            value={depositOne}
+                                                            onChange={handleDepositChange("one")}
                                                         />
                                                         <button
                                                             className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP cCMOgz open-currency-select-button"
@@ -578,14 +623,14 @@ const LiquidityModal = (
                                                                     >
                                                                         <div className="AssetLogo__LogoImageWrapper-sc-1d2e0d12-2 iZhrtN">
                                                                             <img
-                                                                                src='/assets/images/tokens/eth-icon.png'
-                                                                                alt="ETH logo"
+                                                                                src={liquidityTokenOne?.imgSrc}
+                                                                                alt={`${liquidityTokenOne?.symbol} logo`}
                                                                                 className="AssetLogo__LogoImage-sc-1d2e0d12-1 IJysW"
                                                                             />
                                                                         </div>
                                                                     </div>
                                                                     <span className="CurrencyInputPanel__StyledTokenName-sc-73f91aaf-8 reOdD token-symbol-container">
-                                                                        ETH
+                                                                        {liquidityTokenOne?.symbol}
                                                                     </span>
                                                                 </div>
                                                             </span>
@@ -623,7 +668,8 @@ const LiquidityModal = (
                                                             minLength={1}
                                                             maxLength={79}
                                                             spellCheck="false"
-                                                            defaultValue=""
+                                                            value={depositTwo}
+                                                            onChange={handleDepositChange("two")}
                                                         />
                                                         <button
                                                             className="sc-bczRLJ lfsInV Button__BaseButton-sc-4f96dcd8-1 Button__ButtonGray-sc-4f96dcd8-5 CurrencyInputPanel__CurrencySelect-sc-73f91aaf-2 hWKjgZ jAJJVP gHpyEg open-currency-select-button"
@@ -631,8 +677,26 @@ const LiquidityModal = (
                                                         >
                                                             <span className="CurrencyInputPanel__Aligner-sc-73f91aaf-6 kkiXeD">
                                                                 <div className="sc-bczRLJ Row-sc-34df4f97-0 Row__RowFixed-sc-34df4f97-4 hJYFVB gOYHMo jeYuAz">
+                                                                    {isLiquiditySelected && (
+                                                                        <div
+                                                                            className="AssetLogo__LogoContainer-sc-1d2e0d12-3 hOvXWG"
+                                                                            style={{
+                                                                                height: 24,
+                                                                                width: 24,
+                                                                                marginRight: "0.5rem"
+                                                                            }}
+                                                                        >
+                                                                            <div className="AssetLogo__LogoImageWrapper-sc-1d2e0d12-2 iZhrtN">
+                                                                                <img
+                                                                                    src={liquidityTokenTwo?.imgSrc}
+                                                                                    alt={`${liquidityTokenTwo?.symbol} logo`}
+                                                                                    className="AssetLogo__LogoImage-sc-1d2e0d12-1 IJysW"
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
                                                                     <span className="CurrencyInputPanel__StyledTokenName-sc-73f91aaf-8 reOdD token-symbol-container">
-                                                                        Select a token
+                                                                        {isLiquiditySelected ? liquidityTokenTwo?.symbol : 'Select a token'}
                                                                     </span>
                                                                 </div>
                                                             </span>
@@ -643,7 +707,10 @@ const LiquidityModal = (
                                         </div>
                                     </div>
                                 </div>
-                                <button className="sc-bczRLJ gIjoKy Button__BaseButton-sc-4f96dcd8-1 Button__BaseButtonLight-sc-4f96dcd8-4 dkaNOU fCkFnu">
+                                <button
+                                    className="sc-bczRLJ gIjoKy Button__BaseButton-sc-4f96dcd8-1 Button__BaseButtonLight-sc-4f96dcd8-4 dkaNOU fCkFnu"
+                                    onClick={() => setIsModalOpen && setIsModalOpen(true)}
+                                >
                                     <div className="Button__ButtonOverlay-sc-4f96dcd8-0 fNUVbK" />
                                     Connect Wallet
                                 </button>

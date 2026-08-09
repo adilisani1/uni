@@ -1,14 +1,14 @@
 export const slidersData = [
     {
         id: 1,
-        coverImage: "/assets/cover-images/img-2.png",
-        image: "assets/images/degodsicon.png",
+        coverImage: "/assets/images/sliders/slide-two.png",
+        image: "/assets/images/degodsicon.png",
         title: "DeGods",
         sliderContent: [
             {
                 icons: [
                     "/assets/images/logo/unicorn-logo.png",
-                    "/assets/images/opensea-grey.png"
+                    "/assets/images/opensea-grey.svg"
                 ],
                 names: ['Uniswap', 'OpenSea', 'X2Y2', 'LooksRare'],
                 ethFloor: [29.09, 29.09, 83.14, 63.39],
@@ -18,15 +18,15 @@ export const slidersData = [
     },
     {
         id: 2,
-        coverImage: "/assets/cover-images/img-1.png",
-        image: "/assets/cover-images/img-1.png",
+        coverImage: "/assets/images/sliders/slide-one.png",
+        image: "/assets/images/bored.png",
         title: "Bored Ape Yacht Club",
 
         sliderContent: [
             {
                 icons: [
                     "/assets/images/logo/unicorn-logo.png",
-                    "/assets/images/opensea-grey.png"
+                    "/assets/images/opensea-grey.svg"
                 ],
                 names: ['Uniswap', 'OpenSea', 'X2Y2', 'LooksRare'],
                 ethFloor: [29.09, 29.09, 83.14, 63.39],
@@ -41,8 +41,8 @@ export const allTableDataETH = [
     {
         id: 1,
         title: "DeGods",
-        image: "https://i.seadn.io/gcs/files/c6cb0b1d6f2ab61c0efacf00e62e2230.jpg?w=500&auto=format",
-        coverImage: "https://i.seadn.io/gcs/files/0f98e562496514deec72096435a77eef.jpg?w=1133",
+        image: "/assets/images/degodsicon.png",
+        coverImage: "/assets/images/sliders/slide-two.png",
         desc: " The DeGods is a collection of 10,000 unique Bored Ape NFTs— unique digital collectibles living on the Ethereum blockchain.",
         floor: 4.7,
         floorChange: 6,
@@ -56,7 +56,7 @@ export const allTableDataETH = [
         id: 2,
         title: "Bored Ape Yacht Club",
         image: "/assets/images/bored.png",
-        coverImage: "https://i.seadn.io/gae/i5dYZRkVCUK97bfprQ3WXyrT9BnLSZtVKGJlKQ919uaUB0sxbngVCioaiyu9r6snqfi2aaTyIvv6DHm4m2R3y7hMajbsv14pSZK8mhs?w=1517",
+        coverImage: "/assets/images/sliders/slide-one.png",
         desc: " The Bored Ape Yacht Club is a collection of 10,000 unique Bored Ape NFTs— unique digital collectibles living on the Ethereum blockchain.",
         floor: 26.5,
         floorChange: 9,
@@ -70,7 +70,7 @@ export const allTableDataETH = [
         id: 3,
         title: "Mutant Ape Yacht Club",
         image: "/assets/images/mount.png",
-        coverImage: "https://i.seadn.io/gae/5c-HcdLMinTg3LvEwXYZYC-u5nN22Pn5ivTPYA4pVEsWJHU1rCobhUlHSFjZgCHPGSmcGMQGCrDCQU8BfSfygmL7Uol9MRQZt6-gqA?w=1133",
+        coverImage: "/assets/images/sliders/slide-one.png",
         desc: " The Mutant Ape Yacht Club is a collection of 10,000 unique Bored Ape NFTs— unique digital collectibles living on the Ethereum blockchain.",
         floor: 4.65,
         floorChange: 10,
@@ -89,8 +89,8 @@ export const allTableDataUSD = [
     {
         id: 1,
         title: "DeGods",
-        coverImage: "https://i.seadn.io/gcs/files/0f98e562496514deec72096435a77eef.jpg?w=1133",
-        image: "https://i.seadn.io/gcs/files/c6cb0b1d6f2ab61c0efacf00e62e2230.jpg?w=500&auto=format",
+        coverImage: "/assets/images/sliders/slide-two.png",
+        image: "/assets/images/degodsicon.png",
         floor: 7835,
         desc: " The DeGods is a collection of 10,000 unique Bored Ape NFTs— unique digital collectibles living on the Ethereum blockchain.",
         floorChange: 6,
@@ -103,7 +103,7 @@ export const allTableDataUSD = [
         id: 2,
         title: "Bored Ape Yacht Club",
         image: "/assets/images/bored.png",
-        coverImage: "https://i.seadn.io/gae/i5dYZRkVCUK97bfprQ3WXyrT9BnLSZtVKGJlKQ919uaUB0sxbngVCioaiyu9r6snqfi2aaTyIvv6DHm4m2R3y7hMajbsv14pSZK8mhs?w=1517",
+        coverImage: "/assets/images/sliders/slide-one.png",
         desc: " The Bored Ape Yacht Club is a collection of 10,000 unique Bored Ape NFTs— unique digital collectibles living on the Ethereum blockchain.",
         floor: 44280,
         floorChange: 9,
@@ -116,7 +116,7 @@ export const allTableDataUSD = [
         id: 3,
         title: "Mutant Ape Yacht Club",
         image: "/assets/images/mount.png",
-        coverImage: "https://i.seadn.io/gae/5c-HcdLMinTg3LvEwXYZYC-u5nN22Pn5ivTPYA4pVEsWJHU1rCobhUlHSFjZgCHPGSmcGMQGCrDCQU8BfSfygmL7Uol9MRQZt6-gqA?w=1133",
+        coverImage: "/assets/images/sliders/slide-one.png",
         desc: " The Mutant Ape Yacht Club is a collection of 10,000 unique Bored Ape NFTs— unique digital collectibles living on the Ethereum blockchain.",
         floor: 7280,
         floorChange: 8,
@@ -132,7 +132,7 @@ export const allTableDataUSD = [
 //     {
 //         id: 1,
 //         title: "DeGods",
-//         image: "https://i.seadn.io/gcs/files/c6cb0b1d6f2ab61c0efacf00e62e2230.jpg?w=500&auto=format",
+//         image: "/assets/images/degodsicon.png",
 //         floor: 4.7,
 //         floorChange: 6,
 //         volume: 3376,
@@ -174,7 +174,7 @@ export const allTableDataUSD = [
 //     {
 //         id: 1,
 //         title: "DeGods",
-//         image: "https://i.seadn.io/gcs/files/c6cb0b1d6f2ab61c0efacf00e62e2230.jpg?w=500&auto=format",
+//         image: "/assets/images/degodsicon.png",
 //         floor: 7835,
 //         floorChange: 6,
 //         volume: 5636917,
